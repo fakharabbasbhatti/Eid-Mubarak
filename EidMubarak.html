@@ -4,44 +4,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eid Gift 🌙</title>
+<title>Eid Gift</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
 
 body{
-background: linear-gradient(135deg,#020024,#090979,#000000);
-color:white;
-text-align:center;
-height:100vh;
+margin:0;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
 font-family:Segoe UI;
+background:linear-gradient(270deg,#ff512f,#dd2476,#1fa2ff,#12d8fa,#a6ffcb);
+background-size:1000% 1000%;
+animation:bgMove 15s ease infinite;
+overflow-x:hidden;
+color:white;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.main-card{
+background:rgba(0,0,0,0.45);
+backdrop-filter:blur(10px);
+padding:30px;
+border-radius:25px;
+max-width:600px;
+width:90%;
+box-shadow:0 0 40px rgba(0,0,0,0.5);
+text-align:center;
 }
 
 .title{
-margin-top:40px;
-font-size:55px;
-color:gold;
+font-size:48px;
+font-weight:bold;
+color:#ffd700;
 text-shadow:0 0 20px gold;
+margin-bottom:10px;
 }
 
-#scene{
-height:300px;
+.subtitle{
+opacity:.9;
+margin-bottom:20px;
 }
 
 input{
-max-width:300px;
-margin:auto;
 text-align:center;
+border-radius:25px !important;
 }
 
-.gift-box{
+button{
+border-radius:25px !important;
+font-size:18px !important;
+padding:8px 25px !important;
+}
+
+#giftMessage{
 display:none;
-margin-top:30px;
-font-size:24px;
-background:rgba(255,255,255,0.1);
+margin-top:20px;
+font-size:22px;
+background:rgba(255,255,255,0.15);
 padding:20px;
 border-radius:20px;
+animation:pop .6s;
+}
+
+@keyframes pop{
+from{transform:scale(.7);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
+
+#scene{
+margin-top:20px;
+height:250px;
+width:100%;
+}
+
+.star{
+position:absolute;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+opacity:.7;
+animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+from{opacity:.2}
+to{opacity:1}
 }
 
 </style>
@@ -49,11 +106,13 @@ border-radius:20px;
 
 <body>
 
-<div class="container">
+<div class="main-card">
 
-<h1 class="title">🌙 Eid Mubarak 🌙</h1>
+<div class="title">🌙 Eid Mubarak 🌙</div>
 
-<p>Type someone's name and send Eid gift 🎁</p>
+<div class="subtitle">
+Type someone's name and send Eid gift 🎁
+</div>
 
 <input id="nameInput" class="form-control" placeholder="Enter Name">
 
@@ -63,7 +122,7 @@ border-radius:20px;
 Send Eid Gift 🎁
 </button>
 
-<div id="giftMessage" class="gift-box"></div>
+<div id="giftMessage"></div>
 
 <div id="scene"></div>
 
@@ -77,73 +136,88 @@ Send Eid Gift 🎁
 
 function createGift(){
 
-let name = document.getElementById("nameInput").value;
+let name=document.getElementById("nameInput").value.trim();
 
 if(name===""){
 alert("Please enter a name");
 return;
 }
 
-let message = `
-✨ Eid Mubarak ${name}! ✨ <br><br>
-Allah apko sehat, khushi aur kamyabi de.
-Aapki zindagi barkat se bhar jaye.
-`;
+let message=`✨ Eid Mubarak ${name}! ✨ <br><br>
+May Allah fill your life with happiness, success and blessings.`;
 
-document.getElementById("giftMessage").style.display="block";
-document.getElementById("giftMessage").innerHTML=message;
+let box=document.getElementById("giftMessage");
+
+box.style.display="block";
+box.innerHTML=message;
 
 }
 
+/* 3D moon */
 
-/* 3D Animation */
+const scene=new THREE.Scene();
 
-const scene = new THREE.Scene();
+const container=document.getElementById("scene");
 
-const camera = new THREE.PerspectiveCamera(
+const camera=new THREE.PerspectiveCamera(
 75,
-window.innerWidth/300,
+container.clientWidth/container.clientHeight,
 0.1,
 1000
 );
 
-const renderer = new THREE.WebGLRenderer({alpha:true});
-renderer.setSize(window.innerWidth,300);
+const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
 
-document.getElementById("scene").appendChild(renderer.domElement);
+renderer.setSize(container.clientWidth,container.clientHeight);
 
-const geometry = new THREE.TorusGeometry(2,0.7,16,100);
+container.appendChild(renderer.domElement);
 
-const material = new THREE.MeshStandardMaterial({
+const geometry=new THREE.TorusGeometry(1.5,0.5,16,100);
+
+const material=new THREE.MeshStandardMaterial({
 color:0xffd700,
 metalness:1,
-roughness:0.4
+roughness:0.3
 });
 
-const moon = new THREE.Mesh(geometry,material);
+const moon=new THREE.Mesh(geometry,material);
 
 scene.add(moon);
 
-const light = new THREE.PointLight(0xffffff,1);
+const light=new THREE.PointLight(0xffffff,1.2);
 
-light.position.set(10,10,10);
+light.position.set(5,5,5);
 
 scene.add(light);
 
-camera.position.z=6;
+camera.position.z=4;
 
 function animate(){
 
 requestAnimationFrame(animate);
 
-moon.rotation.x +=0.01;
-moon.rotation.y +=0.01;
+moon.rotation.x+=0.01;
+moon.rotation.y+=0.01;
 
 renderer.render(scene,camera);
 
 }
 
 animate();
+
+/* stars */
+
+for(let i=0;i<70;i++){
+
+let star=document.createElement("div");
+star.className="star";
+
+star.style.left=Math.random()*100+"%";
+star.style.top=Math.random()*100+"%";
+
+document.body.appendChild(star);
+
+}
 
 </script>
 
