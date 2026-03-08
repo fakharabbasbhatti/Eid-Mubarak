@@ -4,74 +4,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eid Mubarak 🌙</title>
+<title>Eid Gift 🌙</title>
 
-<!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- AOS Animation -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <style>
 
 body{
-background: radial-gradient(circle at top,#0b1d51,#000000);
+background: linear-gradient(135deg,#020024,#090979,#000000);
 color:white;
-height:100vh;
-overflow:hidden;
-font-family: 'Segoe UI', sans-serif;
 text-align:center;
+height:100vh;
+font-family:Segoe UI;
 }
 
 .title{
 margin-top:40px;
-font-size:60px;
+font-size:55px;
 color:gold;
-text-shadow:0 0 25px gold;
+text-shadow:0 0 20px gold;
 }
 
-.subtitle{
-font-size:20px;
-margin-bottom:20px;
-opacity:0.9;
+#scene{
+height:300px;
 }
 
-#scene-container{
-width:100%;
-height:400px;
+input{
+max-width:300px;
+margin:auto;
+text-align:center;
 }
 
-.gift-btn{
-margin-top:20px;
-font-size:20px;
-padding:10px 30px;
-border-radius:30px;
-box-shadow:0 0 20px gold;
-}
-
-.dua-box{
-margin-top:20px;
-font-size:22px;
+.gift-box{
 display:none;
+margin-top:30px;
+font-size:24px;
 background:rgba(255,255,255,0.1);
 padding:20px;
 border-radius:20px;
-backdrop-filter: blur(5px);
-}
-
-/* stars background */
-
-.star{
-position:absolute;
-background:white;
-width:2px;
-height:2px;
-animation: twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-from{opacity:0.2;}
-to{opacity:1;}
 }
 
 </style>
@@ -81,80 +51,93 @@ to{opacity:1;}
 
 <div class="container">
 
-<h1 class="title" data-aos="fade-down">
-🌙 Eid Mubarak 🌙
-</h1>
+<h1 class="title">🌙 Eid Mubarak 🌙</h1>
 
-<p class="subtitle" data-aos="fade-up">
-May Allah fill your life with happiness and blessings
-</p>
+<p>Type someone's name and send Eid gift 🎁</p>
 
-<div id="scene-container"></div>
+<input id="nameInput" class="form-control" placeholder="Enter Name">
 
-<button class="btn btn-warning gift-btn" onclick="showGift()">
-Open Eid Gift 🎁
+<br>
+
+<button onclick="createGift()" class="btn btn-warning">
+Send Eid Gift 🎁
 </button>
 
-<div id="duaBox" class="dua-box">
-✨ Allah apko sehat, khushi aur kamyabi de. Eid Mubarak! ✨
-</div>
+<div id="giftMessage" class="gift-box"></div>
+
+<div id="scene"></div>
 
 </div>
-
-<!-- Libraries -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
 
-AOS.init();
+/* Gift message */
 
-/* 3D Scene */
+function createGift(){
+
+let name = document.getElementById("nameInput").value;
+
+if(name===""){
+alert("Please enter a name");
+return;
+}
+
+let message = `
+✨ Eid Mubarak ${name}! ✨ <br><br>
+Allah apko sehat, khushi aur kamyabi de.
+Aapki zindagi barkat se bhar jaye.
+`;
+
+document.getElementById("giftMessage").style.display="block";
+document.getElementById("giftMessage").innerHTML=message;
+
+}
+
+
+/* 3D Animation */
 
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
 75,
-window.innerWidth/400,
+window.innerWidth/300,
 0.1,
 1000
 );
 
 const renderer = new THREE.WebGLRenderer({alpha:true});
-renderer.setSize(window.innerWidth,400);
+renderer.setSize(window.innerWidth,300);
 
-document.getElementById("scene-container").appendChild(renderer.domElement);
+document.getElementById("scene").appendChild(renderer.domElement);
 
-/* Moon */
-
-const geometry = new THREE.TorusGeometry(3,1,16,100);
+const geometry = new THREE.TorusGeometry(2,0.7,16,100);
 
 const material = new THREE.MeshStandardMaterial({
 color:0xffd700,
 metalness:1,
-roughness:0.3
+roughness:0.4
 });
 
 const moon = new THREE.Mesh(geometry,material);
+
 scene.add(moon);
 
-/* Light */
-
 const light = new THREE.PointLight(0xffffff,1);
+
 light.position.set(10,10,10);
+
 scene.add(light);
 
-camera.position.z = 10;
-
-/* Animation */
+camera.position.z=6;
 
 function animate(){
 
 requestAnimationFrame(animate);
 
-moon.rotation.x += 0.01;
-moon.rotation.y += 0.01;
+moon.rotation.x +=0.01;
+moon.rotation.y +=0.01;
 
 renderer.render(scene,camera);
 
@@ -162,28 +145,7 @@ renderer.render(scene,camera);
 
 animate();
 
-/* Gift button */
-
-function showGift(){
-document.getElementById("duaBox").style.display="block";
-}
-
-/* Random stars */
-
-for(let i=0;i<80;i++){
-
-let star=document.createElement("div");
-star.className="star";
-
-star.style.left=Math.random()*100+"%";
-star.style.top=Math.random()*100+"%";
-
-document.body.appendChild(star);
-
-}
-
 </script>
 
 </body>
 </html>
-```
