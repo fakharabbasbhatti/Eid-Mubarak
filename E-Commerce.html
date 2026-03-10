@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Commerce Store</title>
+
+<style>
+
+body{
+font-family: Arial;
+margin:0;
+background:#f4f4f4;
+}
+
+header{
+background:#222;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:40px;
+}
+
+.product{
+background:white;
+padding:20px;
+text-align:center;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.product img{
+width:100%;
+border-radius:10px;
+}
+
+button{
+background:#28a745;
+color:white;
+border:none;
+padding:10px 20px;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#218838;
+}
+
+.cart-box{
+position:fixed;
+right:20px;
+bottom:20px;
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+width:250px;
+}
+
+.cart-item{
+font-size:14px;
+margin:5px 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>My E-Commerce Store</h1>
+<div>🛒 Cart: <span id="cart-count">0</span></div>
+</header>
+
+<section class="products">
+
+<div class="product">
+<img src="https://via.placeholder.com/200">
+<h3>T-Shirt</h3>
+<p>$20</p>
+<button onclick="addToCart('T-Shirt',20)">Add to Cart</button>
+</div>
+
+<div class="product">
+<img src="https://via.placeholder.com/200">
+<h3>Shoes</h3>
+<p>$50</p>
+<button onclick="addToCart('Shoes',50)">Add to Cart</button>
+</div>
+
+<div class="product">
+<img src="https://via.placeholder.com/200">
+<h3>Watch</h3>
+<p>$80</p>
+<button onclick="addToCart('Watch',80)">Add to Cart</button>
+</div>
+
+<div class="product">
+<img src="https://via.placeholder.com/200">
+<h3>Headphones</h3>
+<p>$40</p>
+<button onclick="addToCart('Headphones',40)">Add to Cart</button>
+</div>
+
+</section>
+
+<div class="cart-box">
+<h3>Cart</h3>
+<div id="cart-items"></div>
+<p><b>Total: $<span id="total">0</span></b></p>
+</div>
+
+<script>
+
+let cartCount = 0;
+let total = 0;
+
+function addToCart(name,price){
+
+cartCount++;
+total += price;
+
+document.getElementById("cart-count").innerText = cartCount;
+document.getElementById("total").innerText = total;
+
+let item = document.createElement("div");
+item.classList.add("cart-item");
+item.innerText = name + " - $" + price;
+
+document.getElementById("cart-items").appendChild(item);
+
+}
+
+</script>
+
+</body>
+</html>
