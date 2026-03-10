@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Commerce Store</title>
+<title>Mobile Store</title>
 
 <style>
 
@@ -14,7 +14,7 @@ background:#f4f4f4;
 }
 
 header{
-background:#222;
+background:#111;
 color:white;
 display:flex;
 justify-content:space-between;
@@ -24,7 +24,7 @@ padding:15px 40px;
 
 .products{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;
 padding:40px;
 }
@@ -49,6 +49,7 @@ border:none;
 padding:10px 20px;
 cursor:pointer;
 border-radius:5px;
+margin-top:10px;
 }
 
 button:hover{
@@ -63,12 +64,17 @@ background:white;
 padding:15px;
 border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,0.2);
-width:250px;
+width:260px;
 }
 
 .cart-item{
 font-size:14px;
 margin:5px 0;
+}
+
+.video{
+text-align:center;
+padding:20px;
 }
 
 </style>
@@ -77,44 +83,50 @@ margin:5px 0;
 <body>
 
 <header>
-<h1>My E-Commerce Store</h1>
+<h1>Online Mobile Store</h1>
 <div>🛒 Cart: <span id="cart-count">0</span></div>
 </header>
+
+<!-- Mobile Video -->
+<div class="video">
+<h2>Latest Smartphone Review</h2>
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/RH8Kkz8Q8bA"
+title="Mobile Review"
+frameborder="0"
+allowfullscreen>
+</iframe>
+
+</div>
 
 <section class="products">
 
 <div class="product">
-<img src="https://via.placeholder.com/200">
-<h3>T-Shirt</h3>
-<p>$20</p>
-<button onclick="addToCart('T-Shirt',20)">Add to Cart</button>
+<img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab">
+<h3>iPhone 14</h3>
+<p>$900</p>
+<button onclick="addToCart('iPhone 14',900)">Add to Cart</button>
 </div>
 
 <div class="product">
-<img src="https://via.placeholder.com/200">
-<h3>Shoes</h3>
-<p>$50</p>
-<button onclick="addToCart('Shoes',50)">Add to Cart</button>
+<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9">
+<h3>Samsung Galaxy</h3>
+<p>$750</p>
+<button onclick="addToCart('Samsung Galaxy',750)">Add to Cart</button>
 </div>
 
 <div class="product">
-<img src="https://via.placeholder.com/200">
-<h3>Watch</h3>
-<p>$80</p>
-<button onclick="addToCart('Watch',80)">Add to Cart</button>
-</div>
-
-<div class="product">
-<img src="https://via.placeholder.com/200">
-<h3>Headphones</h3>
-<p>$40</p>
-<button onclick="addToCart('Headphones',40)">Add to Cart</button>
+<img src="https://images.unsplash.com/photo-1580910051074-3eb694886505">
+<h3>Xiaomi Phone</h3>
+<p>$500</p>
+<button onclick="addToCart('Xiaomi Phone',500)">Add to Cart</button>
 </div>
 
 </section>
 
 <div class="cart-box">
-<h3>Cart</h3>
+<h3>Your Cart</h3>
 <div id="cart-items"></div>
 <p><b>Total: $<span id="total">0</span></b></p>
 </div>
