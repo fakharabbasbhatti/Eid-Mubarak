@@ -7,74 +7,127 @@
 
 <style>
 
-body{
-font-family: Arial;
+*{
 margin:0;
-background:#f4f4f4;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
 }
 
+body{
+background:#f2f2f2;
+}
+
+/* Header */
+
 header{
-background:#111;
+background:linear-gradient(45deg,#0072ff,#00c6ff);
 color:white;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 40px;
+padding:20px 40px;
 }
+
+header h1{
+font-size:26px;
+}
+
+/* Video Section */
+
+.video{
+text-align:center;
+padding:40px;
+background:white;
+}
+
+.video iframe{
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Products */
 
 .products{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
 padding:40px;
 }
 
 .product{
 background:white;
 padding:20px;
+border-radius:15px;
 text-align:center;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.product:hover{
+transform:translateY(-10px);
 }
 
 .product img{
 width:100%;
 border-radius:10px;
+height:220px;
+object-fit:cover;
 }
 
+.product h3{
+margin:10px 0;
+}
+
+.product p{
+font-size:18px;
+color:#444;
+}
+
+/* Button */
+
 button{
-background:#28a745;
+background:#0072ff;
 color:white;
 border:none;
 padding:10px 20px;
+border-radius:25px;
 cursor:pointer;
-border-radius:5px;
 margin-top:10px;
+transition:0.3s;
 }
 
 button:hover{
-background:#218838;
+background:#0056c7;
 }
+
+/* Cart */
 
 .cart-box{
 position:fixed;
 right:20px;
 bottom:20px;
 background:white;
-padding:15px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
+padding:20px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
 width:260px;
+}
+
+.cart-box h3{
+margin-bottom:10px;
 }
 
 .cart-item{
 font-size:14px;
 margin:5px 0;
+border-bottom:1px solid #eee;
+padding-bottom:4px;
 }
 
-.video{
-text-align:center;
-padding:20px;
+.total{
+margin-top:10px;
+font-weight:bold;
 }
 
 </style>
@@ -83,21 +136,16 @@ padding:20px;
 <body>
 
 <header>
-<h1>Online Mobile Store</h1>
+<h1>📱 Online Mobile Store</h1>
 <div>🛒 Cart: <span id="cart-count">0</span></div>
 </header>
 
-<!-- Mobile Video -->
 <div class="video">
 <h2>Latest Smartphone Review</h2>
-
+<br>
 <iframe width="560" height="315"
 src="https://www.youtube.com/embed/RH8Kkz8Q8bA"
-title="Mobile Review"
-frameborder="0"
-allowfullscreen>
-</iframe>
-
+frameborder="0" allowfullscreen></iframe>
 </div>
 
 <section class="products">
@@ -128,7 +176,7 @@ allowfullscreen>
 <div class="cart-box">
 <h3>Your Cart</h3>
 <div id="cart-items"></div>
-<p><b>Total: $<span id="total">0</span></b></p>
+<div class="total">Total: $<span id="total">0</span></div>
 </div>
 
 <script>
