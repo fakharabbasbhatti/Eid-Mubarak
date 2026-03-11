@@ -7,18 +7,19 @@
 
 <style>
 body{
-    font-family: Arial, sans-serif;
-    background:#f4f6f9;
+    font-family: Arial;
+    background:#eef2f7;
+    margin:0;
     padding:40px;
 }
 
 .container{
-    max-width:800px;
+    max-width:900px;
     margin:auto;
-    background:#fff;
-    padding:20px;
+    background:white;
+    padding:25px;
     border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
 }
 
 h1{
@@ -28,38 +29,40 @@ h1{
 
 .question{
     background:#0073aa;
-    color:#fff;
+    color:white;
     padding:15px;
     margin-top:10px;
     cursor:pointer;
     border-radius:5px;
+    font-weight:bold;
 }
 
 .answer{
     display:none;
+    background:#f5f5f5;
     padding:15px;
-    background:#f1f1f1;
     border-left:4px solid #0073aa;
 }
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
-<h1>WordPress Interview Questions</h1>
+<h1>WordPress Important Interview Questions</h1>
 
 <div class="qa">
 <div class="question">1. What is WordPress?</div>
 <div class="answer">
-WordPress is an open-source Content Management System (CMS) used to create websites and blogs easily without advanced coding knowledge.
+WordPress is an open-source Content Management System (CMS) used to create websites and blogs easily.
 </div>
 </div>
 
 <div class="qa">
 <div class="question">2. What are WordPress Plugins?</div>
 <div class="answer">
-Plugins are software components that add extra features and functionality to a WordPress website.
+Plugins are tools that extend the functionality of a WordPress website such as SEO, security, and contact forms.
 </div>
 </div>
 
@@ -71,35 +74,74 @@ A theme controls the design, layout, and appearance of a WordPress website.
 </div>
 
 <div class="qa">
-<div class="question">4. Difference between Posts and Pages?</div>
+<div class="question">4. What is a Child Theme?</div>
 <div class="answer">
-Posts are used for blog content and are displayed in chronological order, while Pages are static content like About Us or Contact pages.
+A child theme inherits the functionality of the parent theme and allows customization without modifying the original theme files.
 </div>
 </div>
 
 <div class="qa">
-<div class="question">5. What is a WordPress Widget?</div>
+<div class="question">5. What are WordPress Hooks?</div>
 <div class="answer">
-Widgets are small blocks that add content and features to sidebars or footer areas.
+Hooks allow developers to add or modify functionality in WordPress without changing the core files. Types: Action Hooks and Filter Hooks.
+</div>
+</div>
+
+<div class="qa">
+<div class="question">6. What is the WordPress Loop?</div>
+<div class="answer">
+The Loop is PHP code used to display posts from the database on a webpage.
+</div>
+</div>
+
+<div class="qa">
+<div class="question">7. What is wp-config.php?</div>
+<div class="answer">
+wp-config.php is the main configuration file that stores database connection details and important settings.
+</div>
+</div>
+
+<div class="qa">
+<div class="question">8. What are Custom Post Types?</div>
+<div class="answer">
+Custom Post Types allow you to create different content types such as portfolio, products, testimonials etc.
+</div>
+</div>
+
+<div class="qa">
+<div class="question">9. What is a WordPress Widget?</div>
+<div class="answer">
+Widgets are small content blocks used in sidebars and footers like recent posts, search bar, and menus.
+</div>
+</div>
+
+<div class="qa">
+<div class="question">10. What is a WordPress Shortcode?</div>
+<div class="answer">
+Shortcodes are small codes inside square brackets used to add dynamic features like galleries or forms.
 </div>
 </div>
 
 </div>
 
 <script>
+
 let questions = document.querySelectorAll(".question");
 
-questions.forEach(q => {
-    q.addEventListener("click", () => {
-        let answer = q.nextElementSibling;
+questions.forEach(function(q){
+    q.addEventListener("click", function(){
+
+        let answer = this.nextElementSibling;
 
         if(answer.style.display === "block"){
             answer.style.display = "none";
         }else{
             answer.style.display = "block";
         }
+
     });
 });
+
 </script>
 
 </body>
