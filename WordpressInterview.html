@@ -6,9 +6,10 @@
 <title>WordPress Interview Questions</title>
 
 <style>
+
 body{
     font-family: Arial;
-    background:#eef2f7;
+    background: linear-gradient(135deg,#4facfe,#00f2fe);
     margin:0;
     padding:40px;
 }
@@ -17,31 +18,63 @@ body{
     max-width:900px;
     margin:auto;
     background:white;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 0 15px rgba(0,0,0,0.1);
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.2);
 }
 
 h1{
     text-align:center;
     color:#333;
+    margin-bottom:30px;
 }
 
+/* Card style */
+.qa{
+    margin-bottom:15px;
+    perspective:1000px;
+}
+
+/* Question */
 .question{
-    background:#0073aa;
+    background: linear-gradient(45deg,#0073aa,#00c6ff);
     color:white;
-    padding:15px;
-    margin-top:10px;
+    padding:16px;
     cursor:pointer;
-    border-radius:5px;
+    border-radius:8px;
     font-weight:bold;
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
 }
 
+/* 3D Hover Effect */
+.question:hover{
+    transform: rotateX(10deg) scale(1.03);
+    box-shadow:0 15px 30px rgba(0,0,0,0.3);
+}
+
+/* Answer */
 .answer{
-    display:none;
-    background:#f5f5f5;
-    padding:15px;
+    max-height:0;
+    overflow:hidden;
+    background:#f9f9f9;
+    padding:0 15px;
     border-left:4px solid #0073aa;
+    border-radius:0 0 8px 8px;
+    transition:max-height 0.6s ease, padding 0.4s ease;
+}
+
+/* Active Answer */
+.qa.active .answer{
+    max-height:200px;
+    padding:15px;
+}
+
+/* Smooth animation */
+.qa.active .question{
+    background:linear-gradient(45deg,#ff6a00,#ffb347);
+    transform:scale(1.02);
 }
 
 </style>
@@ -50,7 +83,8 @@ h1{
 <body>
 
 <div class="container">
-<h1>WordPress Important Interview Questions</h1>
+
+<h1>🚀 WordPress Interview Questions</h1>
 
 <div class="qa">
 <div class="question">1. What is WordPress?</div>
@@ -83,42 +117,7 @@ A child theme inherits the functionality of the parent theme and allows customiz
 <div class="qa">
 <div class="question">5. What are WordPress Hooks?</div>
 <div class="answer">
-Hooks allow developers to add or modify functionality in WordPress without changing the core files. Types: Action Hooks and Filter Hooks.
-</div>
-</div>
-
-<div class="qa">
-<div class="question">6. What is the WordPress Loop?</div>
-<div class="answer">
-The Loop is PHP code used to display posts from the database on a webpage.
-</div>
-</div>
-
-<div class="qa">
-<div class="question">7. What is wp-config.php?</div>
-<div class="answer">
-wp-config.php is the main configuration file that stores database connection details and important settings.
-</div>
-</div>
-
-<div class="qa">
-<div class="question">8. What are Custom Post Types?</div>
-<div class="answer">
-Custom Post Types allow you to create different content types such as portfolio, products, testimonials etc.
-</div>
-</div>
-
-<div class="qa">
-<div class="question">9. What is a WordPress Widget?</div>
-<div class="answer">
-Widgets are small content blocks used in sidebars and footers like recent posts, search bar, and menus.
-</div>
-</div>
-
-<div class="qa">
-<div class="question">10. What is a WordPress Shortcode?</div>
-<div class="answer">
-Shortcodes are small codes inside square brackets used to add dynamic features like galleries or forms.
+Hooks allow developers to add or modify functionality in WordPress without changing the core files.
 </div>
 </div>
 
@@ -126,18 +125,18 @@ Shortcodes are small codes inside square brackets used to add dynamic features l
 
 <script>
 
-let questions = document.querySelectorAll(".question");
+let items = document.querySelectorAll(".qa");
 
-questions.forEach(function(q){
-    q.addEventListener("click", function(){
+items.forEach((item)=>{
+    item.querySelector(".question").addEventListener("click",()=>{
 
-        let answer = this.nextElementSibling;
+        items.forEach(i=>{
+            if(i !== item){
+                i.classList.remove("active");
+            }
+        });
 
-        if(answer.style.display === "block"){
-            answer.style.display = "none";
-        }else{
-            answer.style.display = "block";
-        }
+        item.classList.toggle("active");
 
     });
 });
