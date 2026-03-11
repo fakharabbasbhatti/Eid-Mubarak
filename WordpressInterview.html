@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WordPress Interview Questions</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    padding:40px;
+}
+
+.container{
+    max-width:800px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    color:#333;
+}
+
+.question{
+    background:#0073aa;
+    color:#fff;
+    padding:15px;
+    margin-top:10px;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+.answer{
+    display:none;
+    padding:15px;
+    background:#f1f1f1;
+    border-left:4px solid #0073aa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>WordPress Interview Questions</h1>
+
+<div class="qa">
+<div class="question">1. What is WordPress?</div>
+<div class="answer">
+WordPress is an open-source Content Management System (CMS) used to create websites and blogs easily without advanced coding knowledge.
+</div>
+</div>
+
+<div class="qa">
+<div class="question">2. What are WordPress Plugins?</div>
+<div class="answer">
+Plugins are software components that add extra features and functionality to a WordPress website.
+</div>
+</div>
+
+<div class="qa">
+<div class="question">3. What is a WordPress Theme?</div>
+<div class="answer">
+A theme controls the design, layout, and appearance of a WordPress website.
+</div>
+</div>
+
+<div class="qa">
+<div class="question">4. Difference between Posts and Pages?</div>
+<div class="answer">
+Posts are used for blog content and are displayed in chronological order, while Pages are static content like About Us or Contact pages.
+</div>
+</div>
+
+<div class="qa">
+<div class="question">5. What is a WordPress Widget?</div>
+<div class="answer">
+Widgets are small blocks that add content and features to sidebars or footer areas.
+</div>
+</div>
+
+</div>
+
+<script>
+let questions = document.querySelectorAll(".question");
+
+questions.forEach(q => {
+    q.addEventListener("click", () => {
+        let answer = q.nextElementSibling;
+
+        if(answer.style.display === "block"){
+            answer.style.display = "none";
+        }else{
+            answer.style.display = "block";
+        }
+    });
+});
+</script>
+
+</body>
+</html>
