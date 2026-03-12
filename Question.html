@@ -42,25 +42,25 @@
             color: #1abc9c;
             margin-bottom: 10px;
             font-size: 18px;
+            cursor: pointer;
         }
 
         .answer {
             margin-left: 20px;
             font-size: 16px;
             color: #34495e;
-        }
-
-        /* Optional: Accordion style for click-to-show answers */
-        .answer {
-            display: none;
+            display: none; /* hidden initially */
         }
 
         .qa-item.active .answer {
             display: block;
         }
 
-        .qa-item .question {
-            cursor: pointer;
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -69,6 +69,7 @@
     <h1>HTML سوالات اور جوابات</h1>
 
     <div class="qa-container">
+
         <div class="qa-item">
             <div class="question">1. HTML کیا ہے؟</div>
             <div class="answer">HTML (HyperText Markup Language) ایک زبان ہے جو ویب پیجز بنانے کے لیے استعمال ہوتی ہے۔</div>
@@ -106,7 +107,81 @@
             <div class="answer">یہ براؤزر کو بتاتا ہے کہ HTML کا کون سا ورژن استعمال ہو رہا ہے۔</div>
         </div>
 
-        <!-- آپ باقی سوالات اسی طرح add کر سکتے ہیں -->
+        <div class="qa-item">
+            <div class="question">6. &lt;head&gt; ٹیگ کیا ہے؟</div>
+            <div class="answer">&lt;head&gt; میں ویب پیج کی معلومات ہوتی ہیں جیسے عنوان، CSS فائلیں اور اسکرپٹ۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">7. &lt;title&gt; ٹیگ کیا کرتا ہے؟</div>
+            <div class="answer">&lt;title&gt; ویب پیج کا عنوان ظاہر کرتا ہے جو براؤزر کے ٹیب میں نظر آتا ہے۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">8. &lt;body&gt; ٹیگ کیا ہے؟</div>
+            <div class="answer">&lt;body&gt; میں وہ تمام مواد ہوتا ہے جو ویب پیج پر نظر آتا ہے جیسے متن، تصاویر اور لنکس۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">9. HTML Attributes کیا ہوتے ہیں؟</div>
+            <div class="answer">Attributes ٹیگ کے بارے میں اضافی معلومات دیتے ہیں۔ مثال: &lt;a href="https://google.com"&gt;Google&lt;/a&gt; یہاں href attribute ہے۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">10. &lt;div&gt; اور &lt;span&gt; میں کیا فرق ہے؟</div>
+            <div class="answer">&lt;div&gt; بلاک لیول عنصر ہے جبکہ &lt;span&gt; ان لائن عنصر ہے۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">11. HTML میں Hyperlink کیا ہے؟</div>
+            <div class="answer">Hyperlink ایک ویب پیج کو دوسرے پیج سے جوڑتا ہے۔ مثال: &lt;a href="https://google.com"&gt;Google پر جائیں&lt;/a&gt;</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">12. &lt;img&gt; ٹیگ کس لیے استعمال ہوتا ہے؟</div>
+            <div class="answer">&lt;img&gt; ویب پیج پر تصویر دکھانے کے لیے استعمال ہوتا ہے۔ مثال: &lt;img src="image.jpg" alt="تصویر"&gt;</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">13. HTML Lists کیا ہیں؟</div>
+            <div class="answer">Lists چیزوں کو ترتیب سے ظاہر کرنے کے لیے استعمال ہوتی ہیں۔ اقسام: Ordered List &lt;ol&gt; اور Unordered List &lt;ul&gt;۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">14. &lt;br&gt; ٹیگ کیا کرتا ہے؟</div>
+            <div class="answer">&lt;br&gt; نئی لائن بنانے کے لیے استعمال ہوتا ہے۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">15. &lt;hr&gt; ٹیگ کیا کرتا ہے؟</div>
+            <div class="answer">&lt;hr&gt; افقی لائن بنانے کے لیے استعمال ہوتا ہے۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">16. HTML Form کیا ہے؟</div>
+            <div class="answer">Form صارف سے معلومات لینے کے لیے استعمال ہوتا ہے۔ مثال: &lt;form&gt;&lt;input type="text"&gt;&lt;input type="submit"&gt;&lt;/form&gt;</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">17. &lt;table&gt; ٹیگ کیا ہے؟</div>
+            <div class="answer">&lt;table&gt; ٹیگ ٹیبل بنانے کے لیے استعمال ہوتا ہے۔ مثال: &lt;table&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;/tr&gt;&lt;/table&gt;</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">18. &lt;b&gt; اور &lt;strong&gt; میں فرق کیا ہے؟</div>
+            <div class="answer">&lt;b&gt; صرف متن کو موٹا کرتا ہے جبکہ &lt;strong&gt; اہم متن کو ظاہر کرتا ہے۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">19. &lt;meta&gt; ٹیگ کیا ہے؟</div>
+            <div class="answer">&lt;meta&gt; ویب پیج کے بارے میں معلومات فراہم کرتا ہے جیسے description اور charset۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">20. Semantic HTML Elements کیا ہیں؟</div>
+            <div class="answer">وہ ٹیگز جو اپنے مطلب کو واضح کرتے ہیں۔ مثال: &lt;header&gt;, &lt;footer&gt;, &lt;section&gt;, &lt;article&gt;۔</div>
+        </div>
+
     </div>
 
     <script>
