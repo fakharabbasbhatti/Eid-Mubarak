@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML سوالات اور جوابات</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            direction: rtl; /* اردو کے لیے right-to-left */
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+
+        .qa-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .qa-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            transition: transform 0.2s;
+        }
+
+        .qa-item:hover {
+            transform: scale(1.02);
+        }
+
+        .question {
+            font-weight: bold;
+            color: #1abc9c;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .answer {
+            margin-left: 20px;
+            font-size: 16px;
+            color: #34495e;
+        }
+
+        /* Optional: Accordion style for click-to-show answers */
+        .answer {
+            display: none;
+        }
+
+        .qa-item.active .answer {
+            display: block;
+        }
+
+        .qa-item .question {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>HTML سوالات اور جوابات</h1>
+
+    <div class="qa-container">
+        <div class="qa-item">
+            <div class="question">1. HTML کیا ہے؟</div>
+            <div class="answer">HTML (HyperText Markup Language) ایک زبان ہے جو ویب پیجز بنانے کے لیے استعمال ہوتی ہے۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">2. HTML ٹیگ کیا ہوتا ہے؟</div>
+            <div class="answer">HTML ٹیگ زاویہ دار بریکٹ &lt; &gt; میں لکھا جاتا ہے اور ویب پیج کے عناصر کو ظاہر کرتا ہے۔ مثال: &lt;p&gt;یہ ایک پیراگراف ہے&lt;/p&gt;</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">3. HTML اور CSS میں کیا فرق ہے؟</div>
+            <div class="answer">HTML ویب پیج کی ساخت بناتا ہے جبکہ CSS ویب پیج کو خوبصورت بنانے کے لیے استعمال ہوتا ہے۔</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">4. HTML دستاویز کی بنیادی ساخت کیا ہوتی ہے؟</div>
+            <div class="answer">
+                <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Page Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+یہاں مواد لکھا جاتا ہے
+&lt;/body&gt;
+&lt;/html&gt;
+                </pre>
+            </div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">5. &lt;!DOCTYPE&gt; کا مقصد کیا ہے؟</div>
+            <div class="answer">یہ براؤزر کو بتاتا ہے کہ HTML کا کون سا ورژن استعمال ہو رہا ہے۔</div>
+        </div>
+
+        <!-- آپ باقی سوالات اسی طرح add کر سکتے ہیں -->
+    </div>
+
+    <script>
+        // Accordion effect: click on question to show/hide answer
+        const items = document.querySelectorAll('.qa-item');
+
+        items.forEach(item => {
+            const question = item.querySelector('.question');
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
