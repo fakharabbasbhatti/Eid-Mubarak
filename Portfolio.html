@@ -2,328 +2,208 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Modern Portfolio</title>
 
-<title>Super Portfolio</title>
-
+<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+<!-- Font Awesome -->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+<!-- AOS Animation -->
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
-
-html{
-scroll-behavior:smooth;
+html {
+  scroll-behavior: smooth;
 }
 
-.glass{
-background: rgba(255,255,255,0.05);
-backdrop-filter: blur(10px);
-border:1px solid rgba(255,255,255,0.1);
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.card:hover {
+  transform: scale(1.07);
+  transition: 0.4s;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Floating animation for hero image */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
 </style>
-
 </head>
 
 <body class="bg-gray-900 text-white">
 
 <!-- PARTICLES BACKGROUND -->
-
 <div id="particles-js" class="fixed w-full h-full -z-10"></div>
 
 <!-- NAVBAR -->
-
 <nav class="fixed w-full bg-black/40 backdrop-blur-lg z-50">
-
-<div class="max-w-7xl mx-auto px-5">
-
-<div class="flex justify-between items-center h-16">
-
-<h1 class="text-2xl font-bold text-cyan-400">
-MyPortfolio
-</h1>
-
-<ul class="hidden md:flex space-x-8">
-
-<li><a href="#home">Home</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#skills">Skills</a></li>
-<li><a href="#services">Services</a></li>
-<li><a href="#projects">Projects</a></li>
-
-</ul>
-
-</div>
-
-</div>
-
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="flex justify-between items-center h-16">
+      <h1 class="text-2xl font-bold text-cyan-400">MyPortfolio</h1>
+      <ul class="hidden md:flex space-x-8">
+        <li><a href="#home" class="hover:text-cyan-400">Home</a></li>
+        <li><a href="#about" class="hover:text-cyan-400">About</a></li>
+        <li><a href="#skills" class="hover:text-cyan-400">Skills</a></li>
+        <li><a href="#services" class="hover:text-cyan-400">Services</a></li>
+        <li><a href="#projects" class="hover:text-cyan-400">Projects</a></li>
+      </ul>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
+<section id="home" class="h-screen flex items-center justify-center text-center bg-cover bg-center" style="background-image:url('https://images.unsplash.com/photo-1492724441997-5dc865305da7')">
+  <div data-aos="zoom-in">
+    <!-- Floating Profile Image -->
+    <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e" class="w-40 h-40 rounded-full mx-auto mb-6 border-4 border-cyan-400 shadow-2xl float">
 
-<section id="home" class="h-screen flex items-center justify-center text-center">
-
-<div data-aos="zoom-in">
-
-<h1 class="text-6xl font-bold mb-6">
-
-Hi I'm <span class="text-cyan-400">Your Name</span>
-
-</h1>
-
-<h2 class="text-2xl text-gray-400 mb-8">
-
-<span id="typing"></span>
-
-</h2>
-
-<button class="px-8 py-3 bg-cyan-500 rounded hover:scale-110 transition">
-
-Hire Me
-
-</button>
-
-</div>
-
+    <h1 class="text-6xl font-bold mb-6">Hi I'm <span class="text-cyan-400">Fakhar Abbas</span></h1>
+    <h2 class="text-2xl text-gray-400 mb-8"><span id="typing"></span></h2>
+    <button class="px-8 py-3 bg-cyan-500 rounded hover:scale-110 transition">Hire Me</button>
+  </div>
 </section>
 
 <!-- ABOUT -->
-
 <section id="about" class="py-24">
-
-<div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10">
-
-<img
-src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c"
-class="rounded-xl shadow-lg"
-data-aos="fade-right">
-
-<div data-aos="fade-left">
-
-<h2 class="text-4xl font-bold text-cyan-400 mb-6">
-
-About Me
-
-</h2>
-
-<p class="text-gray-400 leading-7">
-
-I am a passionate web developer who builds modern
-responsive websites using HTML CSS JavaScript
-and TailwindCSS.
-
-</p>
-
-</div>
-
-</div>
-
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10">
+    <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c" class="rounded-xl shadow-2xl hover:scale-105 transition duration-500" data-aos="fade-right">
+    <div data-aos="fade-left">
+      <h2 class="text-4xl font-bold text-cyan-400 mb-6">About Me</h2>
+      <p class="text-gray-400 leading-7">
+        I am a passionate web developer who builds modern responsive websites using HTML, CSS, JavaScript, and TailwindCSS. I create clean UI and smooth UX designs.
+      </p>
+    </div>
+  </div>
 </section>
 
 <!-- SKILLS -->
-
 <section id="skills" class="py-24">
-
-<div class="max-w-6xl mx-auto px-5 text-center">
-
-<h2 class="text-4xl font-bold text-cyan-400 mb-12">
-Skills
-</h2>
-
-<div class="grid md:grid-cols-4 gap-8">
-
-<div class="glass p-8 rounded-xl hover:scale-110 transition" data-aos="fade-up">
-<i class="fab fa-html5 text-5xl text-orange-500"></i>
-<p class="mt-4">HTML</p>
-</div>
-
-<div class="glass p-8 rounded-xl hover:scale-110 transition" data-aos="fade-up">
-<i class="fab fa-css3 text-5xl text-blue-500"></i>
-<p class="mt-4">CSS</p>
-</div>
-
-<div class="glass p-8 rounded-xl hover:scale-110 transition" data-aos="fade-up">
-<i class="fab fa-js text-5xl text-yellow-400"></i>
-<p class="mt-4">JavaScript</p>
-</div>
-
-<div class="glass p-8 rounded-xl hover:scale-110 transition" data-aos="fade-up">
-<i class="fas fa-wind text-5xl text-cyan-400"></i>
-<p class="mt-4">Tailwind</p>
-</div>
-
-</div>
-
-</div>
-
+  <div class="max-w-6xl mx-auto px-5 text-center">
+    <h2 class="text-4xl font-bold text-cyan-400 mb-12">Skills</h2>
+    <div class="grid md:grid-cols-4 gap-8">
+      <div class="glass card p-8 rounded-xl hover:scale-110 transition" data-aos="fade-up">
+        <i class="fab fa-html5 text-5xl text-orange-500"></i>
+        <p class="mt-4">HTML</p>
+      </div>
+      <div class="glass card p-8 rounded-xl hover:scale-110 transition" data-aos="fade-up">
+        <i class="fab fa-css3 text-5xl text-blue-500"></i>
+        <p class="mt-4">CSS</p>
+      </div>
+      <div class="glass card p-8 rounded-xl hover:scale-110 transition" data-aos="fade-up">
+        <i class="fab fa-js text-5xl text-yellow-400"></i>
+        <p class="mt-4">JavaScript</p>
+      </div>
+      <div class="glass card p-8 rounded-xl hover:scale-110 transition" data-aos="fade-up">
+        <i class="fas fa-wind text-5xl text-cyan-400"></i>
+        <p class="mt-4">Tailwind</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- SERVICES -->
-
 <section id="services" class="py-24 bg-gray-800">
-
-<div class="max-w-6xl mx-auto px-5 text-center">
-
-<h2 class="text-4xl font-bold text-cyan-400 mb-12">
-Services
-</h2>
-
-<div class="grid md:grid-cols-3 gap-8">
-
-<div class="glass p-8 rounded-xl hover:scale-110 transition" data-aos="zoom-in">
-<i class="fa fa-code text-4xl text-cyan-400"></i>
-<h3 class="text-xl mt-4">Web Development</h3>
-</div>
-
-<div class="glass p-8 rounded-xl hover:scale-110 transition" data-aos="zoom-in">
-<i class="fa fa-paint-brush text-4xl text-cyan-400"></i>
-<h3 class="text-xl mt-4">UI Design</h3>
-</div>
-
-<div class="glass p-8 rounded-xl hover:scale-110 transition" data-aos="zoom-in">
-<i class="fa fa-mobile text-4xl text-cyan-400"></i>
-<h3 class="text-xl mt-4">Responsive Design</h3>
-</div>
-
-</div>
-
-</div>
-
+  <div class="max-w-6xl mx-auto px-5 text-center">
+    <h2 class="text-4xl font-bold text-cyan-400 mb-12">Services</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="glass card p-8 rounded-xl hover:scale-110 transition" data-aos="zoom-in">
+        <i class="fa fa-code text-4xl text-cyan-400"></i>
+        <h3 class="text-xl mt-4">Web Development</h3>
+      </div>
+      <div class="glass card p-8 rounded-xl hover:scale-110 transition" data-aos="zoom-in">
+        <i class="fa fa-paint-brush text-4xl text-cyan-400"></i>
+        <h3 class="text-xl mt-4">UI Design</h3>
+      </div>
+      <div class="glass card p-8 rounded-xl hover:scale-110 transition" data-aos="zoom-in">
+        <i class="fa fa-mobile text-4xl text-cyan-400"></i>
+        <h3 class="text-xl mt-4">Responsive Design</h3>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- PROJECTS -->
-
 <section id="projects" class="py-24">
-
-<div class="max-w-6xl mx-auto px-5 text-center">
-
-<h2 class="text-4xl font-bold text-cyan-400 mb-12">
-Projects
-</h2>
-
-<div class="grid md:grid-cols-3 gap-8">
-
-<div class="glass rounded-xl overflow-hidden hover:scale-105 transition" data-aos="fade-up">
-
-<img
-src="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
-class="w-full h-60 object-cover">
-
-<div class="p-4">
-<h3 class="text-lg font-bold">Portfolio Website</h3>
-</div>
-
-</div>
-
-<div class="glass rounded-xl overflow-hidden hover:scale-105 transition" data-aos="fade-up">
-
-<img
-src="https://images.unsplash.com/photo-1555066931-4365d14bab8c"
-class="w-full h-60 object-cover">
-
-<div class="p-4">
-<h3 class="text-lg font-bold">Ecommerce UI</h3>
-</div>
-
-</div>
-
-<div class="glass rounded-xl overflow-hidden hover:scale-105 transition" data-aos="fade-up">
-
-<img
-src="https://images.unsplash.com/photo-1518770660439-4636190af475"
-class="w-full h-60 object-cover">
-
-<div class="p-4">
-<h3 class="text-lg font-bold">Landing Page</h3>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+  <div class="max-w-6xl mx-auto px-5 text-center">
+    <h2 class="text-4xl font-bold text-cyan-400 mb-12">Projects</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="glass card rounded-xl overflow-hidden hover:scale-105 transition" data-aos="fade-up">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" class="w-full h-60 object-cover">
+        <div class="p-4">
+          <h3 class="text-lg font-bold">Portfolio Website</h3>
+        </div>
+      </div>
+      <div class="glass card rounded-xl overflow-hidden hover:scale-105 transition" data-aos="fade-up">
+        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c" class="w-full h-60 object-cover">
+        <div class="p-4">
+          <h3 class="text-lg font-bold">Ecommerce UI</h3>
+        </div>
+      </div>
+      <div class="glass card rounded-xl overflow-hidden hover:scale-105 transition" data-aos="fade-up">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475" class="w-full h-60 object-cover">
+        <div class="p-4">
+          <h3 class="text-lg font-bold">Landing Page</h3>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- FOOTER -->
-
 <footer class="py-8 text-center border-t border-gray-800">
-
-<p class="text-gray-400">
-
-© 2026 Fakhar Abbas
-
-</p>
-
-<div class="mt-4 text-2xl space-x-5">
-
-<i class="fab fa-facebook"></i>
-<i class="fab fa-github"></i>
-<i class="fab fa-linkedin"></i>
-
-</div>
-
+  <p class="text-gray-400">© 2026 Fakhar Abbas</p>
+  <div class="mt-4 text-2xl space-x-5">
+    <i class="fab fa-facebook hover:text-cyan-400"></i>
+    <i class="fab fa-github hover:text-cyan-400"></i>
+    <i class="fab fa-linkedin hover:text-cyan-400"></i>
+  </div>
 </footer>
 
 <!-- Typed.js -->
-
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-
 <script>
-
 var typed = new Typed("#typing", {
-
-strings:[
-"Frontend Developer",
-"UI Designer",
-"JavaScript Developer"
-],
-
-typeSpeed:70,
-backSpeed:50,
-loop:true
-
-})
-
+  strings: ["Frontend Developer", "UI Designer", "JavaScript Developer"],
+  typeSpeed: 70,
+  backSpeed: 50,
+  loop: true
+});
 </script>
 
 <!-- AOS -->
-
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-
 <script>
-
-AOS.init({
-duration:1000
-})
-
+AOS.init({ duration: 1000 });
 </script>
 
 <!-- PARTICLES -->
-
 <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-
 <script>
-
 particlesJS("particles-js", {
-
-particles:{
-number:{value:80},
-size:{value:3},
-color:{value:"#00ffff"},
-line_linked:{enable:true,color:"#00ffff"}
-}
-
-})
-
+  particles: {
+    number: { value: 80 },
+    size: { value: 3 },
+    color: { value: "#00ffff" },
+    line_linked: { enable: true, color: "#00ffff" }
+  }
+});
 </script>
 
 </body>
-
 </html>
