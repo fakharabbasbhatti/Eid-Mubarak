@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fakhar Abbas - Cover Letter</title>
+    <style>
+        /* Body and layout */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            padding: 40px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+
+        p {
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        /* Skills badges */
+        .skills span {
+            display: inline-block;
+            background: linear-gradient(to right, #f12711, #f5af19);
+            color: white;
+            padding: 7px 15px;
+            margin: 5px 5px 0 0;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .skills span:hover {
+            transform: scale(1.1);
+        }
+
+        /* Buttons */
+        button {
+            margin-top: 25px;
+            padding: 12px 25px;
+            font-size: 1em;
+            color: white;
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #38ef7d, #11998e);
+            transform: scale(1.05);
+        }
+
+        /* Extra info box */
+        .extra-info {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-left: 5px solid #2ecc71;
+            border-radius: 10px;
+            animation: slideDown 0.5s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fakhar Abbas</h1>
+        <p>Dear Hiring Manager,</p>
+        <p>
+            I am an enthusiastic web developer skilled in modern web technologies such as HTML, CSS, and JavaScript. I specialize in creating web applications that are user-friendly, visually appealing, and interactive. My goal is to contribute to your company's projects with high-quality, efficient, and responsive web solutions.
+        </p>
+
+        <h2>Skills</h2>
+        <div class="skills">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>React</span>
+            <span>Node.js</span>
+            <span>Responsive Design</span>
+        </div>
+
+        <button onclick="toggleInfo()">Show More</button>
+
+        <div class="extra-info" id="extraInfo">
+            <p>
+                I have completed multiple web projects and collaborated effectively in team environments. I embrace challenges and continuously seek to learn new technologies. I am eager to join your team to contribute my skills and deliver exceptional web applications.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function toggleInfo() {
+            const info = document.getElementById('extraInfo');
+            if(info.style.display === 'block') {
+                info.style.display = 'none';
+            } else {
+                info.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
