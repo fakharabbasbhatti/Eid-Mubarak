@@ -1,145 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fakhar Abbas - Cover Letter</title>
-    <style>
-        /* Body and layout */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fakhar Abbas - Interactive Cover Letter</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* General Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #333;
+    line-height: 1.6;
+}
 
-        .container {
-            max-width: 750px;
-            margin: 50px auto;
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            padding: 40px;
-            animation: fadeIn 1s ease-in-out;
-        }
+/* Container */
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    padding: 50px;
+    animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+/* Headings */
+h1, h2, h3 { color: #2c3e50; }
+h1 { font-size: 2.5em; margin-bottom: 10px; }
+h2 { margin-top: 40px; margin-bottom: 20px; font-size: 2em; border-bottom: 2px solid #f1f1f1; padding-bottom: 5px;}
+h3 { margin-bottom: 10px; }
 
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 2em;
-        }
+/* Paragraph */
+p { margin-bottom: 15px; font-size: 1.1em; }
 
-        h2 {
-            color: #34495e;
-            margin-top: 30px;
-        }
+/* Skills */
+.skills span {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff5858, #f09819);
+    color: #fff;
+    padding: 8px 20px;
+    margin: 5px 5px 0 0;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+}
+.skills span:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
 
-        p {
-            line-height: 1.8;
-            font-size: 1.1em;
-        }
+/* Buttons */
+button {
+    margin: 20px 0;
+    padding: 12px 30px;
+    font-size: 1em;
+    color: white;
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+    background: linear-gradient(135deg, #38ef7d, #11998e);
+    transform: scale(1.05);
+}
 
-        /* Skills badges */
-        .skills span {
-            display: inline-block;
-            background: linear-gradient(to right, #f12711, #f5af19);
-            color: white;
-            padding: 7px 15px;
-            margin: 5px 5px 0 0;
-            border-radius: 20px;
-            font-weight: bold;
-            transition: transform 0.2s;
-        }
+/* Cards */
+.card {
+    display: none;
+    background: #f1f1f1;
+    padding: 25px;
+    margin-top: 15px;
+    border-radius: 15px;
+    border-left: 6px solid #2ecc71;
+    animation: slideDown 0.5s ease-in-out;
+}
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
 
-        .skills span:hover {
-            transform: scale(1.1);
-        }
+/* Project Cards */
+.project-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
 
-        /* Buttons */
-        button {
-            margin-top: 25px;
-            padding: 12px 25px;
-            font-size: 1em;
-            color: white;
-            background: linear-gradient(to right, #11998e, #38ef7d);
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-        }
+/* Contact */
+.contact span {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
 
-        button:hover {
-            background: linear-gradient(to right, #38ef7d, #11998e);
-            transform: scale(1.05);
-        }
-
-        /* Extra info box */
-        .extra-info {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #ecf0f1;
-            border-left: 5px solid #2ecc71;
-            border-radius: 10px;
-            animation: slideDown 0.5s ease-in-out;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                margin: 20px;
-                padding: 25px;
-            }
-        }
-    </style>
+/* Responsive */
+@media(max-width:768px){
+    .container { padding: 30px; margin: 20px; }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.5em; }
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Fakhar Abbas</h1>
-        <p>Dear Hiring Manager,</p>
-        <p>
-            I am an enthusiastic web developer skilled in modern web technologies such as HTML, CSS, and JavaScript. I specialize in creating web applications that are user-friendly, visually appealing, and interactive. My goal is to contribute to your company's projects with high-quality, efficient, and responsive web solutions.
-        </p>
 
-        <h2>Skills</h2>
-        <div class="skills">
-            <span>HTML</span>
-            <span>CSS</span>
-            <span>JavaScript</span>
-            <span>React</span>
-            <span>Node.js</span>
-            <span>Responsive Design</span>
-        </div>
+<div class="container">
+    <h1>Fakhar Abbas</h1>
+    <p>Dear Hiring Manager,</p>
+    <p>
+        I am a passionate web developer with expertise in HTML, CSS, JavaScript, and modern frameworks. I specialize in building responsive, interactive, and user-friendly web applications. I am eager to bring my skills and creativity to your team and contribute to impactful projects.
+    </p>
 
-        <button onclick="toggleInfo()">Show More</button>
+    <h2>About Me</h2>
+    <p>
+        I love creating clean, efficient, and visually appealing websites. I enjoy problem-solving and learning new technologies to deliver high-quality web solutions. My goal is to grow as a developer while contributing meaningfully to the company I work with.
+    </p>
 
-        <div class="extra-info" id="extraInfo">
-            <p>
-                I have completed multiple web projects and collaborated effectively in team environments. I embrace challenges and continuously seek to learn new technologies. I am eager to join your team to contribute my skills and deliver exceptional web applications.
-            </p>
-        </div>
+    <h2>Skills</h2>
+    <div class="skills">
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>React</span>
+        <span>Node.js</span>
+        <span>Responsive Design</span>
+        <span>Git</span>
+        <span>Figma</span>
     </div>
 
-    <script>
-        function toggleInfo() {
-            const info = document.getElementById('extraInfo');
-            if(info.style.display === 'block') {
-                info.style.display = 'none';
-            } else {
-                info.style.display = 'block';
-            }
-        }
-    </script>
+    <h2>Experience</h2>
+    <button onclick="toggleCard('exp1')">View Experience Details</button>
+    <div class="card" id="exp1">
+        <h3>Front-End Developer | XYZ Solutions</h3>
+        <p>Developed responsive web applications and collaborated with the design team to create engaging user interfaces. Improved website performance by 25% using optimized code and best practices.</p>
+
+        <h3>Web Developer Intern | ABC Tech</h3>
+        <p>Assisted in building interactive components using JavaScript and React, participated in code reviews, and implemented features that improved user experience.</p>
+    </div>
+
+    <h2>Education</h2>
+    <button onclick="toggleCard('edu1')">View Education Details</button>
+    <div class="card" id="edu1">
+        <h3>Intermediate in Computer Science | Post Graduate College Bahawalpur</h3>
+        <p>Completed with Honors. Focused on web development, algorithms, and computer science principles.</p>
+    </div>
+
+    <h2>Projects</h2>
+    <div class="project-card">
+        <h3>Portfolio Website</h3>
+        <p>Designed and developed a responsive personal portfolio to showcase projects and skills using HTML, CSS, and JavaScript.</p>
+    </div>
+    <div class="project-card">
+        <h3>E-commerce Web App</h3>
+        <p>Built an e-commerce platform using React and Node.js with dynamic product listings, shopping cart, and payment integration.</p>
+    </div>
+
+    <h2>Contact</h2>
+    <div class="contact">
+        <span>Email: fakharabbasbhatti333@gmail.com</span>
+        <span>Phone: +92 322 9234045</span>
+        <span>LinkedIn: <a href="https://www.linkedin.com/in/fakhar-abbas-bhatti/" target="_blank">linkedin.com/in/fakhar-abbas-bhatti</a></span>
+        <span>GitHub: <a href="https://github.com/fakharabbasbhatti" target="_blank">github.com/fakharabbasbhatti</a></span>
+    </div>
+</div>
+
+<script>
+function toggleCard(id){
+    const card = document.getElementById(id);
+    card.style.display = card.style.display === 'block' ? 'none' : 'block';
+}
+</script>
+
 </body>
 </html>
