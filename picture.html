@@ -4,130 +4,239 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Advanced Profile Picture Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    :root {
+      --primary: #00e5ff;
+      --primary-hover: #00b8cc;
+      --bg-gradient: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      min-height: 100vh;
+      background: var(--bg-gradient);
       color: #fff;
+      overflow-x: hidden;
     }
 
     .container {
       text-align: center;
-      padding: 20px;
-      border-radius: 20px;
-      background: #141414;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      width: 320px;
+      padding: 30px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      width: 360px;
+      transition: transform 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
     }
 
     h2 {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       font-weight: 600;
+      font-size: 1.5rem;
+      background: linear-gradient(to right, #fff, var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .preview {
-      width: 250px;
-      height: 250px;
+      width: 220px;
+      height: 220px;
       border-radius: 50%;
       overflow: hidden;
-      margin: 20px auto;
-      border: 4px solid #333;
+      margin: 0 auto 20px;
+      border: 4px solid rgba(0, 229, 255, 0.3);
       background: radial-gradient(circle, #222, #000);
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 0 25px rgba(0,0,0,0.8);
-      transition: 0.3s;
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+      transition: all 0.4s ease;
     }
 
     .preview:hover {
-      transform: scale(1.03);
+      transform: scale(1.05);
+      border-color: var(--primary);
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.6);
     }
 
     .preview img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: filter 0.3s;
     }
 
+    /* Custom File Upload */
     input[type="file"] {
-      margin-top: 10px;
-      color: #ccc;
+      display: none;
     }
 
+    .upload-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-bottom: 20px;
+    }
+
+    .upload-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+
+    /* Sliders */
     .controls {
-      margin-top: 15px;
+      text-align: left;
+      margin-bottom: 20px;
     }
 
     .controls label {
-      font-size: 12px;
-      display: block;
-      margin-top: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #b8c2cc;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      margin-bottom: 5px;
     }
 
-    .controls input {
+    input[type="range"] {
+      -webkit-appearance: none;
       width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--primary);
+      transition: 0.2s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Action Buttons */
+    .action-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     button {
-      margin-top: 12px;
-      padding: 10px;
+      padding: 12px;
       width: 100%;
       border: none;
-      background: linear-gradient(135deg, #000, #333);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       color: #fff;
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: inherit;
       cursor: pointer;
-      border-radius: 8px;
-      transition: 0.3s;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
     }
 
     button:hover {
-      background: linear-gradient(135deg, #222, #555);
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
     }
 
     .download {
-      background: linear-gradient(135deg, #0a84ff, #0051ff);
+      background: linear-gradient(135deg, var(--primary), #0077ff);
+      border: none;
+      color: #000;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3);
+    }
+
+    .download:hover {
+      background: linear-gradient(135deg, var(--primary-hover), #0066cc);
+      box-shadow: 0 8px 25px rgba(0, 229, 255, 0.5);
+      color: #fff;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>🔥 Profile Picture Pro</h2>
+    <h2>✨ Profile Pro</h2>
 
     <div class="preview" id="preview">
-      <img id="image" src="https://images.pexels.com/photos/20454420/pexels-photo-20454420.jpeg" alt="Upload Image" />
+      <img id="image" src="https://images.pexels.com/photos/20454420/pexels-photo-20454420.jpeg" alt="Upload Image" crossorigin="anonymous" />
     </div>
 
-    <input type="file" id="upload" accept="image/*" />
+    <label class="upload-btn">
+      📷 Upload Photo
+      <input type="file" id="upload" accept="image/*" />
+    </label>
 
     <div class="controls">
-      <label>Brightness</label>
+      <label>Brightness <span id="br-val">100%</span></label>
       <input type="range" id="brightness" min="50" max="150" value="100" />
 
-      <label>Contrast</label>
+      <label>Contrast <span id="con-val">100%</span></label>
       <input type="range" id="contrast" min="50" max="150" value="100" />
 
-      <label>Saturation</label>
+      <label>Saturation <span id="sat-val">100%</span></label>
       <input type="range" id="saturation" min="50" max="150" value="100" />
     </div>
 
-    <button onclick="applyBlackTheme()">✨ Black Profile Style</button>
-    <button onclick="addGlow()">💡 Add Glow Effect</button>
-    <button class="download" onclick="downloadImage()">⬇ Download</button>
+    <div class="action-group">
+      <button onclick="applyBlackTheme()">🖤 Dark Mood Style</button>
+      <button onclick="addGlow()">🌟 Add Neon Glow</button>
+      <button class="download" onclick="downloadImage()">⬇ Download Avatar</button>
+    </div>
   </div>
 
   <script>
     const upload = document.getElementById('upload');
     const image = document.getElementById('image');
+    const preview = document.getElementById('preview');
 
     const brightness = document.getElementById('brightness');
     const contrast = document.getElementById('contrast');
     const saturation = document.getElementById('saturation');
+
+    // Values display
+    const brVal = document.getElementById('br-val');
+    const conVal = document.getElementById('con-val');
+    const satVal = document.getElementById('sat-val');
 
     upload.addEventListener('change', function () {
       const file = this.files[0];
@@ -142,6 +251,9 @@
 
     function updateFilters() {
       image.style.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturation.value}%)`;
+      brVal.innerText = brightness.value + '%';
+      conVal.innerText = contrast.value + '%';
+      satVal.innerText = saturation.value + '%';
     }
 
     brightness.oninput = updateFilters;
@@ -149,32 +261,47 @@
     saturation.oninput = updateFilters;
 
     function applyBlackTheme() {
-      image.style.filter = 'brightness(90%) contrast(120%) saturate(80%)';
-      document.getElementById('preview').style.background = 'radial-gradient(circle, #111, #000)';
+      brightness.value = 90;
+      contrast.value = 120;
+      saturation.value = 60;
+      updateFilters();
+      preview.style.background = 'radial-gradient(circle, #111, #000)';
+      preview.style.borderColor = '#333';
+      preview.style.boxShadow = '0 0 20px rgba(0,0,0,0.8)';
     }
 
     function addGlow() {
-      document.getElementById('preview').style.boxShadow = '0 0 40px rgba(255,255,255,0.2)';
+      preview.style.boxShadow = '0 0 40px rgba(0, 229, 255, 0.8), 0 0 80px rgba(0, 229, 255, 0.4)';
+      preview.style.borderColor = '#00e5ff';
     }
 
     function downloadImage() {
       const canvas = document.createElement('canvas');
-      canvas.width = 500;
+      // Set fixed size or use image's natural size
+      canvas.width = 500; 
       canvas.height = 500;
       const ctx = canvas.getContext('2d');
 
+      // Draw background if any transparency exists
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      // Create new image object to draw
       const img = new Image();
-      img.crossOrigin = 'anonymous';
+      img.crossOrigin = 'anonymous'; // Important for CORS external images
       img.src = image.src;
 
       img.onload = () => {
-        ctx.drawImage(img, 0, 0, 500, 500);
+        // Apply CSS filters to the canvas context so downloaded image keeps the edits
+        ctx.filter = getComputedStyle(image).filter;
+        
+        // Draw the image filling the canvas
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        // Create download link
         const link = document.createElement('a');
-        link.download = 'profile.png';
-        link.href = canvas.toDataURL();
+        link.download = 'Pro_Avatar.png';
+        link.href = canvas.toDataURL('image/png');
         link.click();
       };
     }
