@@ -1,310 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Advanced Profile Picture Designer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #00e5ff;
-      --primary-hover: #00b8cc;
-      --bg-gradient: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Profile Designer Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #00f2fe;
+            --accent-glow: rgba(0, 242, 254, 0.5);
+            --bg: #080a0f;
+            --card: rgba(20, 25, 35, 0.8);
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: var(--bg-gradient);
-      color: #fff;
-      overflow-x: hidden;
-    }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top, #1a1f2c, var(--bg));
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    .container {
-      text-align: center;
-      padding: 30px;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-      width: 360px;
-      transition: transform 0.3s ease;
-    }
+        .editor-card {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            text-align: center;
+        }
 
-    .container:hover {
-      transform: translateY(-5px);
-    }
+        h2 { 
+            margin-bottom: 25px; 
+            font-weight: 600; 
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    h2 {
-      margin-bottom: 20px;
-      font-weight: 600;
-      font-size: 1.5rem;
-      background: linear-gradient(to right, #fff, var(--primary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        /* Profile Preview Section */
+        .preview-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 25px;
+        }
 
-    .preview {
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin: 0 auto 20px;
-      border: 4px solid rgba(0, 229, 255, 0.3);
-      background: radial-gradient(circle, #222, #000);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
-      transition: all 0.4s ease;
-    }
+        .preview-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--accent);
+            box-shadow: 0 0 30px var(--accent-glow);
+            background: #000;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-    .preview:hover {
-      transform: scale(1.05);
-      border-color: var(--primary);
-      box-shadow: 0 0 40px rgba(0, 229, 255, 0.6);
-    }
+        #image-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    .preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: filter 0.3s;
-    }
+        /* Controls Style */
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
 
-    /* Custom File Upload */
-    input[type="file"] {
-      display: none;
-    }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-    .upload-btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50px;
-      color: #fff;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: 0.3s;
-      margin-bottom: 20px;
-    }
+        label { font-size: 11px; color: #8e9aaf; text-transform: uppercase; font-weight: 600; }
 
-    .upload-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-    }
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            outline: none;
+        }
 
-    /* Sliders */
-    .controls {
-      text-align: left;
-      margin-bottom: 20px;
-    }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--accent);
+        }
 
-    .controls label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #b8c2cc;
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-      margin-bottom: 5px;
-    }
+        /* Buttons Area */
+        .button-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-    input[type="range"] {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 5px;
-      outline: none;
-    }
+        .btn {
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: 0.3s;
+            font-size: 14px;
+        }
 
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--primary);
-      cursor: pointer;
-      box-shadow: 0 0 10px var(--primary);
-      transition: 0.2s;
-    }
+        .btn-upload { background: #fff; color: #000; }
+        .btn-preset { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-preset:hover { background: rgba(255,255,255,0.15); border-color: var(--accent); }
 
-    input[type="range"]::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
-    }
+        .btn-download {
+            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            color: #000;
+            margin-top: 10px;
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.3);
+        }
 
-    /* Action Buttons */
-    .action-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+        .btn-download:hover { transform: translateY(-2px); box-shadow: 0 15px 25px rgba(0, 242, 254, 0.5); }
 
-    button {
-      padding: 12px;
-      width: 100%;
-      border: none;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #fff;
-      font-size: 0.95rem;
-      font-weight: 500;
-      font-family: inherit;
-      cursor: pointer;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-    }
-
-    button:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-2px);
-    }
-
-    .download {
-      background: linear-gradient(135deg, var(--primary), #0077ff);
-      border: none;
-      color: #000;
-      font-weight: 600;
-      box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3);
-    }
-
-    .download:hover {
-      background: linear-gradient(135deg, var(--primary-hover), #0066cc);
-      box-shadow: 0 8px 25px rgba(0, 229, 255, 0.5);
-      color: #fff;
-    }
-  </style>
+        #file-input { display: none; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>✨ Profile Pro</h2>
 
-    <div class="preview" id="preview">
-      <img id="image" src="https://images.pexels.com/photos/20454420/pexels-photo-20454420.jpeg" alt="Upload Image" crossorigin="anonymous" />
+<div class="editor-card">
+    <h2>PRO DESIGNER</h2>
+
+    <div class="preview-container">
+        <div class="preview-circle" id="circle">
+            <img id="image-preview" src="https://images.pexels.com/photos/20454420/pexels-photo-20454420.jpeg" crossorigin="anonymous">
+        </div>
     </div>
 
-    <label class="upload-btn">
-      📷 Upload Photo
-      <input type="file" id="upload" accept="image/*" />
-    </label>
+    <label for="file-input" class="btn btn-upload" style="display: block; margin-bottom: 20px;">📷 Upload New Photo</label>
+    <input type="file" id="file-input" accept="image/*">
 
-    <div class="controls">
-      <label>Brightness <span id="br-val">100%</span></label>
-      <input type="range" id="brightness" min="50" max="150" value="100" />
-
-      <label>Contrast <span id="con-val">100%</span></label>
-      <input type="range" id="contrast" min="50" max="150" value="100" />
-
-      <label>Saturation <span id="sat-val">100%</span></label>
-      <input type="range" id="saturation" min="50" max="150" value="100" />
+    <div class="controls-grid">
+        <div class="control-group">
+            <label>Brightness</label>
+            <input type="range" id="brightness" min="0" max="200" value="100">
+        </div>
+        <div class="control-group">
+            <label>Contrast</label>
+            <input type="range" id="contrast" min="0" max="200" value="100">
+        </div>
+        <div class="control-group">
+            <label>Saturation</label>
+            <input type="range" id="saturation" min="0" max="200" value="100">
+        </div>
+        <div class="control-group">
+            <label>Hue (Color)</label>
+            <input type="range" id="hue" min="0" max="360" value="0">
+        </div>
+        <div class="control-group">
+            <label>Blur</label>
+            <input type="range" id="blur" min="0" max="10" value="0">
+        </div>
+        <div class="control-group">
+            <label>Sepia</label>
+            <input type="range" id="sepia" min="0" max="100" value="0">
+        </div>
     </div>
 
-    <div class="action-group">
-      <button onclick="applyBlackTheme()">🖤 Dark Mood Style</button>
-      <button onclick="addGlow()">🌟 Add Neon Glow</button>
-      <button class="download" onclick="downloadImage()">⬇ Download Avatar</button>
+    <div class="button-stack">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <button class="btn btn-preset" onclick="setPreset('dark')">🖤 Dark Mood</button>
+            <button class="btn btn-preset" onclick="setPreset('vintage')">🎞 Vintage</button>
+            <button class="btn btn-preset" onclick="setPreset('vibrant')">🌈 Vibrant</button>
+            <button class="btn btn-preset" onclick="resetFilters()">🔄 Reset</button>
+        </div>
+        <button class="btn btn-download" onclick="downloadCircularImage()">⬇ Download HD Profile</button>
     </div>
-  </div>
+</div>
 
-  <script>
-    const upload = document.getElementById('upload');
-    const image = document.getElementById('image');
-    const preview = document.getElementById('preview');
+<script>
+    const img = document.getElementById('image-preview');
+    const fileInput = document.getElementById('file-input');
+    const inputs = document.querySelectorAll('input[type="range"]');
 
-    const brightness = document.getElementById('brightness');
-    const contrast = document.getElementById('contrast');
-    const saturation = document.getElementById('saturation');
-
-    // Values display
-    const brVal = document.getElementById('br-val');
-    const conVal = document.getElementById('con-val');
-    const satVal = document.getElementById('sat-val');
-
-    upload.addEventListener('change', function () {
-      const file = this.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          image.src = e.target.result;
+    // Filter Logic
+    function applyFilters() {
+        const filters = {
+            brightness: document.getElementById('brightness').value,
+            contrast: document.getElementById('contrast').value,
+            saturation: document.getElementById('saturation').value,
+            hue: document.getElementById('hue').value,
+            blur: document.getElementById('blur').value,
+            sepia: document.getElementById('sepia').value
         };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    function updateFilters() {
-      image.style.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturation.value}%)`;
-      brVal.innerText = brightness.value + '%';
-      conVal.innerText = contrast.value + '%';
-      satVal.innerText = saturation.value + '%';
-    }
-
-    brightness.oninput = updateFilters;
-    contrast.oninput = updateFilters;
-    saturation.oninput = updateFilters;
-
-    function applyBlackTheme() {
-      brightness.value = 90;
-      contrast.value = 120;
-      saturation.value = 60;
-      updateFilters();
-      preview.style.background = 'radial-gradient(circle, #111, #000)';
-      preview.style.borderColor = '#333';
-      preview.style.boxShadow = '0 0 20px rgba(0,0,0,0.8)';
-    }
-
-    function addGlow() {
-      preview.style.boxShadow = '0 0 40px rgba(0, 229, 255, 0.8), 0 0 80px rgba(0, 229, 255, 0.4)';
-      preview.style.borderColor = '#00e5ff';
-    }
-
-    function downloadImage() {
-      const canvas = document.createElement('canvas');
-      // Set fixed size or use image's natural size
-      canvas.width = 500; 
-      canvas.height = 500;
-      const ctx = canvas.getContext('2d');
-
-      // Draw background if any transparency exists
-      ctx.fillStyle = '#000';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Create new image object to draw
-      const img = new Image();
-      img.crossOrigin = 'anonymous'; // Important for CORS external images
-      img.src = image.src;
-
-      img.onload = () => {
-        // Apply CSS filters to the canvas context so downloaded image keeps the edits
-        ctx.filter = getComputedStyle(image).filter;
         
-        // Draw the image filling the canvas
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        
-        // Create download link
-        const link = document.createElement('a');
-        link.download = 'Pro_Avatar.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      };
+        img.style.filter = `
+            brightness(${filters.brightness}%) 
+            contrast(${filters.contrast}%) 
+            saturate(${filters.saturation}%) 
+            hue-rotate(${filters.hue}deg) 
+            blur(${filters.blur}px) 
+            sepia(${filters.sepia}%)
+        `;
     }
-  </script>
+
+    inputs.forEach(input => input.addEventListener('input', applyFilters));
+
+    // File Upload
+    fileInput.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            img.src = URL.createObjectURL(file);
+            resetFilters();
+        }
+    };
+
+    // Presets
+    function setPreset(type) {
+        resetFilters();
+        if (type === 'dark') {
+            document.getElementById('brightness').value = 70;
+            document.getElementById('contrast').value = 140;
+            document.getElementById('saturation').value = 50;
+        } else if (type === 'vintage') {
+            document.getElementById('sepia').value = 60;
+            document.getElementById('contrast').value = 90;
+        } else if (type === 'vibrant') {
+            document.getElementById('saturation').value = 170;
+            document.getElementById('contrast').value = 110;
+        }
+        applyFilters();
+    }
+
+    function resetFilters() {
+        inputs.forEach(input => {
+            input.value = input.id === 'hue' || input.id === 'blur' || input.id === 'sepia' ? 0 : 100;
+        });
+        applyFilters();
+    }
+
+    // High-Quality Circular Download
+    function downloadCircularImage() {
+        const canvas = document.createElement('canvas');
+        const size = 800; // High resolution
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+
+        // Draw Circle Mask
+        ctx.beginPath();
+        ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+
+        // Apply Filters to Canvas
+        ctx.filter = getComputedStyle(img).filter;
+
+        // Draw Image
+        const tempImg = new Image();
+        tempImg.crossOrigin = "anonymous";
+        tempImg.src = img.src;
+        
+        tempImg.onload = () => {
+            // Logic to cover the circle (Center Crop)
+            const aspect = tempImg.width / tempImg.height;
+            let drawWidth, drawHeight, offsetX, offsetY;
+
+            if (aspect > 1) {
+                drawHeight = size;
+                drawWidth = size * aspect;
+                offsetX = -(drawWidth - size) / 2;
+                offsetY = 0;
+            } else {
+                drawWidth = size;
+                drawHeight = size / aspect;
+                offsetX = 0;
+                offsetY = -(drawHeight - size) / 2;
+            }
+
+            ctx.drawImage(tempImg, offsetX, offsetY, drawWidth, drawHeight);
+            
+            const link = document.createElement('a');
+            link.download = 'pro-avatar.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        };
+    }
+</script>
+
 </body>
 </html>
