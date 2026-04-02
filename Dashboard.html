@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pro Dashboard</title>
+<title>Advanced Dashboard</title>
 
 <style>
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
@@ -16,12 +17,27 @@
 body {
   display: flex;
   background: #f1f5f9;
+  transition: 0.3s;
 }
 
-/* Sidebar */
+/* ================= DARK MODE ================= */
+body.dark {
+  background: #0f172a;
+  color: white;
+}
+
+body.dark .card,
+body.dark .table-box,
+body.dark .navbar,
+body.dark .footer {
+  background: #1e293b;
+  color: white;
+}
+
+/* ================= SIDEBAR ================= */
 .sidebar {
-  width: 240px;
-  background: linear-gradient(180deg, #1e293b, #0f172a);
+  width: 250px;
+  background: linear-gradient(180deg, #1e293b, #020617);
   color: white;
   height: 100vh;
   padding: 20px;
@@ -44,25 +60,29 @@ body {
   transition: 0.3s;
 }
 
-.sidebar ul li:hover {
-  background: rgba(255,255,255,0.1);
+.sidebar ul li:hover,
+.sidebar ul li.active {
+  background: rgba(255,255,255,0.15);
 }
 
-/* Main */
+/* ================= MAIN ================= */
 .main {
   flex: 1;
   padding: 20px;
 }
 
-/* Navbar */
+/* ================= NAVBAR ================= */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 12px;
   margin-bottom: 20px;
 }
 
-.navbar-left {
+.nav-left {
   display: flex;
   align-items: center;
   gap: 15px;
@@ -78,14 +98,25 @@ body {
   border-radius: 6px;
 }
 
-.user {
-  background: white;
-  padding: 8px 15px;
-  border-radius: 20px;
-  font-size: 14px;
+/* Search */
+.search {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
-/* Cards */
+/* Right side */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+/* ================= CARDS ================= */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -96,26 +127,38 @@ body {
   padding: 20px;
   border-radius: 12px;
   color: white;
-  position: relative;
-  overflow: hidden;
 }
 
 .card h3 {
   font-size: 14px;
-  opacity: 0.8;
 }
 
 .card span {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
 }
 
-.card:nth-child(1) { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-.card:nth-child(2) { background: linear-gradient(135deg, #22c55e, #15803d); }
-.card:nth-child(3) { background: linear-gradient(135deg, #f59e0b, #b45309); }
-.card:nth-child(4) { background: linear-gradient(135deg, #ef4444, #991b1b); }
+.card1 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.card2 { background: linear-gradient(135deg, #22c55e, #15803d); }
+.card3 { background: linear-gradient(135deg, #f59e0b, #b45309); }
+.card4 { background: linear-gradient(135deg, #ef4444, #991b1b); }
 
-/* Table */
+/* ================= CHART ================= */
+.chart {
+  margin-top: 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.bar {
+  height: 20px;
+  background: #3b82f6;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+/* ================= TABLE ================= */
 .table-box {
   margin-top: 30px;
   background: white;
@@ -126,16 +169,15 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
 }
 
 th {
-  background: #f1f5f9;
-  text-align: left;
+  background: #e2e8f0;
 }
 
 th, td {
   padding: 12px;
+  text-align: left;
 }
 
 tr {
@@ -146,13 +188,21 @@ tr:hover {
   background: #f9fafb;
 }
 
-/* Responsive */
+/* ================= FOOTER ================= */
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  padding: 10px;
+  background: white;
+  border-radius: 10px;
+}
+
+/* ================= RESPONSIVE ================= */
 @media(max-width: 768px) {
   .sidebar {
     position: absolute;
-    left: -240px;
+    left: -250px;
   }
-
   .sidebar.show {
     left: 0;
   }
@@ -165,82 +215,98 @@ tr:hover {
 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-  <h2>🚀 Admin</h2>
+  <h2>🚀 Admin Panel</h2>
   <ul>
-    <li>🏠 Dashboard</li>
-    <li>📊 Analytics</li>
-    <li>👥 Users</li>
-    <li>⚙ Settings</li>
+    <li class="active">Dashboard</li>
+    <li>Analytics</li>
+    <li>Users</li>
+    <li>Orders</li>
+    <li>Settings</li>
   </ul>
 </div>
 
 <!-- Main -->
 <div class="main">
 
-  <!-- Navbar -->
-  <div class="navbar">
-    <div class="navbar-left">
-      <button id="toggleBtn">☰</button>
-      <h2>Dashboard</h2>
-    </div>
-    <div class="user">👤 Admin</div>
+<!-- Navbar -->
+<div class="navbar">
+  <div class="nav-left">
+    <button id="toggleBtn">☰</button>
+    <input type="text" class="search" placeholder="Search...">
   </div>
+  <div class="nav-right">
+    <span class="icon">🔔</span>
+    <span class="icon" id="darkMode">🌙</span>
+    <span>👤 Admin</span>
+  </div>
+</div>
 
-  <!-- Cards -->
-  <div class="cards">
-    <div class="card">
-      <h3>Total Users</h3>
-      <span>1,240</span>
-    </div>
-    <div class="card">
-      <h3>Revenue</h3>
-      <span>$8,540</span>
-    </div>
-    <div class="card">
-      <h3>Orders</h3>
-      <span>320</span>
-    </div>
-    <div class="card">
-      <h3>Pending</h3>
-      <span>24</span>
-    </div>
-  </div>
+<!-- Cards -->
+<div class="cards">
+  <div class="card card1"><h3>Users</h3><span>1,240</span></div>
+  <div class="card card2"><h3>Revenue</h3><span>$8,540</span></div>
+  <div class="card card3"><h3>Orders</h3><span>320</span></div>
+  <div class="card card4"><h3>Pending</h3><span>24</span></div>
+</div>
 
-  <!-- Table -->
-  <div class="table-box">
-    <h3>Recent Activity</h3>
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Status</th>
-      </tr>
-      <tr>
-        <td>Ali</td>
-        <td>ali@email.com</td>
-        <td>Active</td>
-      </tr>
-      <tr>
-        <td>Ahmed</td>
-        <td>ahmed@email.com</td>
-        <td>Inactive</td>
-      </tr>
-      <tr>
-        <td>Usman</td>
-        <td>usman@email.com</td>
-        <td>Active</td>
-      </tr>
-    </table>
-  </div>
+<!-- Chart -->
+<div class="chart">
+  <h3>Sales Overview</h3>
+  <div class="bar" style="width:70%"></div>
+  <div class="bar" style="width:50%"></div>
+  <div class="bar" style="width:90%"></div>
+  <div class="bar" style="width:60%"></div>
+</div>
+
+<!-- Table -->
+<div class="table-box">
+  <h3>Users Data</h3>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Status</th>
+    </tr>
+
+    <!-- MANY ROWS -->
+    <tr><td>Ali</td><td>ali@email.com</td><td>Active</td></tr>
+    <tr><td>Ahmed</td><td>ahmed@email.com</td><td>Inactive</td></tr>
+    <tr><td>Usman</td><td>usman@email.com</td><td>Active</td></tr>
+    <tr><td>Hassan</td><td>hassan@email.com</td><td>Active</td></tr>
+    <tr><td>Bilal</td><td>bilal@email.com</td><td>Inactive</td></tr>
+    <tr><td>Zain</td><td>zain@email.com</td><td>Active</td></tr>
+    <tr><td>Hamza</td><td>hamza@email.com</td><td>Active</td></tr>
+    <tr><td>Saad</td><td>saad@email.com</td><td>Inactive</td></tr>
+    <tr><td>Omar</td><td>omar@email.com</td><td>Active</td></tr>
+    <tr><td>Fahad</td><td>fahad@email.com</td><td>Active</td></tr>
+
+  </table>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  © 2026 Dashboard | Made by You 🚀
+</div>
 
 </div>
 
 <script>
-const toggleBtn = document.getElementById("toggleBtn");
-const sidebar = document.getElementById("sidebar");
+// Sidebar Toggle
+document.getElementById("toggleBtn").onclick = () => {
+  document.getElementById("sidebar").classList.toggle("show");
+};
 
-toggleBtn.addEventListener("click", () => {
-  sidebar.classList.toggle("show");
+// Dark Mode
+document.getElementById("darkMode").onclick = () => {
+  document.body.classList.toggle("dark");
+};
+
+// Active Menu
+document.querySelectorAll(".sidebar ul li").forEach(item => {
+  item.addEventListener("click", () => {
+    document.querySelectorAll(".sidebar ul li").forEach(i => i.classList.remove("active"));
+    item.classList.add("active");
+  });
 });
 </script>
 
