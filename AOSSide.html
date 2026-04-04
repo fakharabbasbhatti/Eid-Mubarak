@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AOS Animation Showcase</title>
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #222; /* Dark theme like AOS site */
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #111;
+    }
+
+    header h1 {
+      font-size: 4rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+    }
+
+    header p {
+      color: #777;
+      font-size: 1.2rem;
+    }
+
+    /* Section Styling */
+    section {
+      padding: 100px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid #333;
+    }
+
+    /* Animation Blocks */
+    .aos-item {
+      width: 250px;
+      height: 250px;
+      background: #3498db;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: background 0.3s;
+    }
+
+    .aos-item:hover {
+      background: #2980b9;
+    }
+
+    .aos-item__inner {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .footer {
+      padding: 50px;
+      text-align: center;
+      background: #111;
+      color: #555;
+    }
+
+    /* Chevron Down Icon */
+    .scroll-down {
+      position: absolute;
+      bottom: 30px;
+      font-size: 2rem;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-10px);}
+      60% {transform: translateY(-5px);}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div data-aos="fade-up">
+        <h1>AOS</h1>
+        <p>Animate On Scroll Library</p>
+    </div>
+    <div class="scroll-down">↓</div>
+  </header>
+
+  <div class="container">
+    
+    <section class="row">
+      <div class="col-12 text-center mb-4"><h3 style="color: #777;">FADE</h3></div>
+      <div class="aos-item" data-aos="fade-up">fade-up</div>
+      <div class="aos-item" data-aos="fade-down">fade-down</div>
+      <div class="aos-item" data-aos="fade-right">fade-right</div>
+      <div class="aos-item" data-aos="fade-left">fade-left</div>
+    </section>
+
+    <section class="row">
+      <div class="col-12 text-center mb-4"><h3 style="color: #777;">FLIP</h3></div>
+      <div class="aos-item" data-aos="flip-left" style="background: #e67e22;">flip-left</div>
+      <div class="aos-item" data-aos="flip-right" style="background: #e67e22;">flip-right</div>
+      <div class="aos-item" data-aos="flip-up" style="background: #e67e22;">flip-up</div>
+      <div class="aos-item" data-aos="flip-down" style="background: #e67e22;">flip-down</div>
+    </section>
+
+    <section class="row">
+      <div class="col-12 text-center mb-4"><h3 style="color: #777;">ZOOM</h3></div>
+      <div class="aos-item" data-aos="zoom-in" style="background: #2ecc71;">zoom-in</div>
+      <div class="aos-item" data-aos="zoom-in-up" style="background: #2ecc71;">zoom-in-up</div>
+      <div class="aos-item" data-aos="zoom-out" style="background: #2ecc71;">zoom-out</div>
+      <div class="aos-item" data-aos="zoom-out-down" style="background: #2ecc71;">zoom-out-down</div>
+    </section>
+
+    <section class="row">
+        <div class="col-12 text-center mb-4"><h3 style="color: #777;">DIFFERENT SETTINGS</h3></div>
+        <div class="aos-item" data-aos="fade-up" data-aos-duration="3000" style="background: #9b59b6;">Slow Duration</div>
+        <div class="aos-item" data-aos="fade-down" data-aos-easing="linear" style="background: #9b59b6;">Linear Easing</div>
+        <div class="aos-item" data-aos="fade-right" data-aos-offset="300" style="background: #9b59b6;">Offset 300px</div>
+    </section>
+
+  </div>
+
+  <div class="footer">
+    <p>Scroll up to see the magic again!</p>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  
+  <script>
+    // AOS Initialization
+    AOS.init({
+      duration: 1000, // Animation ki speed
+      once: false,    // Scroll up-down dono pe animate hoga agar false hai
+      mirror: true    // Elements animate out bhi honge scroll karte waqt
+    });
+  </script>
+</body>
+</html>
