@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Login Tool</title>
+    <style>
+        /* CSS: Design aur Layout */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #764ba2;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #764ba2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #5a3782;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-weight: 500;
+            min-height: 20px;
+        }
+
+        .show-pass-container {
+            text-align: left;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Welcome Back</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <div class="show-pass-container">
+                <input type="checkbox" id="showPass" style="width: auto;"> Show Password
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        // JavaScript: Login Logic aur Features
+        const loginForm = document.getElementById('loginForm');
+        const passInput = document.getElementById('password');
+        const showPassCheckbox = document.getElementById('showPass');
+        const message = document.getElementById('message');
+
+        // 1. Password dikhane ka feature
+        showPassCheckbox.addEventListener('change', function() {
+            passInput.type = this.checked ? 'text' : 'password';
+        });
+
+        // 2. Login Submit handler
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const user = document.getElementById('username').value;
+            const pass = passInput.value;
+
+            // Simple checking (Admin: admin, Pass: 12345)
+            if (user === "admin" && pass === "12345") {
+                message.style.color = "#28a745";
+                message.innerText = "✅ Login successful! Redirecting...";
+                loginForm.reset();
+            } else {
+                message.style.color = "#dc3545";
+                message.innerText = "❌ Galat username ya password!";
+            }
+        });
+    </script>
+
+</body>
+</html>
