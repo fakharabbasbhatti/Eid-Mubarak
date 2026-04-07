@@ -3,219 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WP Security Pro Dashboard</title>
+    <title>WP Security Pro | Enterprise Dashboard</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         :root {
-            --bg-dark: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --accent-blue: #38bdf8;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --primary: #6366f1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0b0f1a;
+            --card-bg: rgba(23, 28, 45, 0.8);
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.1) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(30, 41, 59, 0.8) 0px, transparent 50%);
-            color: #f1f5f9;
-            font-family: 'Inter', sans-serif;
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .glass-card {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .list-group-item {
+        /* Stats Boxes */
+        .stat-box {
+            padding: 20px;
+            text-align: center;
+            border-radius: 20px;
             background: rgba(255, 255, 255, 0.03);
-            color: #cbd5e1;
-            border: 1px solid var(--border-color);
-            margin-bottom: 12px;
-            border-radius: 12px !important;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s ease;
+        }
+        .stat-box h3 { font-weight: 700; margin: 0; color: var(--primary); }
+        .stat-box p { font-size: 0.8rem; color: #94a3b8; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Checklist Items */
+        .task-item {
             display: flex;
             align-items: center;
-            padding: 1rem;
-        }
-
-        .list-group-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-2px);
-            border-color: var(--accent-blue);
-        }
-
-        /* Modern Checkbox styling */
-        .form-check-input {
-            width: 1.3em;
-            height: 1.3em;
-            background-color: #334155;
-            border-color: #475569;
+            padding: 18px 24px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
             cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .form-check-input:checked {
-            background-color: var(--accent-blue);
-            border-color: var(--accent-blue);
+        .task-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(8px);
+            border-color: var(--primary);
         }
 
-        .done {
-            opacity: 0.6;
+        .task-item.active-task {
+            border-left: 4px solid var(--primary);
         }
 
-        .done .task-text {
-            text-decoration: line-through;
-            color: #94a3b8;
+        .checkbox-custom {
+            width: 24px;
+            height: 24px;
+            border-radius: 8px;
+            border: 2px solid #475569;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
         }
 
-        .progress {
-            height: 8px;
-            background-color: #334155;
-            border-radius: 10px;
-            overflow: hidden;
+        input[type="checkbox"]:checked + .checkbox-custom {
+            background: var(--primary);
+            border-color: var(--primary);
         }
 
-        .progress-bar {
-            background: linear-gradient(90deg, #0ea5e9, #22d3ee);
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        .task-item.done {
+            opacity: 0.5;
+        }
+        .task-item.done .task-text { text-decoration: line-through; color: #64748b; }
+
+        /* Progress Animation */
+        .progress { height: 10px; background: #1e293b; border-radius: 20px; }
+        .progress-bar { 
+            background: linear-gradient(90deg, #6366f1, #a855f7); 
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
         }
 
-        .header-icon {
-            font-size: 3rem;
-            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
+        .pulse-complete {
+            animation: pulse 2s infinite;
         }
 
-        .status-badge {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
+
+        .btn-reset {
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            font-size: 0.8rem;
+            padding: 5px 15px;
+            border-radius: 8px;
+        }
+        .btn-reset:hover { background: rgba(239, 68, 68, 0.1); }
+
     </style>
 </head>
-
 <body>
 
 <div class="container py-5">
-
-    <div class="row justify-content-center mb-5">
-        <div class="col-md-8 text-center">
-            <i class="fa-solid fa-shield-halved text-info header-icon mb-3"></i>
-            <h1 class="fw-bold">Security Posture</h1>
-            <p class="text-secondary">WordPress Hardening & Threat Mitigation Checklist</p>
+    
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <h1 class="fw-bold mb-1">WP <span style="color: var(--primary);">Guard</span> Pro</h1>
+            <p class="text-secondary mb-0">Security Health Monitoring System</p>
+        </div>
+        <div class="col-md-6 text-md-end mt-3 mt-md-0">
+            <button class="btn-reset" onclick="resetTasks()">
+                <i class="fa-solid fa-rotate-right me-1"></i> Reset Progress
+            </button>
         </div>
     </div>
 
-    <div class="row justify-content-center">
-        <div class="col-md-7">
-            
-            <div class="glass-card p-4 mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="status-badge text-info">System Integrity</span>
-                    <span id="progressText" class="fw-bold">0%</span>
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="glass-card p-4 h-100">
+                <h5 class="mb-4 fw-bold"><i class="fa-solid fa-chart-pie me-2 text-primary"></i> Security Stats</h5>
+                
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="stat-box">
+                            <h3 id="statTotal">0</h3>
+                            <p>Tasks</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-box">
+                            <h3 id="statPending" class="text-warning">0</h3>
+                            <p>Pending</p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="stat-box" style="background: rgba(16, 185, 129, 0.05);">
+                            <h3 id="statDone" class="text-success">0</h3>
+                            <p>Completed</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="progress">
-                    <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+
+                <div class="mt-5">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="small text-secondary">Integrity Score</span>
+                        <span id="progressPercent" class="small fw-bold">0%</span>
+                    </div>
+                    <div class="progress" id="progressWrapper">
+                        <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                    </div>
                 </div>
             </div>
+        </div>
 
+        <div class="col-lg-8">
             <div class="glass-card p-4">
-                <div class="list-group list-group-flush" id="taskList">
-
-                    <label class="list-group-item">
-                        <input class="form-check-input me-3" type="checkbox" onclick="toggle(this,0)">
-                        <span class="flex-grow-1 task-text">
-                            <i class="fa-solid fa-trash-can text-danger me-2"></i> Purge Suspicious Plugins & Themes
-                        </span>
-                    </label>
-
-                    <label class="list-group-item">
-                        <input class="form-check-input me-3" type="checkbox" onclick="toggle(this,1)">
-                        <span class="flex-grow-1 task-text">
-                            <i class="fa-solid fa-file-shield text-info me-2"></i> Audit Core File Integrity
-                        </span>
-                    </label>
-
-                    <label class="list-group-item">
-                        <input class="form-check-input me-3" type="checkbox" onclick="toggle(this,2)">
-                        <span class="flex-grow-1 task-text">
-                            <i class="fa-solid fa-plug-circle-check text-success me-2"></i> Configure Web Application Firewall
-                        </span>
-                    </label>
-
-                    <label class="list-group-item">
-                        <input class="form-check-input me-3" type="checkbox" onclick="toggle(this,3)">
-                        <span class="flex-grow-1 task-text">
-                            <i class="fa-solid fa-user-lock text-warning me-2"></i> Implement IP Access Controls
-                        </span>
-                    </label>
-
-                    <label class="list-group-item">
-                        <input class="form-check-input me-3" type="checkbox" onclick="toggle(this,4)">
-                        <span class="flex-grow-1 task-text">
-                            <i class="fa-solid fa-robot text-primary me-2"></i> Deploy Google reCAPTCHA v3
-                        </span>
-                    </label>
-
-                    <label class="list-group-item">
-                        <input class="form-check-input me-3" type="checkbox" onclick="toggle(this,5)">
-                        <span class="flex-grow-1 task-text">
-                            <i class="fa-solid fa-key text-light me-2"></i> Deactivate XML-RPC Endpoint
-                        </span>
-                    </label>
-
-                </div>
+                <div id="taskList">
+                    </div>
             </div>
-
-            <p class="text-center mt-4 text-secondary small">
-                <i class="fa-solid fa-circle-info me-1"></i> Data is stored locally in your browser.
-            </p>
         </div>
     </div>
 </div>
 
 <script>
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [false,false,false,false,false,false];
+    const taskData = [
+        { icon: "fa-trash-can", color: "text-danger", title: "Malware Clean-up", desc: "Remove inactive plugins and themes." },
+        { icon: "fa-shield-virus", color: "text-info", title: "Core Integrity Scan", desc: "Verify WordPress core file checksums." },
+        { icon: "fa-firewall", color: "text-success", title: "Firewall Configuration", desc: "Active protection against SQLi & XSS." },
+        { icon: "fa-user-shield", color: "text-warning", title: "Login Hardening", desc: "Limit login attempts and block IPs." },
+        { icon: "fa-robot", color: "text-primary", title: "Bot Protection", desc: "Enable reCAPTCHA v3 on all forms." },
+        { icon: "fa-file-code", color: "text-secondary", title: "Disable XML-RPC", desc: "Prevent brute force and DDoS via RPC." }
+    ];
 
-    function loadTasks() {
-        let list = document.querySelectorAll("#taskList .form-check-input");
-        list.forEach((checkbox, i) => {
-            checkbox.checked = tasks[i];
-            if(tasks[i]) checkbox.closest(".list-group-item").classList.add("done");
-        });
-        updateProgress();
+    let tasks = JSON.parse(localStorage.getItem("wp_tasks")) || new Array(taskData.length).fill(false);
+
+    function renderTasks() {
+        const container = document.getElementById('taskList');
+        container.innerHTML = taskData.map((task, i) => `
+            <div class="task-item ${tasks[i] ? 'done' : ''}" onclick="toggleTask(${i})">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" ${tasks[i] ? 'checked' : ''} style="display:none">
+                    <div class="checkbox-custom">
+                        ${tasks[i] ? '<i class="fa-solid fa-check text-white small"></i>' : ''}
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold task-text d-flex align-items-center">
+                        <i class="fa-solid ${task.icon} ${task.color} me-2"></i>
+                        ${task.title}
+                    </div>
+                    <div class="small text-secondary" style="font-size: 0.75rem;">${task.desc}</div>
+                </div>
+                <div class="ms-auto">
+                    <i class="fa-solid fa-chevron-right text-secondary small"></i>
+                </div>
+            </div>
+        `).join('');
+        updateStats();
     }
 
-    function toggle(el, index) {
-        tasks[index] = el.checked;
-        localStorage.setItem("tasks", JSON.stringify(tasks));
+    function toggleTask(index) {
+        tasks[index] = !tasks[index];
+        localStorage.setItem("wp_tasks", JSON.stringify(tasks));
+        renderTasks();
+    }
 
-        if (el.checked) {
-            el.closest(".list-group-item").classList.add("done");
+    function updateStats() {
+        const total = tasks.length;
+        const done = tasks.filter(t => t).length;
+        const pending = total - done;
+        const percent = Math.round((done / total) * 100);
+
+        document.getElementById('statTotal').innerText = total;
+        document.getElementById('statDone').innerText = done;
+        document.getElementById('statPending').innerText = pending;
+        document.getElementById('progressPercent').innerText = percent + "%";
+        
+        const bar = document.getElementById('progressBar');
+        bar.style.width = percent + "%";
+
+        // Success Pulse Effect
+        if(percent === 100) {
+            document.getElementById('progressWrapper').classList.add('pulse-complete');
+            bar.classList.replace('bg-primary', 'bg-success');
         } else {
-            el.closest(".list-group-item").classList.remove("done");
+            document.getElementById('progressWrapper').classList.remove('pulse-complete');
         }
-        updateProgress();
     }
 
-    function updateProgress() {
-        let completed = tasks.filter(t => t).length;
-        let percent = Math.round((completed / tasks.length) * 100);
-        document.getElementById("progressBar").style.width = percent + "%";
-        document.getElementById("progressText").innerText = percent + "%";
+    function resetTasks() {
+        if(confirm("Are you sure you want to reset all progress?")) {
+            tasks = new Array(taskData.length).fill(false);
+            localStorage.setItem("wp_tasks", JSON.stringify(tasks));
+            renderTasks();
+        }
     }
 
-    loadTasks();
+    renderTasks();
 </script>
 
 </body>
