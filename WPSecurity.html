@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WP Security Dashboard</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.card {
+    border-radius: 20px;
+    background: #1e293b;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.list-group-item {
+    background: transparent;
+    color: #ddd;
+    border: 1px solid #334155;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.list-group-item:hover {
+    transform: scale(1.02);
+    background: #334155;
+}
+
+.done {
+    text-decoration: line-through;
+    color: #94a3b8;
+}
+
+.progress {
+    height: 12px;
+    border-radius: 10px;
+}
+
+.header-icon {
+    font-size: 40px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <i class="fa-solid fa-shield-halved text-info header-icon"></i>
+        <h2 class="mt-2">WP Security Dashboard</h2>
+        <p class="text-muted">Protect your website with essential security steps</p>
+    </div>
+
+    <!-- Progress -->
+    <div class="card p-3 mb-4">
+        <h6>Progress</h6>
+        <div class="progress">
+            <div id="progressBar" class="progress-bar bg-info" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <!-- Checklist -->
+    <div class="card p-4">
+        <ul class="list-group" id="taskList">
+
+            <li class="list-group-item">
+                <input type="checkbox" onclick="toggle(this,0)">
+                <i class="fa-solid fa-trash text-danger me-2"></i>
+                Delete Suspicious Plugins
+            </li>
+
+            <li class="list-group-item">
+                <input type="checkbox" onclick="toggle(this,1)">
+                <i class="fa-solid fa-code text-info me-2"></i>
+                Check Malicious Code
+            </li>
+
+            <li class="list-group-item">
+                <input type="checkbox" onclick="toggle(this,2)">
+                <i class="fa-solid fa-plug text-success me-2"></i>
+                Install Security Plugins
+            </li>
+
+            <li class="list-group-item">
+                <input type="checkbox" onclick="toggle(this,3)">
+                <i class="fa-solid fa-ban text-warning me-2"></i>
+                Block Suspicious IPs
+            </li>
+
+            <li class="list-group-item">
+                <input type="checkbox" onclick="toggle(this,4)">
+                <i class="fa-solid fa-robot text-primary me-2"></i>
+                Enable reCAPTCHA v3
+            </li>
+
+            <li class="list-group-item">
+                <input type="checkbox" onclick="toggle(this,5)">
+                <i class="fa-solid fa-lock text-light me-2"></i>
+                Disable XML-RPC
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+
+<script>
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [false,false,false,false,false,false];
+
+function loadTasks() {
+    let list = document.querySelectorAll("#taskList input");
+    list.forEach((checkbox, i) => {
+        checkbox.checked = tasks[i];
+        if(tasks[i]) checkbox.parentElement.classList.add("done");
+    });
+    updateProgress();
+}
+
+function toggle(el, index) {
+    tasks[index] = el.checked;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    el.parentElement.classList.toggle("done");
+    updateProgress();
+}
+
+function updateProgress() {
+    let completed = tasks.filter(t => t).length;
+    let percent = (completed / tasks.length) * 100;
+    document.getElementById("progressBar").style.width = percent + "%";
+}
+
+loadTasks();
+</script>
+
+</body>
+</html>
