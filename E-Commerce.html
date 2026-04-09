@@ -1,218 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mobile Store Pro</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Store Ultra | Premium Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00c6ff;
+            --secondary: #0072ff;
+            --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            --glass: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-body{
-background:linear-gradient(120deg,#1e3c72,#2a5298);
-color:#fff;
-}
+        /* --- Header & Navigation --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
 
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 40px;
-background:rgba(0,0,0,0.3);
-backdrop-filter:blur(10px);
-position:sticky;
-top:0;
-}
+        .logo { font-size: 24px; font-weight: 700; background: linear-gradient(to right, #00c6ff, #0072ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-header h1{
-font-size:28px;
-letter-spacing:1px;
-}
+        .search-container input {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background: var(--glass);
+            color: white;
+            width: 250px;
+        }
 
-.video{
-text-align:center;
-padding:40px;
-}
+        /* --- Hero Video --- */
+        .hero { text-align: center; padding: 60px 20px; animation: fadeIn 1s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-.video iframe{
-border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.5);
-}
+        .video-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 20px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
 
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:30px;
-padding:40px;
-}
+        /* --- Products Grid --- */
+        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
 
-.product{
-background:rgba(255,255,255,0.1);
-border-radius:20px;
-padding:20px;
-text-align:center;
-backdrop-filter:blur(15px);
-transition:0.4s;
-position:relative;
-overflow:hidden;
-}
+        .product-card {
+            background: var(--glass);
+            border-radius: 25px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
 
-.product:hover{
-transform:translateY(-12px) scale(1.03);
-box-shadow:0 15px 30px rgba(0,0,0,0.5);
-}
+        .product-card:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
 
-.product img{
-width:100%;
-height:220px;
-object-fit:cover;
-border-radius:15px;
-margin-bottom:10px;
-}
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 18px;
+            margin-bottom: 15px;
+        }
 
-.product h3{
-margin:10px 0;
-}
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
-.product p{
-font-size:20px;
-margin-bottom:10px;
-}
+        .price { font-size: 24px; font-weight: 700; color: var(--primary); margin: 10px 0; }
 
-button{
-background:linear-gradient(45deg,#00c6ff,#0072ff);
-border:none;
-padding:12px 25px;
-border-radius:30px;
-color:white;
-cursor:pointer;
-transition:0.3s;
-font-weight:bold;
-}
+        /* --- Ultra Buttons --- */
+        .btn-add {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: 0.3s;
+        }
 
-button:hover{
-transform:scale(1.1);
-box-shadow:0 5px 15px rgba(0,0,0,0.4);
-}
+        .btn-add:hover { letter-spacing: 1px; box-shadow: 0 0 20px var(--primary); }
 
-.cart-box{
-position:fixed;
-right:20px;
-bottom:20px;
-background:rgba(255,255,255,0.1);
-backdrop-filter:blur(15px);
-padding:20px;
-border-radius:20px;
-width:260px;
-box-shadow:0 10px 30px rgba(0,0,0,0.5);
-}
+        /* --- Modern Cart Sidebar --- */
+        .cart-panel {
+            position: fixed;
+            right: -350px;
+            top: 0;
+            width: 320px;
+            height: 100%;
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 30px 20px;
+            transition: 0.5s;
+            z-index: 2000;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
 
-.cart-item{
-font-size:14px;
-margin:5px 0;
-border-bottom:1px solid rgba(255,255,255,0.2);
-padding-bottom:4px;
-}
+        .cart-panel.active { right: 0; }
 
-.total{
-margin-top:10px;
-font-weight:bold;
-font-size:18px;
-}
+        .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #444; padding-bottom: 10px; }
 
-.badge{
-position:absolute;
-top:10px;
-left:10px;
-background:red;
-padding:5px 10px;
-border-radius:10px;
-font-size:12px;
-}
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
 
-</style>
+        .remove-btn { color: #ff4d4d; cursor: pointer; font-weight: bold; }
+
+        .cart-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            z-index: 1001;
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
-<h1>🔥 Mobile Store Pro</h1>
-<div>🛒 Cart: <span id="cart-count">0</span></div>
+    <div class="logo">ULTRA MOBILE</div>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search phones..." onkeyup="searchProduct()">
+    </div>
 </header>
 
-<div class="video">
-<h2>🎥 Trending Phone Review</h2>
-<br>
-<iframe width="560" height="315"
-src="https://www.youtube.com/embed/RH8Kkz8Q8bA"
-frameborder="0" allowfullscreen></iframe>
+<div class="hero">
+    <h1>Experience the Future</h1>
+    <p>Premium devices, unparalleled performance.</p>
+    <div class="video-wrapper">
+        <iframe width="100%" height="400" src="https://www.youtube.com/embed/RH8Kkz8Q8bA" frameborder="0" allowfullscreen></iframe>
+    </div>
 </div>
 
-<section class="products">
+<div class="container">
+    <section class="products" id="productGrid">
+        <div class="product-card" data-name="iPhone 15 Pro">
+            <div class="badge">LATEST</div>
+            <img src="https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=500" alt="iPhone">
+            <h3>iPhone 15 Pro</h3>
+            <p class="price">$1199</p>
+            <button class="btn-add" onclick="addToCart('iPhone 15 Pro', 1199)">Add to Cart</button>
+        </div>
 
-<div class="product">
-<div class="badge">HOT</div>
-<img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab">
-<h3>iPhone 14</h3>
-<p>$900</p>
-<button onclick="addToCart('iPhone 14',900)">Add to Cart</button>
+        <div class="product-card" data-name="Samsung S24 Ultra">
+            <div class="badge">SALE</div>
+            <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=500" alt="Samsung">
+            <h3>Samsung S24 Ultra</h3>
+            <p class="price">$1050</p>
+            <button class="btn-add" onclick="addToCart('Samsung S24 Ultra', 1050)">Add to Cart</button>
+        </div>
+
+        <div class="product-card" data-name="Google Pixel 8">
+            <div class="badge">NEW</div>
+            <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=500" alt="Pixel">
+            <h3>Google Pixel 8</h3>
+            <p class="price">$699</p>
+            <button class="btn-add" onclick="addToCart('Google Pixel 8', 699)">Add to Cart</button>
+        </div>
+    </section>
 </div>
 
-<div class="product">
-<div class="badge">SALE</div>
-<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9">
-<h3>Samsung Galaxy</h3>
-<p>$750</p>
-<button onclick="addToCart('Samsung Galaxy',750)">Add to Cart</button>
+<div class="cart-toggle" onclick="toggleCart()">
+    🛒 <span id="count-badge" style="position:absolute; top:0; right:0; background:red; border-radius:50%; padding:2px 6px; font-size:12px;">0</span>
 </div>
 
-<div class="product">
-<div class="badge">NEW</div>
-<img src="https://images.unsplash.com/photo-1580910051074-3eb694886505">
-<h3>Xiaomi Phone</h3>
-<p>$500</p>
-<button onclick="addToCart('Xiaomi Phone',500)">Add to Cart</button>
-</div>
-
-</section>
-
-<div class="cart-box">
-<h3>Your Cart</h3>
-<div id="cart-items"></div>
-<div class="total">Total: $<span id="total">0</span></div>
+<div class="cart-panel" id="cartPanel">
+    <div class="cart-header">
+        <h2>Your Cart</h2>
+        <span style="cursor:pointer" onclick="toggleCart()">✖</span>
+    </div>
+    <div id="cart-items">
+        </div>
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #444;">
+    <div style="font-size: 20px; font-weight: bold;">
+        Total: $<span id="total-price">0</span>
+    </div>
+    <button class="btn-add" style="margin-top: 20px;" onclick="alert('Proceeding to Checkout!')">Checkout Now</button>
 </div>
 
 <script>
+    let cart = [];
+    let total = 0;
 
-let cartCount = 0;
-let total = 0;
+    function toggleCart() {
+        document.getElementById('cartPanel').classList.toggle('active');
+    }
 
-function addToCart(name,price){
-cartCount++;
-total += price;
+    function addToCart(name, price) {
+        cart.push({name, price});
+        updateUI();
+        
+        // Small feedback animation
+        const badge = document.getElementById('count-badge');
+        badge.style.transform = "scale(1.5)";
+        setTimeout(() => badge.style.transform = "scale(1)", 200);
+    }
 
-document.getElementById("cart-count").innerText = cartCount;
-document.getElementById("total").innerText = total;
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateUI();
+    }
 
-let item = document.createElement("div");
-item.classList.add("cart-item");
-item.innerText = name + " - $" + price;
+    function updateUI() {
+        const cartContainer = document.getElementById('cart-items');
+        const totalDisplay = document.getElementById('total-price');
+        const countBadge = document.getElementById('count-badge');
+        
+        cartContainer.innerHTML = "";
+        total = 0;
 
-document.getElementById("cart-items").appendChild(item);
+        cart.forEach((item, index) => {
+            total += item.price;
+            cartContainer.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>$${item.price} <span class="remove-btn" onclick="removeFromCart(${index})">🗑️</span></span>
+                </div>
+            `;
+        });
 
-// Animation feedback
-item.style.opacity = 0;
-setTimeout(()=>{item.style.opacity = 1;},100);
+        totalDisplay.innerText = total;
+        countBadge.innerText = cart.length;
+    }
 
-}
+    function searchProduct() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.getElementsByClassName('product-card');
 
+        for (let card of cards) {
+            let name = card.getAttribute('data-name').toLowerCase();
+            if (name.includes(input)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        }
+    }
 </script>
 
 </body>
