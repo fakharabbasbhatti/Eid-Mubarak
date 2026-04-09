@@ -3,50 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mobile Store</title>
+<title>Mobile Store Pro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial;
+font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#f2f2f2;
+background:linear-gradient(120deg,#1e3c72,#2a5298);
+color:#fff;
 }
 
-/* Header */
-
 header{
-background:linear-gradient(45deg,#0072ff,#00c6ff);
-color:white;
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 40px;
+background:rgba(0,0,0,0.3);
+backdrop-filter:blur(10px);
+position:sticky;
+top:0;
 }
 
 header h1{
-font-size:26px;
+font-size:28px;
+letter-spacing:1px;
 }
-
-/* Video Section */
 
 .video{
 text-align:center;
 padding:40px;
-background:white;
 }
 
 .video iframe{
-border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
 }
-
-/* Products */
 
 .products{
 display:grid;
@@ -56,23 +54,27 @@ padding:40px;
 }
 
 .product{
-background:white;
+background:rgba(255,255,255,0.1);
+border-radius:20px;
 padding:20px;
-border-radius:15px;
 text-align:center;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-transition:0.3s;
+backdrop-filter:blur(15px);
+transition:0.4s;
+position:relative;
+overflow:hidden;
 }
 
 .product:hover{
-transform:translateY(-10px);
+transform:translateY(-12px) scale(1.03);
+box-shadow:0 15px 30px rgba(0,0,0,0.5);
 }
 
 .product img{
 width:100%;
-border-radius:10px;
 height:220px;
 object-fit:cover;
+border-radius:15px;
+margin-bottom:10px;
 }
 
 .product h3{
@@ -80,54 +82,59 @@ margin:10px 0;
 }
 
 .product p{
-font-size:18px;
-color:#444;
+font-size:20px;
+margin-bottom:10px;
 }
 
-/* Button */
-
 button{
-background:#0072ff;
-color:white;
+background:linear-gradient(45deg,#00c6ff,#0072ff);
 border:none;
-padding:10px 20px;
-border-radius:25px;
+padding:12px 25px;
+border-radius:30px;
+color:white;
 cursor:pointer;
-margin-top:10px;
 transition:0.3s;
+font-weight:bold;
 }
 
 button:hover{
-background:#0056c7;
+transform:scale(1.1);
+box-shadow:0 5px 15px rgba(0,0,0,0.4);
 }
-
-/* Cart */
 
 .cart-box{
 position:fixed;
 right:20px;
 bottom:20px;
-background:white;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
 padding:20px;
-border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+border-radius:20px;
 width:260px;
-}
-
-.cart-box h3{
-margin-bottom:10px;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
 
 .cart-item{
 font-size:14px;
 margin:5px 0;
-border-bottom:1px solid #eee;
+border-bottom:1px solid rgba(255,255,255,0.2);
 padding-bottom:4px;
 }
 
 .total{
 margin-top:10px;
 font-weight:bold;
+font-size:18px;
+}
+
+.badge{
+position:absolute;
+top:10px;
+left:10px;
+background:red;
+padding:5px 10px;
+border-radius:10px;
+font-size:12px;
 }
 
 </style>
@@ -136,12 +143,12 @@ font-weight:bold;
 <body>
 
 <header>
-<h1>📱 Online Mobile Store</h1>
+<h1>🔥 Mobile Store Pro</h1>
 <div>🛒 Cart: <span id="cart-count">0</span></div>
 </header>
 
 <div class="video">
-<h2>Latest Smartphone Review</h2>
+<h2>🎥 Trending Phone Review</h2>
 <br>
 <iframe width="560" height="315"
 src="https://www.youtube.com/embed/RH8Kkz8Q8bA"
@@ -151,6 +158,7 @@ frameborder="0" allowfullscreen></iframe>
 <section class="products">
 
 <div class="product">
+<div class="badge">HOT</div>
 <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab">
 <h3>iPhone 14</h3>
 <p>$900</p>
@@ -158,6 +166,7 @@ frameborder="0" allowfullscreen></iframe>
 </div>
 
 <div class="product">
+<div class="badge">SALE</div>
 <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9">
 <h3>Samsung Galaxy</h3>
 <p>$750</p>
@@ -165,6 +174,7 @@ frameborder="0" allowfullscreen></iframe>
 </div>
 
 <div class="product">
+<div class="badge">NEW</div>
 <img src="https://images.unsplash.com/photo-1580910051074-3eb694886505">
 <h3>Xiaomi Phone</h3>
 <p>$500</p>
@@ -185,7 +195,6 @@ let cartCount = 0;
 let total = 0;
 
 function addToCart(name,price){
-
 cartCount++;
 total += price;
 
@@ -197,6 +206,10 @@ item.classList.add("cart-item");
 item.innerText = name + " - $" + price;
 
 document.getElementById("cart-items").appendChild(item);
+
+// Animation feedback
+item.style.opacity = 0;
+setTimeout(()=>{item.style.opacity = 1;},100);
 
 }
 
