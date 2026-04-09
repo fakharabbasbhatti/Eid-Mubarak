@@ -3,295 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Store Ultra | Premium Experience</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>Mobile Store Ultra | V3.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #00c6ff;
-            --secondary: #0072ff;
-            --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            --glass: rgba(255, 255, 255, 0.1);
-            --text: #ffffff;
+            --accent: #7efaff;
+            --primary-bg: #050505;
+            --card-bg: #121212;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
 
         body {
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.6;
         }
 
-        /* --- Header & Navigation --- */
-        header {
+        /* --- Navbar Upgrade --- */
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 5%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(15px);
-            position: sticky;
-            top: 0;
+            padding: 20px 8%;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(20px);
+            position: fixed;
+            width: 100%;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid #222;
         }
 
-        .logo { font-size: 24px; font-weight: 700; background: linear-gradient(to right, #00c6ff, #0072ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: -1px; }
+        .logo span { color: #a855f7; }
 
-        .search-container input {
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: none;
-            outline: none;
-            background: var(--glass);
+        /* --- Filter Tabs --- */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 120px;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            background: #1a1a1a;
             color: white;
-            width: 250px;
-        }
-
-        /* --- Hero Video --- */
-        .hero { text-align: center; padding: 60px 20px; animation: fadeIn 1s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .video-wrapper {
-            position: relative;
-            max-width: 800px;
-            margin: 20px auto;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        /* --- Products Grid --- */
-        .container { max-width: 1200px; margin: auto; padding: 20px; }
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .product-card {
-            background: var(--glass);
-            border-radius: 25px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: scale(1.05);
-            background: rgba(255,255,255,0.15);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 18px;
-            margin-bottom: 15px;
-        }
-
-        .badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--primary);
-            padding: 4px 12px;
+            border: 1px solid #333;
+            padding: 8px 20px;
             border-radius: 50px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .price { font-size: 24px; font-weight: 700; color: var(--primary); margin: 10px 0; }
-
-        /* --- Ultra Buttons --- */
-        .btn-add {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 12px;
             cursor: pointer;
-            font-weight: 600;
-            width: 100%;
             transition: 0.3s;
         }
 
-        .btn-add:hover { letter-spacing: 1px; box-shadow: 0 0 20px var(--primary); }
-
-        /* --- Modern Cart Sidebar --- */
-        .cart-panel {
-            position: fixed;
-            right: -350px;
-            top: 0;
-            width: 320px;
-            height: 100%;
-            background: rgba(15, 12, 41, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 30px 20px;
-            transition: 0.5s;
-            z-index: 2000;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--gradient);
+            border-color: transparent;
         }
 
-        .cart-panel.active { right: 0; }
+        /* --- Product Cards Upgrade --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding-bottom: 100px;
+        }
 
-        .cart-header { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 15px;
+            border: 1px solid #222;
+            transition: all 0.4s ease;
+            position: relative;
+        }
 
-        .cart-item {
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #444;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 18px;
+            background: #1a1a1a;
+        }
+
+        .card-info { padding: 15px 5px; }
+        .card-info h3 { font-size: 1.2rem; margin-bottom: 5px; }
+        .card-info .brand { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; }
+        
+        .rating { color: #ffb800; font-size: 0.9rem; margin: 5px 0; }
+
+        .price-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 10px;
+            margin-top: 15px;
         }
 
-        .remove-btn { color: #ff4d4d; cursor: pointer; font-weight: bold; }
+        .price-tag { font-size: 1.4rem; font-weight: 700; }
 
-        .cart-toggle {
+        .add-btn {
+            background: white;
+            color: black;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-btn:hover { background: var(--accent); transform: rotate(90deg); }
+
+        /* --- Notification Toast --- */
+        #toast {
             position: fixed;
             bottom: 30px;
-            right: 30px;
-            background: var(--primary);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--gradient);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2000;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            z-index: 1001;
         }
+
+        #toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* --- Sidebar Cart --- */
+        .cart-overlay {
+            position: fixed;
+            right: -100%;
+            top: 0;
+            width: 380px;
+            height: 100%;
+            background: #0f0f0f;
+            z-index: 1001;
+            padding: 40px 20px;
+            transition: 0.4s ease;
+            border-left: 1px solid #222;
+        }
+
+        .cart-overlay.open { right: 0; }
+
+        .empty-msg { text-align: center; color: var(--text-dim); margin-top: 50px; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">ULTRA MOBILE</div>
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search phones..." onkeyup="searchProduct()">
+<nav>
+    <div class="logo">MOBILE<span>ULTRA</span></div>
+    <div style="cursor: pointer;" onclick="toggleCart()">
+        🛒 Cart (<span id="cart-count">0</span>)
     </div>
-</header>
-
-<div class="hero">
-    <h1>Experience the Future</h1>
-    <p>Premium devices, unparalleled performance.</p>
-    <div class="video-wrapper">
-        <iframe width="100%" height="400" src="https://www.youtube.com/embed/RH8Kkz8Q8bA" frameborder="0" allowfullscreen></iframe>
-    </div>
-</div>
+</nav>
 
 <div class="container">
-    <section class="products" id="productGrid">
-        <div class="product-card" data-name="iPhone 15 Pro">
-            <div class="badge">LATEST</div>
-            <img src="https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=500" alt="iPhone">
-            <h3>iPhone 15 Pro</h3>
-            <p class="price">$1199</p>
-            <button class="btn-add" onclick="addToCart('iPhone 15 Pro', 1199)">Add to Cart</button>
-        </div>
+    <div class="filters">
+        <button class="filter-btn active" onclick="filterItems('all')">All</button>
+        <button class="filter-btn" onclick="filterItems('Apple')">Apple</button>
+        <button class="filter-btn" onclick="filterItems('Samsung')">Samsung</button>
+        <button class="filter-btn" onclick="filterItems('Google')">Google</button>
+    </div>
 
-        <div class="product-card" data-name="Samsung S24 Ultra">
-            <div class="badge">SALE</div>
-            <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=500" alt="Samsung">
-            <h3>Samsung S24 Ultra</h3>
-            <p class="price">$1050</p>
-            <button class="btn-add" onclick="addToCart('Samsung S24 Ultra', 1050)">Add to Cart</button>
+    <div class="products-grid" id="products-grid">
         </div>
-
-        <div class="product-card" data-name="Google Pixel 8">
-            <div class="badge">NEW</div>
-            <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=500" alt="Pixel">
-            <h3>Google Pixel 8</h3>
-            <p class="price">$699</p>
-            <button class="btn-add" onclick="addToCart('Google Pixel 8', 699)">Add to Cart</button>
-        </div>
-    </section>
 </div>
 
-<div class="cart-toggle" onclick="toggleCart()">
-    🛒 <span id="count-badge" style="position:absolute; top:0; right:0; background:red; border-radius:50%; padding:2px 6px; font-size:12px;">0</span>
-</div>
+<div id="toast">Added to Cart! 🚀</div>
 
-<div class="cart-panel" id="cartPanel">
-    <div class="cart-header">
-        <h2>Your Cart</h2>
-        <span style="cursor:pointer" onclick="toggleCart()">✖</span>
+<div class="cart-overlay" id="cart-sidebar">
+    <h2 style="margin-bottom: 20px;">Your Bag</h2>
+    <div id="cart-list"></div>
+    <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
+        <h3>Total: $<span id="cart-total">0</span></h3>
+        <button class="filter-btn" style="width: 100%; margin-top: 20px; padding: 15px;" onclick="alert('Ready to Checkout?')">Buy Now</button>
     </div>
-    <div id="cart-items">
-        </div>
-    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #444;">
-    <div style="font-size: 20px; font-weight: bold;">
-        Total: $<span id="total-price">0</span>
-    </div>
-    <button class="btn-add" style="margin-top: 20px;" onclick="alert('Proceeding to Checkout!')">Checkout Now</button>
+    <button onclick="toggleCart()" style="margin-top: 20px; background: none; border: none; color: gray; cursor: pointer;">Close</button>
 </div>
 
 <script>
-    let cart = [];
-    let total = 0;
+    const products = [
+        { id: 1, name: "iPhone 15 Pro", brand: "Apple", price: 999, img: "https://images.unsplash.com/photo-1696446701796-da61225697cc", rating: 5 },
+        { id: 2, name: "Galaxy S24 Ultra", brand: "Samsung", price: 1199, img: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf", rating: 4 },
+        { id: 3, name: "Pixel 8 Pro", brand: "Google", price: 899, img: "https://images.unsplash.com/photo-1598327105666-5b89351aff97", rating: 5 },
+        { id: 4, name: "iPhone 14", brand: "Apple", price: 799, img: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab", rating: 4 },
+        { id: 5, name: "Galaxy Z Flip", brand: "Samsung", price: 950, img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9", rating: 5 }
+    ];
 
-    function toggleCart() {
-        document.getElementById('cartPanel').classList.toggle('active');
-    }
+    let cart = JSON.parse(localStorage.getItem('myCart')) || [];
 
-    function addToCart(name, price) {
-        cart.push({name, price});
-        updateUI();
-        
-        // Small feedback animation
-        const badge = document.getElementById('count-badge');
-        badge.style.transform = "scale(1.5)";
-        setTimeout(() => badge.style.transform = "scale(1)", 200);
-    }
+    function renderProducts(filter = 'all') {
+        const grid = document.getElementById('products-grid');
+        grid.innerHTML = '';
 
-    function removeFromCart(index) {
-        cart.splice(index, 1);
-        updateUI();
-    }
+        const filtered = filter === 'all' ? products : products.filter(p => p.brand === filter);
 
-    function updateUI() {
-        const cartContainer = document.getElementById('cart-items');
-        const totalDisplay = document.getElementById('total-price');
-        const countBadge = document.getElementById('count-badge');
-        
-        cartContainer.innerHTML = "";
-        total = 0;
-
-        cart.forEach((item, index) => {
-            total += item.price;
-            cartContainer.innerHTML += `
-                <div class="cart-item">
-                    <span>${item.name}</span>
-                    <span>$${item.price} <span class="remove-btn" onclick="removeFromCart(${index})">🗑️</span></span>
+        filtered.forEach(p => {
+            grid.innerHTML += `
+                <div class="card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <div class="card-info">
+                        <span class="brand">${p.brand}</span>
+                        <h3>${p.name}</h3>
+                        <div class="rating">⭐⭐⭐⭐⭐</div>
+                        <div class="price-row">
+                            <span class="price-tag">$${p.price}</span>
+                            <button class="add-btn" onclick="addToCart(${p.id})">+</button>
+                        </div>
+                    </div>
                 </div>
             `;
         });
-
-        totalDisplay.innerText = total;
-        countBadge.innerText = cart.length;
     }
 
-    function searchProduct() {
-        let input = document.getElementById('searchInput').value.toLowerCase();
-        let cards = document.getElementsByClassName('product-card');
-
-        for (let card of cards) {
-            let name = card.getAttribute('data-name').toLowerCase();
-            if (name.includes(input)) {
-                card.style.display = "block";
-            } else {
-                card.style.display = "none";
-            }
-        }
+    function addToCart(id) {
+        const product = products.find(p => p.id === id);
+        cart.push(product);
+        saveCart();
+        showToast();
     }
+
+    function showToast() {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    function saveCart() {
+        localStorage.setItem('myCart', JSON.stringify(cart));
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        document.getElementById('cart-count').innerText = cart.length;
+        const list = document.getElementById('cart-list');
+        const totalDisp = document.getElementById('cart-total');
+        
+        list.innerHTML = cart.length === 0 ? '<p class="empty-msg">Your cart is empty</p>' : '';
+        
+        let total = 0;
+        cart.forEach((item, index) => {
+            total += item.price;
+            list.innerHTML += `
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px; background:#1a1a1a; padding:10px; border-radius:10px;">
+                    <span>${item.name}</span>
+                    <span>$${item.price} <button onclick="removeItem(${index})" style="background:none; border:none; color:red; cursor:pointer; margin-left:10px;">✕</button></span>
+                </div>
+            `;
+        });
+        totalDisp.innerText = total;
+    }
+
+    function removeItem(index) {
+        cart.splice(index, 1);
+        saveCart();
+    }
+
+    function toggleCart() {
+        document.getElementById('cart-sidebar').classList.toggle('open');
+    }
+
+    function filterItems(brand) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        renderProducts(brand);
+    }
+
+    // Initial Load
+    renderProducts();
+    updateCartUI();
+
 </script>
 
 </body>
