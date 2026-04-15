@@ -3,94 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Secure Snippets</title>
+    <title>CyberVault | Secure Snippets</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <style>
         :root {
-            --primary-glow: #00ff88;
-            --danger-glow: #ff4b2b;
-            --bg-color: #0f172a;
+            --accent: #00ffa3;
+            --accent-dim: rgba(0, 255, 163, 0.15);
+            --bg: #0b0e14;
+            --card-bg: rgba(23, 28, 41, 0.8);
         }
 
         body {
-            background: radial-gradient(circle at top right, #1e293b, #0f172a);
-            color: #f8fafc;
+            background: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 255, 163, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 163, 255, 0.05) 0px, transparent 50%);
+            color: #e2e8f0;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             align-items: center;
+            overflow-x: hidden;
         }
 
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
+        /* Glassmorphism Card with Animated Border */
+        .vault-container {
+            position: relative;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            padding: 2rem;
-            transition: transform 0.3s ease;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            z-index: 1;
         }
 
-        h2 {
-            font-weight: 600;
-            letter-spacing: -1px;
-            color: var(--primary-glow);
-            text-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        .vault-container::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, transparent, var(--accent), transparent, #00a3ff, transparent);
+            background-size: 400% 400%;
+            z-index: -1;
+            border-radius: 26px;
+            animation: borderRotate 8s linear infinite;
+            opacity: 0.3;
         }
 
+        @keyframes borderRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px var(--accent));
+        }
+
+        /* Modern Form Elements */
         .form-control {
-            background: rgba(15, 23, 42, 0.8) !important;
+            background: rgba(0, 0, 0, 0.3) !important;
             border: 1px solid #334155;
-            color: #ecf0f1 !important;
-            border-radius: 10px;
-            padding: 12px;
-            transition: all 0.3s ease;
+            color: #fff !important;
+            border-radius: 12px;
+            padding: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .form-control:focus {
-            border-color: var(--primary-glow);
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-dim);
+            transform: translateY(-2px);
         }
 
         #snippet {
             font-family: 'Fira Code', monospace;
-            color: #00ff88 !important;
-            font-size: 0.9rem;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--accent) !important;
         }
 
-        /* Custom Button Styling */
-        .btn-custom {
-            border-radius: 10px;
-            padding: 10px 20px;
+        /* Buttons Styling */
+        .btn-action {
+            border-radius: 12px;
+            padding: 12px 24px;
             font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
             transition: all 0.3s;
             border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .btn-save { background: #00ff88; color: #000; }
-        .btn-save:hover { background: #00cc6e; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4); }
+        .btn-save { background: var(--accent); color: #000; }
+        .btn-save:hover { background: #00e692; transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 255, 163, 0.4); }
 
-        .btn-load { background: #3b82f6; color: #fff; }
-        .btn-load:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4); }
+        .btn-unlock { background: #1e293b; color: #fff; border: 1px solid #334155; }
+        .btn-unlock:hover { background: #334155; border-color: var(--accent); color: var(--accent); }
 
-        .btn-clear { background: transparent; color: #94a3b8; border: 1px solid #334155; }
-        .btn-clear:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
+        .btn-clear { background: rgba(255, 75, 75, 0.1); color: #ff4b4b; border: 1px solid rgba(255, 75, 75, 0.2); }
+        .btn-clear:hover { background: #ff4b4b; color: #fff; }
 
-        .status-badge {
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            background: rgba(0, 255, 136, 0.1);
-            color: var(--primary-glow);
-            margin-bottom: 1rem;
+        .security-tag {
+            background: var(--accent-dim);
+            color: var(--accent);
+            padding: 5px 15px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             display: inline-block;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -99,93 +131,109 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
+        <div class="col-lg-7">
             
-            <div class="text-center mb-4">
-                <h2><i class="fas fa-shield-halved"></i> NEXUS SECURE</h2>
-                <p class="text-muted">End-to-end local encrypted code storage</p>
-            </div>
-
-            <div class="glass-card">
-                <div class="status-badge"><i class="fas fa-circle-check"></i> AES-Base64 Ready</div>
-                
-                <div class="input-group mb-3">
-                    <span class="input-group-text bg-transparent border-secondary text-muted">
-                        <i class="fas fa-key"></i>
-                    </span>
-                    <input type="password" id="password" class="form-control" placeholder="Enter Access Key">
+            <div class="vault-container">
+                <div class="text-center">
+                    <i class="fas fa-fingerprint header-icon"></i>
+                    <h2 class="fw-bold mb-1">CyberVault</h2>
+                    <div class="security-tag">Military Grade Encryption</div>
                 </div>
 
-                <textarea id="snippet" class="form-control mb-4" rows="8" placeholder="// Paste your sensitive code or notes here..."></textarea>
+                <div class="mb-4 mt-3">
+                    <label class="small text-muted mb-2 ms-2">Access Key</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-0 text-muted">
+                            <i class="fas fa-shield-alt"></i>
+                        </span>
+                        <input type="password" id="password" class="form-control" placeholder="••••••••">
+                    </div>
+                </div>
 
-                <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                    <div class="btn-group w-100 me-md-2">
-                        <button class="btn btn-custom btn-save w-100" onclick="saveSnippet()">
-                            <i class="fas fa-lock me-2"></i>Encrypt & Save
-                        </button>
-                        <button class="btn btn-custom btn-load w-100" onclick="loadSnippet()">
-                            <i class="fas fa-unlock-alt me-2"></i>Decrypt
+                <div class="mb-4">
+                    <label class="small text-muted mb-2 ms-2">Encrypted Snippet</label>
+                    <textarea id="snippet" class="form-control" rows="8" placeholder="// Your secret code goes here..."></textarea>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <button class="btn btn-action btn-save w-100" onclick="saveSnippet()">
+                            <i class="fas fa-lock"></i> Secure Save
                         </button>
                     </div>
-                    <button class="btn btn-custom btn-clear" onclick="clearSnippet()">
-                        <i class="fas fa-eraser"></i>
-                    </button>
+                    <div class="col-md-5">
+                        <button class="btn btn-action btn-unlock w-100" onclick="loadSnippet()">
+                            <i class="fas fa-key"></i> Unlock Data
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-action btn-clear w-100" title="Wipe Everything" onclick="clearSnippet()">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-            
-            <p class="text-center mt-4 text-muted" style="font-size: 0.8rem;">
-                <i class="fas fa-info-circle"></i> Data is stored locally in your browser and never leaves this device.
+
+            <p class="text-center mt-4 text-muted small">
+                <i class="fas fa-terminal me-2"></i> Local Storage: <span id="storageSize">0.00</span> KB Used
             </p>
         </div>
     </div>
 </div>
 
 <script>
+    // Local storage size tracker
+    function updateSize() {
+        let size = (JSON.stringify(localStorage).length / 1024).toFixed(2);
+        document.getElementById('storageSize').innerText = size;
+    }
+
     // Save Snippet
     function saveSnippet() {
         let pass = document.getElementById("password").value;
         let code = document.getElementById("snippet").value;
 
         if(!pass || !code) {
-            showToast("Required fields missing!", "error");
+            alert("Please fill in both fields!");
             return;
         }
 
-        localStorage.setItem("secure_pass", pass);
-        localStorage.setItem("secure_code", btoa(code)); 
-
-        alert("Data Encrypted and Stored!");
+        localStorage.setItem("v_pass", pass);
+        localStorage.setItem("v_data", btoa(code)); 
+        updateSize();
+        alert("Encrypted successfully!");
     }
 
     // Load Snippet
     function loadSnippet() {
         let pass = document.getElementById("password").value;
-        let savedPass = localStorage.getItem("secure_pass");
+        let savedPass = localStorage.getItem("v_pass");
 
         if(pass && pass === savedPass) {
-            let code = atob(localStorage.getItem("secure_code"));
-            document.getElementById("snippet").value = code;
+            let data = atob(localStorage.getItem("v_data"));
+            document.getElementById("snippet").value = data;
         } else {
-            alert("Access Denied: Invalid Key");
+            alert("Access Denied! Incorrect Key.");
         }
     }
 
     // Clear
     function clearSnippet() {
-        if(confirm("Are you sure? This will wipe the local vault.")) {
+        if(confirm("Wipe all data from this vault?")) {
             localStorage.clear();
             document.getElementById("snippet").value = "";
             document.getElementById("password").value = "";
-            alert("Vault Cleared!");
+            updateSize();
         }
     }
 
-    // Security Features
+    // Initial size check
+    updateSize();
+
+    // Disable Inspection
     document.addEventListener("contextmenu", e => e.preventDefault());
     document.addEventListener("keydown", function(e) {
-        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) {
-            e.preventDefault();
-        }
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) e.preventDefault();
     });
 </script>
 
