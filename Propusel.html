@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Professional Inquiry Card</title>
+<title>Premium Inquiry Card</title>
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
     :root {
-        --primary-color: #2563eb;
-        --text-main: #1f2937;
-        --text-muted: #4b5563;
-        --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        --primary-glow: #3b82f6;
+        --secondary-glow: #2dd4bf;
+        --card-bg: rgba(17, 25, 40, 0.75);
+        --text-color: #f3f4f6;
     }
 
     body {
@@ -18,93 +20,134 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: var(--bg-gradient);
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background-color: #0b0f1a;
+        /* Animated Background */
+        background-image: 
+            radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(45, 212, 191, 0.1) 0px, transparent 50%);
+        font-family: 'Inter', sans-serif;
+        overflow: hidden;
     }
 
     .card {
-        background: #ffffff;
+        position: relative;
+        background: var(--card-bg);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.125);
         padding: 40px;
-        border-radius: 12px;
+        border-radius: 24px;
         width: 100%;
-        max-width: 400px;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        border: 1px solid #f1f5f9;
-        animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        max-width: 420px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        animation: cardAppear 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* Top Accent Line */
+    .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 20%;
+        right: 20%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--primary-glow), var(--secondary-glow), transparent);
     }
 
     h2 {
-        margin: 0 0 16px 0;
-        color: var(--text-main);
-        font-size: 1.5rem;
+        margin: 0 0 10px 0;
+        font-size: 1.75rem;
         font-weight: 600;
-        letter-spacing: -0.025em;
+        background: linear-gradient(to right, #fff, #9ca3af);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
-    p {
-        color: var(--text-muted);
-        line-height: 1.6;
-        font-size: 1rem;
+    .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: rgba(59, 130, 246, 0.1);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        color: var(--primary-glow);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 20px;
         margin-bottom: 20px;
     }
 
-    .signature {
-        border-top: 1px solid #f1f5f9;
+    p {
+        color: #9ca3af;
+        line-height: 1.7;
+        font-size: 0.95rem;
+        margin-bottom: 24px;
+    }
+
+    .signature-area {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
         padding-top: 20px;
-        margin-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .name-tag {
+        color: #fff;
+        font-weight: 600;
     }
 
     .btn {
-        display: inline-block;
-        width: 100%;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 6px;
-        background: var(--primary-color);
+        background: linear-gradient(135deg, var(--primary-glow), #2563eb);
         color: white;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 12px;
         font-weight: 600;
-        font-size: 0.95rem;
         cursor: pointer;
-        transition: all 0.2s ease;
-        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
     }
 
     .btn:hover {
-        background: #1d4ed8;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
+        filter: brightness(1.1);
     }
 
-    .btn:active {
-        transform: translateY(0);
-    }
-
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+    @keyframes cardAppear {
+        from { opacity: 0; transform: scale(0.9) translateY(30px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
     }
 </style>
 </head>
 <body>
 
 <div class="card">
+    <div class="status-badge">New Collaboration</div>
     <h2>Project Inquiry</h2>
     <p>
-        Hello Fizza, <br><br>
-        I recently reviewed your services and believe your expertise aligns well with my current project requirements. I would appreciate it if you could review the attached brief and provide a proposal at your earliest convenience.
+        Hi Fizza, <br><br>
+        I’ve explored your portfolio and I'm impressed with your work. I have a project that requires your specific skillset and would love to discuss a potential collaboration.
     </p>
     
-    <div class="signature">
-        <p>Best regards,<br><strong>Fakhar</strong></p>
+    <div class="signature-area">
+        <div class="name-tag">
+            <span style="color: #6b7280; font-weight: 400; font-size: 0.8rem; display: block;">From</span>
+            Fakhar
+        </div>
+        <button class="btn" onclick="handleReply()">View Brief</button>
     </div>
-
-    <button class="btn" onclick="showMessage()">Acknowledge Receipt</button>
 </div>
 
 <script>
-    function showMessage() {
-        // Professional feedback message
-        alert("Thank you, Fakhar. Your inquiry has been acknowledged. I will review the details and get back to you shortly.");
+    function handleReply() {
+        const btn = document.querySelector('.btn');
+        btn.innerHTML = "Opening...";
+        setTimeout(() => {
+            alert("Redirecting to project documentation...");
+            btn.innerHTML = "View Brief";
+        }, 800);
     }
 </script>
 
