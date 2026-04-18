@@ -3,137 +3,154 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premium Inquiry Card</title>
+<title>Premium Floral Card</title>
+
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
-    :root {
-        --primary-glow: #3b82f6;
-        --secondary-glow: #2dd4bf;
-        --card-bg: rgba(17, 25, 40, 0.75);
-        --text-color: #f3f4f6;
-    }
+:root {
+    --primary: #ec4899;
+    --secondary: #f472b6;
+    --bg-dark: #0b0f1a;
+    --text: #f3f4f6;
+}
 
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #0b0f1a;
-        /* Animated Background */
-        background-image: 
-            radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
-            radial-gradient(at 100% 100%, rgba(45, 212, 191, 0.1) 0px, transparent 50%);
-        font-family: 'Inter', sans-serif;
-        overflow: hidden;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-dark);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
 
-    .card {
-        position: relative;
-        background: var(--card-bg);
-        backdrop-filter: blur(16px) saturate(180%);
-        -webkit-backdrop-filter: blur(16px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.125);
-        padding: 40px;
-        border-radius: 24px;
-        width: 100%;
-        max-width: 420px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        animation: cardAppear 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
+/* 🌸 Floating flowers */
+body::before, body::after {
+    content: "🌸 🌼 🌷 🌺";
+    position: absolute;
+    font-size: 40px;
+    opacity: 0.08;
+    animation: float 25s linear infinite;
+}
 
-    /* Top Accent Line */
-    .card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 20%;
-        right: 20%;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, var(--primary-glow), var(--secondary-glow), transparent);
-    }
+body::after {
+    top: 60%;
+    left: 70%;
+    animation-delay: 10s;
+}
 
-    h2 {
-        margin: 0 0 10px 0;
-        font-size: 1.75rem;
-        font-weight: 600;
-        background: linear-gradient(to right, #fff, #9ca3af);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-100vh) rotate(360deg); }
+}
 
-    .status-badge {
-        display: inline-block;
-        padding: 4px 12px;
-        background: rgba(59, 130, 246, 0.1);
-        border: 1px solid rgba(59, 130, 246, 0.2);
-        color: var(--primary-glow);
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        border-radius: 20px;
-        margin-bottom: 20px;
-    }
+/* Card */
+.card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 60px rgba(236, 72, 153, 0.2);
+}
 
-    p {
-        color: #9ca3af;
-        line-height: 1.7;
-        font-size: 0.95rem;
-        margin-bottom: 24px;
-    }
+/* Floral glow border */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 25px;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
 
-    .signature-area {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-    }
+/* Heading */
+h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    background: linear-gradient(to right, #fff, #f9a8d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-    .name-tag {
-        color: #fff;
-        font-weight: 600;
-    }
+/* Badge */
+.status-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    background: rgba(236, 72, 153, 0.1);
+    border: 1px solid rgba(236, 72, 153, 0.3);
+    color: #f9a8d4;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    font-size: 0.75rem;
+}
 
-    .btn {
-        background: linear-gradient(135deg, var(--primary-glow), #2563eb);
-        color: white;
-        border: none;
-        padding: 12px 28px;
-        border-radius: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
-    }
+/* Text */
+p {
+    color: #d1d5db;
+    line-height: 1.6;
+    margin-top: 15px;
+}
 
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
-        filter: brightness(1.1);
-    }
+/* Footer */
+.signature-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
 
-    @keyframes cardAppear {
-        from { opacity: 0; transform: scale(0.9) translateY(30px); }
-        to { opacity: 1; transform: scale(1) translateY(0); }
-    }
+/* Button */
+.btn {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    padding: 12px 28px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(236, 72, 153, 0.4);
+}
+
+/* Name */
+.name-tag {
+    color: #fff;
+    font-weight: 600;
+}
 </style>
 </head>
+
 <body>
 
 <div class="card">
-    <div class="status-badge">New Collaboration</div>
+    <div class="status-badge">🌸 New Collaboration</div>
     <h2>Project Inquiry</h2>
+
     <p>
         Hi Fizza, <br><br>
-        I’ve explored your portfolio and I'm impressed with your work. I have a project that requires your specific skillset and would love to discuss a potential collaboration.
+        I’ve explored your portfolio and I'm impressed with your work. 
+        I have a project that requires your specific skillset and would 
+        love to discuss a potential collaboration.
     </p>
-    
+
     <div class="signature-area">
         <div class="name-tag">
-            <span style="color: #6b7280; font-weight: 400; font-size: 0.8rem; display: block;">From</span>
+            <small style="color:#9ca3af;">From</small><br>
             Fakhar
         </div>
         <button class="btn" onclick="handleReply()">View Brief</button>
@@ -141,14 +158,14 @@
 </div>
 
 <script>
-    function handleReply() {
-        const btn = document.querySelector('.btn');
-        btn.innerHTML = "Opening...";
-        setTimeout(() => {
-            alert("Redirecting to project documentation...");
-            btn.innerHTML = "View Brief";
-        }, 800);
-    }
+function handleReply() {
+    const btn = document.querySelector('.btn');
+    btn.innerHTML = "Opening...";
+    setTimeout(() => {
+        alert("Redirecting to project documentation...");
+        btn.innerHTML = "View Brief";
+    }, 800);
+}
 </script>
 
 </body>
