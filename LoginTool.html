@@ -1,176 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultra Glass Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Ultra Glass Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<style>
-:root {
-    --primary: #00f2fe;
-    --secondary: #4facfe;
-    --glass: rgba(255, 255, 255, 0.08);
-}
+    <style>
+        :root {
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --glass: rgba(255, 255, 255, 0.07);
+            --error: #ff4d4d;
+            --success: #00ff88;
+        }
 
-body {
-    margin: 0;
-    height: 100vh;
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at top, #1a1a2e, #0f0c29);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    perspective: 1200px;
-}
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: #0b0b1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            perspective: 1500px;
+        }
 
-/* MULTIPLE BLOBS */
-.blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.7;
-    animation: float 12s infinite alternate ease-in-out;
-}
+        /* BACKGROUND ELEMENTS */
+        .bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+        }
 
-.blob:nth-child(1) {
-    width: 300px;
-    height: 300px;
-    background: #00f2fe;
-    top: 10%;
-    left: 10%;
-}
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            transition: all 0.5s ease;
+        }
 
-.blob:nth-child(2) {
-    width: 250px;
-    height: 250px;
-    background: #4facfe;
-    bottom: 10%;
-    right: 10%;
-}
+        /* CARD DESIGN */
+        .login-container {
+            position: relative;
+            padding: 60px 40px;
+            width: 380px;
+            border-radius: 24px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,0.15);
+            transform-style: preserve-3d;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+            text-align: center;
+            transition: transform 0.1s ease-out, box-shadow 0.3s;
+        }
 
-@keyframes float {
-    from { transform: translateY(-40px) scale(1); }
-    to { transform: translateY(40px) scale(1.2); }
-}
+        .login-container:hover {
+            box-shadow: 0 50px 100px rgba(0,242,254,0.15);
+        }
 
-/* CARD */
-.login-container {
-    position: relative;
-    padding: 50px 40px;
-    width: 350px;
-    border-radius: 20px;
-    background: var(--glass);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.2);
-    transform-style: preserve-3d;
-    transition: transform 0.2s ease-out;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-    overflow: hidden;
-}
+        h2 {
+            color: white;
+            font-weight: 600;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            transform: translateZ(50px);
+        }
 
-/* GLOW BORDER */
-.login-container::before {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: 20px;
-    background: linear-gradient(45deg, var(--primary), var(--secondary), transparent);
-    z-index: -1;
-    animation: rotate 6s linear infinite;
-}
+        /* INPUTS */
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+            transform: translateZ(30px);
+        }
 
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
+        input {
+            width: 100%;
+            padding: 14px;
+            box-sizing: border-box;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
 
-h2 {
-    color: white;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-    transform: translateZ(40px);
-}
+        input:focus {
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.1);
+            box-shadow: 0 0 15px rgba(0,242,254,0.2);
+        }
 
-/* FLOATING INPUT */
-.input-group {
-    position: relative;
-    margin-bottom: 25px;
-    transform: translateZ(30px);
-}
+        label {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            color: rgba(255,255,255,0.5);
+            pointer-events: none;
+            transition: 0.3s;
+        }
 
-input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.05);
-    color: white;
-    outline: none;
-}
+        input:focus + label,
+        input:valid + label {
+            top: -22px;
+            left: 5px;
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: bold;
+        }
 
-label {
-    position: absolute;
-    left: 12px;
-    top: 12px;
-    color: #aaa;
-    font-size: 14px;
-    pointer-events: none;
-    transition: 0.3s;
-}
+        /* MAGNETIC BUTTON */
+        .btn-wrap {
+            position: relative;
+            transform: translateZ(60px);
+            display: inline-block;
+            width: 100%;
+        }
 
-input:focus + label,
-input:valid + label {
-    top: -8px;
-    font-size: 11px;
-    color: var(--primary);
-}
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #0b0b1a;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-/* BUTTON */
-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    font-weight: bold;
-    cursor: pointer;
-    transform: translateZ(40px);
-    transition: 0.3s;
-}
+        button:active {
+            transform: scale(0.95);
+        }
 
-button:hover {
-    transform: translateZ(60px) scale(1.05);
-    box-shadow: 0 0 20px rgba(0,242,254,0.6);
-}
+        /* FEEDBACK MESSAGE */
+        #message {
+            height: 20px;
+            margin-top: 20px;
+            font-weight: 500;
+            transform: translateZ(40px);
+        }
 
-/* MESSAGE */
-#message {
-    margin-top: 15px;
-    font-size: 14px;
-    transform: translateZ(30px);
-}
+        /* ANIMATIONS */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) translateZ(40px); }
+            20%, 60% { transform: translateX(-10px) translateZ(40px); }
+            40%, 80% { transform: translateX(10px) translateZ(40px); }
+        }
 
-/* SHAKE */
-@keyframes shake {
-    0%,100%{transform:translateX(0)}
-    25%{transform:translateX(-8px)}
-    75%{transform:translateX(8px)}
-}
-</style>
+        .shake-it {
+            animation: shake 0.4s ease-in-out;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="blob"></div>
-<div class="blob"></div>
+<div class="blob" style="width: 400px; height: 400px; background: var(--primary); top: -100px; left: -100px;"></div>
+<div class="blob" style="width: 300px; height: 300px; background: var(--secondary); bottom: -50px; right: -50px;"></div>
 
 <div class="login-container" id="card">
-    <h2>LOGIN</h2>
+    <h2>WELCOME</h2>
 
     <form id="loginForm">
         <div class="input-group">
-            <input type="text" id="username" required>
+            <input type="text" id="username" required autocomplete="off">
             <label>Username</label>
         </div>
 
@@ -179,44 +181,71 @@ button:hover {
             <label>Password</label>
         </div>
 
-        <button type="submit">LOGIN</button>
+        <div class="btn-wrap" id="btnWrap">
+            <button type="submit" id="loginBtn">LOGIN NOW</button>
+        </div>
     </form>
 
-    <p id="message"></p>
+    <div id="message"></div>
 </div>
 
 <script>
-const card = document.getElementById('card');
+    const card = document.getElementById('card');
+    const btn = document.getElementById('loginBtn');
+    const btnWrap = document.getElementById('btnWrap');
 
-// SMOOTHER 3D EFFECT
-document.addEventListener('mousemove', e => {
-    let x = (window.innerWidth/2 - e.pageX) / 25;
-    let y = (window.innerHeight/2 - e.pageY) / 25;
-    card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-});
+    // 1. ADVANCED 3D TILT EFFECT
+    document.addEventListener('mousemove', e => {
+        const x = (window.innerWidth / 2 - e.pageX) / 30;
+        const y = (window.innerHeight / 2 - e.pageY) / 30;
+        
+        card.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
+        
+        // Move Blobs subtly with mouse
+        document.querySelectorAll('.blob').forEach((blob, index) => {
+            const speed = (index + 1) * 0.02;
+            blob.style.transform = `translate(${x * speed * 50}px, ${y * speed * 50}px)`;
+        });
+    });
 
-document.addEventListener('mouseleave', () => {
-    card.style.transform = "rotateY(0) rotateX(0)";
-});
+    // 2. MAGNETIC BUTTON EFFECT
+    btnWrap.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        
+        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+    });
 
-// LOGIN LOGIC
-document.getElementById('loginForm').addEventListener('submit', e => {
-    e.preventDefault();
+    btnWrap.addEventListener('mouseleave', () => {
+        btn.style.transform = `translate(0px, 0px)`;
+    });
 
-    let user = username.value;
-    let pass = password.value;
-    let msg = document.getElementById('message');
+    // 3. LOGIN INTERACTION
+    document.getElementById('loginForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const msg = document.getElementById('message');
 
-    if(user === "admin" && pass === "12345"){
-        msg.style.color = "#00ff88";
-        msg.innerText = "✔ Access Granted";
-    } else {
-        msg.style.color = "#ff4d4d";
-        msg.innerText = "✖ Invalid Credentials";
-        card.style.animation = "shake 0.3s";
-        setTimeout(()=>card.style.animation="",300);
-    }
-});
+        if(user === "admin" && pass === "12345") {
+            msg.style.color = "var(--success)";
+            msg.innerText = "⭐ Logging you in...";
+            btn.innerHTML = "SUCCESS";
+            btn.style.background = "var(--success)";
+            card.style.transform = "scale(0.9) rotateX(20deg)";
+        } else {
+            msg.style.color = "var(--error)";
+            msg.innerText = "Invalid credentials. Try again!";
+            card.classList.add('shake-it');
+            setTimeout(() => card.classList.remove('shake-it'), 400);
+        }
+    });
+
+    // Reset card on mouse leave
+    document.addEventListener('mouseleave', () => {
+        card.style.transform = "rotateY(0) rotateX(0)";
+    });
 </script>
 
 </body>
