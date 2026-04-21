@@ -1,201 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Next-Gen 3D Glass Login</title>
-    <style>
-        :root {
-            --primary: #00f2fe;
-            --secondary: #4facfe;
-            --glass: rgba(255, 255, 255, 0.1);
-            --text: #ffffff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultra Glass Login</title>
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #0f0c29;
-            background: linear-gradient(135deg, #24243e, #302b63, #0f0c29);
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            perspective: 1000px;
-        }
+<style>
+:root {
+    --primary: #00f2fe;
+    --secondary: #4facfe;
+    --glass: rgba(255, 255, 255, 0.08);
+}
 
-        /* Animated background blobs */
-        .blob {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            filter: blur(80px);
-            border-radius: 50%;
-            z-index: -1;
-            animation: move 10s infinite alternate;
-        }
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #1a1a2e, #0f0c29);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    perspective: 1200px;
+}
 
-        @keyframes move {
-            from { transform: translate(-50%, -50%); }
-            to { transform: translate(50%, 50%); }
-        }
+/* MULTIPLE BLOBS */
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.7;
+    animation: float 12s infinite alternate ease-in-out;
+}
 
-        .login-container {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 50px 40px;
-            border-radius: 20px;
-            width: 350px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transform-style: preserve-3d;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
-            transition: transform 0.1s ease-out;
-        }
+.blob:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    background: #00f2fe;
+    top: 10%;
+    left: 10%;
+}
 
-        h2 {
-            color: white;
-            font-size: 2rem;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-            transform: translateZ(50px);
-        }
+.blob:nth-child(2) {
+    width: 250px;
+    height: 250px;
+    background: #4facfe;
+    bottom: 10%;
+    right: 10%;
+}
 
-        .input-group {
-            margin-bottom: 20px;
-            transform: translateZ(30px);
-        }
+@keyframes float {
+    from { transform: translateY(-40px) scale(1); }
+    to { transform: translateY(40px) scale(1.2); }
+}
 
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            transition: 0.3s;
-            box-sizing: border-box;
-        }
+/* CARD */
+.login-container {
+    position: relative;
+    padding: 50px 40px;
+    width: 350px;
+    border-radius: 20px;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.2);
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease-out;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    overflow: hidden;
+}
 
-        input:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
-        }
+/* GLOW BORDER */
+.login-container::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 20px;
+    background: linear-gradient(45deg, var(--primary), var(--secondary), transparent);
+    z-index: -1;
+    animation: rotate 6s linear infinite;
+}
 
-        .show-pass-container {
-            text-align: left;
-            margin-bottom: 20px;
-            color: #ccc;
-            font-size: 0.9rem;
-            transform: translateZ(20px);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 10px;
-            color: #000;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            transform: translateZ(40px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
+h2 {
+    color: white;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    transform: translateZ(40px);
+}
 
-        button:hover {
-            transform: translateZ(60px) scale(1.05);
-            box-shadow: 0 15px 25px rgba(0, 242, 254, 0.4);
-            filter: brightness(1.1);
-        }
+/* FLOATING INPUT */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+    transform: translateZ(30px);
+}
 
-        #message {
-            margin-top: 20px;
-            font-size: 14px;
-            min-height: 20px;
-            transform: translateZ(30px);
-        }
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: white;
+    outline: none;
+}
 
-        /* Shake Animation for Errors */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-    </style>
+label {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    color: #aaa;
+    font-size: 14px;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+input:focus + label,
+input:valid + label {
+    top: -8px;
+    font-size: 11px;
+    color: var(--primary);
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    font-weight: bold;
+    cursor: pointer;
+    transform: translateZ(40px);
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateZ(60px) scale(1.05);
+    box-shadow: 0 0 20px rgba(0,242,254,0.6);
+}
+
+/* MESSAGE */
+#message {
+    margin-top: 15px;
+    font-size: 14px;
+    transform: translateZ(30px);
+}
+
+/* SHAKE */
+@keyframes shake {
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-8px)}
+    75%{transform:translateX(8px)}
+}
+</style>
 </head>
+
 <body>
 
-    <div class="blob"></div>
+<div class="blob"></div>
+<div class="blob"></div>
 
-    <div class="login-container" id="card">
-        <h2>LOGIN</h2>
-        <form id="loginForm">
-            <div class="input-group">
-                <input type="text" id="username" placeholder="Username" required>
-            </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Password" required>
-            </div>
-            <div class="show-pass-container">
-                <input type="checkbox" id="showPass"> Show Password
-            </div>
-            <button type="submit">LOGIN SYSTEM</button>
-        </form>
-        <p id="message"></p>
-    </div>
+<div class="login-container" id="card">
+    <h2>LOGIN</h2>
 
-    <script>
-        const card = document.getElementById('card');
-        const loginForm = document.getElementById('loginForm');
-        const passInput = document.getElementById('password');
-        const showPassCheckbox = document.getElementById('showPass');
-        const message = document.getElementById('message');
+    <form id="loginForm">
+        <div class="input-group">
+            <input type="text" id="username" required>
+            <label>Username</label>
+        </div>
 
-        // --- 1. Dynamic 3D Tilt Effect ---
-        document.addEventListener('mousemove', (e) => {
-            let xAxis = (window.innerWidth / 2 - e.pageX) / 15;
-            let yAxis = (window.innerHeight / 2 - e.pageY) / 15;
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
+        <div class="input-group">
+            <input type="password" id="password" required>
+            <label>Password</label>
+        </div>
 
-        // Reset position when mouse leaves
-        document.addEventListener('mouseleave', () => {
-            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
-        });
+        <button type="submit">LOGIN</button>
+    </form>
 
-        // --- 2. Functional Logic ---
-        showPassCheckbox.addEventListener('change', function() {
-            passInput.type = this.checked ? 'text' : 'password';
-        });
+    <p id="message"></p>
+</div>
 
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const user = document.getElementById('username').value;
-            const pass = passInput.value;
+<script>
+const card = document.getElementById('card');
 
-            if (user === "admin" && pass === "12345") {
-                message.style.color = "#00ff88";
-                message.innerText = "✔ Access Granted! Welcome.";
-                card.style.border = "1px solid #00ff88";
-            } else {
-                message.style.color = "#ff4d4d";
-                message.innerText = "✖ Invalid Credentials!";
-                card.style.animation = "shake 0.3s ease";
-                setTimeout(() => card.style.animation = "", 300);
-            }
-        });
-    </script>
+// SMOOTHER 3D EFFECT
+document.addEventListener('mousemove', e => {
+    let x = (window.innerWidth/2 - e.pageX) / 25;
+    let y = (window.innerHeight/2 - e.pageY) / 25;
+    card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+});
+
+document.addEventListener('mouseleave', () => {
+    card.style.transform = "rotateY(0) rotateX(0)";
+});
+
+// LOGIN LOGIC
+document.getElementById('loginForm').addEventListener('submit', e => {
+    e.preventDefault();
+
+    let user = username.value;
+    let pass = password.value;
+    let msg = document.getElementById('message');
+
+    if(user === "admin" && pass === "12345"){
+        msg.style.color = "#00ff88";
+        msg.innerText = "✔ Access Granted";
+    } else {
+        msg.style.color = "#ff4d4d";
+        msg.innerText = "✖ Invalid Credentials";
+        card.style.animation = "shake 0.3s";
+        setTimeout(()=>card.style.animation="",300);
+    }
+});
+</script>
+
 </body>
 </html>
