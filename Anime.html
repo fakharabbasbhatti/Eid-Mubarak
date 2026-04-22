@@ -1,212 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anime Style Pro</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Studio Pro | AI Editor</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4ecd;
+            --secondary: #00d2ff;
+            --bg-dark: #0f1016;
+            --card-bg: #1e1f29;
+        }
 
-  <style>
-    body {
-      background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
-      min-height: 100vh;
-      color: white;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+        body {
+            background-color: var(--bg-dark);
+            color: #e0e0e0;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 25px;
-      padding: 30px;
-      box-shadow: 0 25px 45px rgba(0,0,0,0.5);
-      width: 100%;
-      max-width: 800px;
-    }
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
 
-    .upload-box {
-      border: 2px dashed #ff4ecd;
-      border-radius: 15px;
-      padding: 20px;
-      cursor: pointer;
-      transition: 0.3s;
-      margin-bottom: 20px;
-    }
+        .sidebar {
+            width: 350px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-right: 1px solid #333;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+        }
 
-    .upload-box:hover {
-      background: rgba(255, 78, 205, 0.1);
-    }
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    canvas {
-      max-width: 100%;
-      height: auto;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      display: none; /* Hidden until image uploaded */
-      margin-top: 20px;
-    }
+        /* Styling Components */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
 
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin: 20px 0;
-    }
+        .preview-container {
+            position: relative;
+            max-width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background: #000;
+        }
 
-    label { font-size: 0.9rem; margin-bottom: 5px; display: block; }
+        canvas {
+            max-width: 100%;
+            display: block;
+        }
 
-    .btn-action {
-      background: linear-gradient(90deg, #ff4ecd, #ff758c);
-      border: none;
-      color: white;
-      padding: 12px 25px;
-      border-radius: 10px;
-      font-weight: 600;
-      transition: transform 0.2s;
-    }
+        .btn-glow {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 10px;
+            transition: 0.3s;
+            width: 100%;
+        }
 
-    .btn-action:hover {
-      transform: scale(1.05);
-      color: white;
-    }
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 78, 205, 0.4);
+        }
 
-    .btn-download {
-      background: #00d2ff;
-      border: none;
-      border-radius: 10px;
-      color: white;
-    }
+        .preset-badge {
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: #333;
+            font-size: 0.8rem;
+            transition: 0.2s;
+            display: inline-block;
+            margin: 3px;
+        }
 
-    input[type="range"] {
-      accent-color: #ff4ecd;
-    }
-  </style>
+        .preset-badge:hover, .preset-badge.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        input[type="range"] { accent-color: var(--primary); }
+    </style>
 </head>
-
 <body>
 
-<div class="container d-flex justify-content-center">
-  <div class="glass-card text-center">
-    <h2 class="mb-4"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Anime Filter</h2>
-    
-    <div class="upload-box" onclick="document.getElementById('upload').click()">
-      <i class="fa-solid fa-cloud-arrow-up fa-2x mb-2"></i>
-      <p id="file-name">Click to upload or drag image</p>
-      <input type="file" id="upload" hidden accept="image/*">
-    </div>
+<div class="app-container">
+    <div class="sidebar">
+        <h3 class="mb-4 text-white"><i class="fa-solid fa-wand-sparkles me-2"></i>Studio</h3>
+        
+        <div class="mb-4">
+            <label class="form-label d-block">Upload Image</label>
+            <input type="file" id="upload" class="form-control form-control-sm bg-dark text-white border-secondary">
+        </div>
 
-    <div class="controls">
-      <div>
-        <label>Vibrancy (Color)</label>
-        <input type="range" id="vibrancy" class="form-range" min="1" max="2" step="0.1" value="1.3">
-      </div>
-      <div>
-        <label>Cel-Shading (Steps)</label>
-        <input type="range" id="steps" class="form-range" min="16" max="64" step="8" value="32">
-      </div>
-    </div>
+        <div class="glass-box">
+            <label class="form-label small">Styles Presets</label>
+            <div>
+                <span class="preset-badge active" onclick="setPreset('default')">Classic</span>
+                <span class="preset-badge" onclick="setPreset('cyber')">Cyberpunk</span>
+                <span class="preset-badge" onclick="setPreset('manga')">B&W Manga</span>
+                <span class="preset-badge" onclick="setPreset('kawaii')">Kawaii</span>
+            </div>
+        </div>
 
-    <div class="d-flex justify-content-center gap-2">
-        <button class="btn btn-action" onclick="applyAnimeEffect()">
-          <i class="fa-solid fa-bolt"></i> Apply Magic
+        <div class="glass-box">
+            <label class="form-label small">Manual Tuning</label>
+            <div class="mb-3">
+                <small>Vibrancy</small>
+                <input type="range" id="vibrancy" class="form-range" min="1" max="2.5" step="0.1" value="1.4">
+            </div>
+            <div class="mb-3">
+                <small>Edge Intensity</small>
+                <input type="range" id="edge" class="form-range" min="0" max="100" step="10" value="40">
+            </div>
+            <div class="mb-3">
+                <small>Smoothness</small>
+                <input type="range" id="smooth" class="form-range" min="0" max="10" step="1" value="0">
+            </div>
+        </div>
+
+        <button class="btn-glow mb-3" onclick="processImage()">
+            <i class="fa-solid fa-bolt me-2"></i> Render Artwork
         </button>
-        <button id="downloadBtn" class="btn btn-download" style="display:none;" onclick="downloadImage()">
-          <i class="fa-solid fa-download"></i>
+        
+        <button class="btn btn-outline-info w-100 btn-sm" onclick="downloadImage()">
+            <i class="fa-solid fa-download me-2"></i> Export PNG
         </button>
     </div>
 
-    <div id="loader" class="mt-3" style="display:none;">
-        <div class="spinner-border text-light" role="status"></div>
-    </div>
+    <div class="main-content">
+        <div id="welcome-msg" class="text-center mt-5">
+            <i class="fa-regular fa-image fa-4x mb-3 text-secondary"></i>
+            <h2>Ready to Transform?</h2>
+            <p class="text-muted">Upload a photo to see the anime magic.</p>
+        </div>
 
-    <canvas id="canvas"></canvas>
-  </div>
+        <div class="preview-container" id="preview-wrap" style="display:none;">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
 </div>
 
 <script>
-let img = new Image();
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-const uploadInput = document.getElementById("upload");
-const downloadBtn = document.getElementById("downloadBtn");
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let originalImg = new Image();
 
-uploadInput.addEventListener("change", function(e) {
-  const file = e.target.files[0];
-  if(!file) return;
+    document.getElementById('upload').addEventListener('change', function(e) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            originalImg.onload = () => {
+                const maxW = 900;
+                const ratio = maxW / originalImg.width;
+                canvas.width = Math.min(originalImg.width, maxW);
+                canvas.height = originalImg.height * (canvas.width / originalImg.width);
+                
+                ctx.drawImage(originalImg, 0, 0, canvas.width, canvas.height);
+                document.getElementById('welcome-msg').style.display = 'none';
+                document.getElementById('preview-wrap').style.display = 'block';
+            };
+            originalImg.src = event.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    });
 
-  document.getElementById('file-name').innerText = file.name;
-  const reader = new FileReader();
+    function setPreset(type) {
+        document.querySelectorAll('.preset-badge').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
 
-  reader.onload = function(event) {
-    img.onload = function() {
-      // Scale canvas to fit image but keep quality
-      const maxW = 800;
-      const scale = maxW / img.width;
-      canvas.width = (img.width > maxW) ? maxW : img.width;
-      canvas.height = (img.width > maxW) ? img.height * scale : img.height;
-      
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      canvas.style.display = "block";
-      downloadBtn.style.display = "none";
-    }
-    img.src = event.target.result;
-  }
-  reader.readAsDataURL(file);
-});
+        const v = document.getElementById('vibrancy');
+        const e = document.getElementById('edge');
 
-function applyAnimeEffect() {
-  if(!img.src) return alert("Pehle image upload karein!");
-  
-  document.getElementById('loader').style.display = "block";
-
-  setTimeout(() => {
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-    let vibrancy = parseFloat(document.getElementById('vibrancy').value);
-    let steps = parseInt(document.getElementById('steps').value);
-
-    let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    let data = imageData.data;
-
-    for (let i = 0; i < data.length; i += 4) {
-      // Color Boosting
-      data[i]     = Math.min(255, data[i] * vibrancy);     // Red
-      data[i + 1] = Math.min(255, data[i + 1] * (vibrancy * 0.9)); // Green
-      data[i + 2] = Math.min(255, data[i + 2] * (vibrancy * 1.1)); // Blue
-
-      // Cel-shading logic
-      data[i]     = Math.floor(data[i] / steps) * steps;
-      data[i + 1] = Math.floor(data[i + 1] / steps) * steps;
-      data[i + 2] = Math.floor(data[i + 2] / steps) * steps;
+        if(type === 'cyber') { v.value = 2.0; e.value = 80; }
+        else if(type === 'manga') { v.value = 1.0; e.value = 100; }
+        else if(type === 'kawaii') { v.value = 1.6; e.value = 10; }
+        else { v.value = 1.4; e.value = 40; }
+        
+        processImage(type);
     }
 
-    ctx.putImageData(imageData, 0, 0);
+    function processImage(preset = 'default') {
+        if (!originalImg.src) return;
 
-    // Subtle Outline Layer (Soft Anime Look)
-    ctx.globalCompositeOperation = "multiply";
-    ctx.filter = "contrast(180%) brightness(120%)";
-    ctx.drawImage(canvas, 0, 0);
-    ctx.filter = "none";
-    ctx.globalCompositeOperation = "source-over";
+        // Reset canvas
+        ctx.drawImage(originalImg, 0, 0, canvas.width, canvas.height);
+        
+        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let data = imageData.data;
+        let v = parseFloat(document.getElementById('vibrancy').value);
+        let smooth = parseInt(document.getElementById('smooth').value);
 
-    document.getElementById('loader').style.display = "none";
-    downloadBtn.style.display = "inline-block";
-  }, 100);
-}
+        for (let i = 0; i < data.length; i += 4) {
+            // Apply Vibrancy
+            data[i] *= v;     // R
+            data[i+1] *= v;   // G
+            data[i+2] *= (v * 1.1); // B (Blue boost for anime feel)
 
-function downloadImage() {
-  const link = document.createElement('a');
-  link.download = 'anime-style-image.png';
-  link.href = canvas.toDataURL();
-  link.click();
-}
+            // Cel-Shading (Posterization)
+            data[i] = Math.floor(data[i] / 32) * 32;
+            data[i+1] = Math.floor(data[i+1] / 32) * 32;
+            data[i+2] = Math.floor(data[i+2] / 32) * 32;
+
+            if(preset === 'manga') {
+                let gray = (data[i] + data[i+1] + data[i+2]) / 3;
+                data[i] = data[i+1] = data[i+2] = gray > 120 ? 255 : 50;
+            }
+        }
+        ctx.putImageData(imageData, 0, 0);
+
+        // Edge Detection / Contrast Layer
+        let edgeVal = document.getElementById('edge').value;
+        ctx.globalCompositeOperation = "multiply";
+        ctx.filter = `contrast(${100 + parseInt(edgeVal)}%) brightness(110%) blur(${smooth}px)`;
+        ctx.drawImage(canvas, 0, 0);
+        ctx.filter = "none";
+        ctx.globalCompositeOperation = "source-over";
+    }
+
+    function downloadImage() {
+        const link = document.createElement('a');
+        link.download = 'anime-art.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    }
 </script>
 
 </body>
