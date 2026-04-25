@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commercial Lending</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f9fafb;
+      color: #111;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 10%;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    header h1 {
+      color: #3B82F6;
+    }
+
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 10%;
+      background: linear-gradient(to right, #3B82F6, #6366F1);
+      color: white;
+    }
+
+    .hero h2 {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    .hero span {
+      color: #FFD700;
+    }
+
+    .hero button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: none;
+      background: white;
+      color: #3B82F6;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .features {
+      display: flex;
+      justify-content: space-around;
+      padding: 60px 10%;
+      flex-wrap: wrap;
+    }
+
+    .feature {
+      width: 300px;
+      background: white;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 80px 10%;
+      background: #111827;
+      color: white;
+    }
+
+    .cta button {
+      margin-top: 20px;
+      padding: 12px 30px;
+      border: none;
+      background: #3B82F6;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #1f2937;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>LendFlow</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Features</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>
+      Commercial lending should not depend on 
+      <span>spreadsheets, inboxes, and manual follow-up.</span>
+    </h2>
+    <p>Automate your lending process with smart tools.</p>
+    <button onclick="showAlert()">Get Started</button>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <h3>Automation</h3>
+      <p>Reduce manual work and increase efficiency.</p>
+    </div>
+    <div class="feature">
+      <h3>Analytics</h3>
+      <p>Track and optimize your lending performance.</p>
+    </div>
+    <div class="feature">
+      <h3>Security</h3>
+      <p>Keep your data safe and secure.</p>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Ready to transform your lending?</h2>
+    <button onclick="scrollToTop()">Start Now</button>
+  </section>
+
+  <footer>
+    <p>© 2026 LendFlow. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function showAlert() {
+      alert("Welcome! Let's get started 🚀");
+    }
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+  </script>
+
+</body>
+</html>
