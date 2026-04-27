@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Review Section</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    .review-section {
+      width: 350px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .review-section h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .review-text {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+
+      /* Firefox */
+      scrollbar-width: thin;
+      scrollbar-color: #aaa transparent;
+    }
+
+    /* Chrome, Edge, Safari */
+    .review-text::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .review-text::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .review-text::-webkit-scrollbar-thumb {
+      background-color: #aaa;
+      border-radius: 10px;
+    }
+
+    .review-text::-webkit-scrollbar-thumb:hover {
+      background-color: #888;
+    }
+
+    .review-item {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .review-form {
+      display: flex;
+      gap: 5px;
+    }
+
+    .review-form input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .review-form button {
+      padding: 8px 12px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .review-form button:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="review-section">
+    <h2>Customer Reviews</h2>
+
+    <div class="review-text" id="reviewList">
+      <div class="review-item">Great service! ⭐⭐⭐⭐⭐</div>
+      <div class="review-item">Fast delivery and good quality 👍</div>
+      <div class="review-item">Satisfied with the product 😊</div>
+    </div>
+
+    <div class="review-form">
+      <input type="text" id="reviewInput" placeholder="Write your review..." />
+      <button onclick="addReview()">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    function addReview() {
+      const input = document.getElementById("reviewInput");
+      const text = input.value.trim();
+
+      if (text === "") return;
+
+      const reviewList = document.getElementById("reviewList");
+
+      const newReview = document.createElement("div");
+      newReview.className = "review-item";
+      newReview.textContent = text;
+
+      reviewList.appendChild(newReview);
+
+      input.value = "";
+
+      // Auto scroll to latest
+      reviewList.scrollTop = reviewList.scrollHeight;
+    }
+  </script>
+
+</body>
+</html>
+
