@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pro All-in-One Plugin</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-color: #f4f7f6;
+      --card-bg: #ffffff;
+      --text-color: #333;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #1a1a2e;
+      --card-bg: #16213e;
+      --text-color: #ffffff;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: all 0.4s ease;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .plugin-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: 0.3s;
+      width: 320px;
+      text-align: center;
+    }
+
+    .plugin-card:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    .icon-box {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: white;
+      font-size: 30px;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    .btn-custom {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 25px;
+      font-weight: 600;
+      color: white;
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+<!-- Theme Toggle -->
+<div class="theme-toggle" onclick="toggleTheme()">
+  <i id="themeIcon" class="fas fa-moon"></i>
+</div>
+
+<div class="container">
+  <div class="plugin-card">
+    <div class="icon-box">
+      <i class="fas fa-bolt"></i>
+    </div>
+    <h3 class="fw-bold">Turbo Plugin</h3>
+    <p class="text-muted">Smart productivity tool for your workflow.</p>
+    <button class="btn btn-custom w-100" onclick="openModal()">
+      <i class="fas fa-external-link-alt me-2"></i>Launch Tool
+    </button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="pluginModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background: var(--card-bg); color: var(--text-color);">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold">Live Control Panel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" style="filter: invert(1);"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>Interactive Counter Example:</p>
+        <h1 id="counter" class="display-3 fw-bold">0</h1>
+        <div class="d-flex justify-content-center gap-2 mt-3">
+          <button class="btn btn-outline-danger" onclick="updateCounter(-1)">- Decrease</button>
+          <button class="btn btn-outline-success" onclick="updateCounter(1)">+ Increase</button>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-custom" onclick="saveData()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // Global Counter Variable
+  let count = 0;
+
+  // Function to open Modal
+  function openModal() {
+    let myModal = new bootstrap.Modal(document.getElementById('pluginModal'));
+    myModal.show();
+  }
+
+  // Dark/Light Mode Toggle
+  function toggleTheme() {
+    const body = document.body;
+    const icon = document.getElementById('themeIcon');
+    
+    if (body.getAttribute('data-theme') === 'light') {
+      body.setAttribute('data-theme', 'dark');
+      icon.classList.replace('fa-moon', 'fa-sun');
+    } else {
+      body.setAttribute('data-theme', 'light');
+      icon.classList.replace('fa-sun', 'fa-moon');
+    }
+  }
+
+  // Counter Functionality
+  function updateCounter(val) {
+    count += val;
+    document.getElementById('counter').innerText = count;
+  }
+
+  // Action Success Mockup
+  function saveData() {
+    alert("Data Saved Successfully! Current Count: " + count);
+    bootstrap.Modal.getInstance(document.getElementById('pluginModal')).hide();
+  }
+</script>
+
+</body>
+</html>
