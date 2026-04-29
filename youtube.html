@@ -3,176 +3,204 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Clone Improved</title>
+  <title>YouTube Pro - Functional</title>
 
-  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
+    :root {
+      --bg-black: #0f0f0f;
+      --nav-bg: #0f0f0f;
+      --card-hover: #272727;
+      --text-main: #f1f1f1;
+      --text-dim: #aaaaaa;
+    }
+
     body {
-      background-color: #0f0f0f;
-      color: white;
-      font-family: Arial, sans-serif;
+      background-color: var(--bg-black);
+      color: var(--text-main);
+      font-family: "Roboto", sans-serif;
       overflow-x: hidden;
     }
 
-    .navbar {
-      background-color: #0f0f0f;
-      border-bottom: 1px solid #222;
-    }
+    /* Navbar & Search */
+    .navbar { background: var(--nav-bg); padding: 0.5rem 1rem; z-index: 1050; }
+    .yt-logo { font-size: 1.2rem; font-weight: bold; color: white; text-decoration: none; display: flex; align-items: center; }
+    .yt-logo i { color: red; font-size: 1.8rem; margin-right: 4px; }
 
-    .sidebar {
-      height: 100vh;
-      position: fixed;
-      top: 56px;
-      left: 0;
-      width: 220px;
-      background: #0f0f0f;
-      padding-top: 10px;
-      border-right: 1px solid #222;
-      overflow-y: auto;
-    }
-
-    .sidebar a {
+    .search-wrapper {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 12px 20px;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      margin: 4px 10px;
-    }
-
-    .sidebar a:hover {
-      background: #272727;
-    }
-
-    .content {
-      margin-left: 220px;
-      margin-top: 80px;
-      padding: 20px;
-    }
-
-    .video-card {
-      background: #181818;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    .video-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .video-thumb {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .video-info {
-      padding: 10px;
-    }
-
-    .video-info h6 {
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-
-    .video-info small {
-      color: #aaa;
-    }
-
-    .search-box {
+      background: #121212;
+      border: 1px solid #333;
+      border-radius: 40px;
+      padding: 2px 2px 2px 20px;
       width: 100%;
       max-width: 500px;
     }
+    .search-wrapper input {
+      background: transparent; border: none; color: white; width: 100%; outline: none;
+    }
+    .search-btn {
+      background: #222; border: none; color: white; padding: 7px 20px; border-radius: 0 40px 40px 0; border-left: 1px solid #333;
+    }
 
-    /* Responsive Fix */
+    /* Sidebar Logic */
+    .sidebar {
+      width: 240px; height: 100vh; position: fixed; top: 56px; left: 0;
+      background: var(--bg-black); transition: 0.3s; overflow: hidden; z-index: 1000;
+    }
+    .sidebar.mini { width: 72px; }
+    .sidebar a {
+      display: flex; align-items: center; padding: 12px 24px; color: white;
+      text-decoration: none; transition: 0.2s; white-space: nowrap;
+    }
+    .sidebar a:hover, .sidebar a.active { background: var(--card-hover); border-radius: 10px; margin: 0 8px; }
+    .sidebar i { font-size: 1.3rem; min-width: 40px; }
+
+    /* Filter Chips */
+    .filter-container {
+      position: sticky; top: 56px; background: var(--bg-black);
+      z-index: 999; padding: 10px 0; display: flex; gap: 10px; overflow-x: auto;
+    }
+    .filter-chip {
+      background: #272727; color: white; padding: 6px 15px; border-radius: 8px;
+      font-size: 0.9rem; cursor: pointer; white-space: nowrap; border: none;
+    }
+    .filter-chip.active { background: white; color: black; }
+
+    /* Content Area */
+    .main-content { margin-left: 240px; transition: 0.3s; padding: 20px; margin-top: 50px; }
+    .main-content.expanded { margin-left: 72px; }
+
+    .video-card { cursor: pointer; transition: 0.3s; }
+    .thumb-img { width: 100%; aspect-ratio: 16/9; border-radius: 12px; object-fit: cover; }
+    .video-title { font-size: 1rem; font-weight: 500; margin-top: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .video-meta { color: var(--text-dim); font-size: 0.85rem; }
+
     @media (max-width: 768px) {
-      .sidebar {
-        width: 70px;
-      }
-
-      .sidebar a span {
-        display: none;
-      }
-
-      .content {
-        margin-left: 70px;
-      }
+      .sidebar { left: -240px; }
+      .sidebar.show-mobile { left: 0; width: 240px; }
+      .main-content { margin-left: 0 !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg fixed-top px-3 d-flex justify-content-between">
+  <!-- Nav -->
+  <nav class="navbar fixed-top d-flex justify-content-between">
     <div class="d-flex align-items-center">
-      <i class="fa fa-bars me-3"></i>
-      <h5 class="m-0">YouTube</h5>
+      <button class="btn text-white me-3" id="menuBtn"><i class="fa fa-bars"></i></button>
+      <a href="#" class="yt-logo"><i class="fab fa-youtube"></i> YouTube</a>
+    </div>
+    
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" placeholder="Search videos...">
+      <button class="search-btn"><i class="fa fa-search"></i></button>
     </div>
 
-    <div class="d-flex flex-grow-1 justify-content-center px-3">
-      <input type="text" class="form-control search-box" placeholder="Search">
-      <button class="btn btn-outline-light"><i class="fa fa-search"></i></button>
-    </div>
-
-    <div>
-      <i class="fa fa-video me-3"></i>
+    <div class="d-flex align-items-center gap-3 text-white fs-5">
+      <i class="fa fa-video d-none d-md-block"></i>
       <i class="fa fa-bell"></i>
+      <div style="width:32px; height:32px; background:#f06; border-radius:50%"></div>
     </div>
   </nav>
 
   <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="#"><i class="fa fa-home"></i><span>Home</span></a>
-    <a href="#"><i class="fa fa-fire"></i><span>Trending</span></a>
-    <a href="#"><i class="fa fa-play"></i><span>Subscriptions</span></a>
-    <a href="#"><i class="fa fa-folder"></i><span>Library</span></a>
+  <div class="sidebar" id="sidebar">
+    <a href="#" class="active"><i class="fa fa-home"></i> <span>Home</span></a>
+    <a href="#"><i class="fa-regular fa-compass"></i> <span>Explore</span></a>
+    <a href="#"><i class="fa-solid fa-bolt"></i> <span>Shorts</span></a>
+    <a href="#"><i class="fa-solid fa-layer-group"></i> <span>Subscriptions</span></a>
+    <hr style="border-color: #333;">
+    <a href="#"><i class="fa-solid fa-box-archive"></i> <span>Library</span></a>
+    <a href="#"><i class="fa-solid fa-history"></i> <span>History</span></a>
   </div>
 
-  <!-- Content -->
-  <div class="container-fluid content">
-    <div class="row g-4" id="videoContainer"></div>
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <div class="filter-container" id="filters">
+      <button class="filter-chip active">All</button>
+      <button class="filter-chip">Music</button>
+      <button class="filter-chip">Gaming</button>
+      <button class="filter-chip">Programming</button>
+      <button class="filter-chip">Live</button>
+      <button class="filter-chip">Lofi</button>
+    </div>
+
+    <div class="row g-4 mt-2" id="videoGrid">
+      <!-- Videos will load here -->
+    </div>
   </div>
 
   <script>
-    const videos = Array.from({ length: 12 }, (_, i) => ({
-      title: "Awesome Video " + (i + 1),
-      channel: "Channel " + (i + 1),
-      thumbnail: `https://picsum.photos/400/200?random=${i}`
-    }));
+    // 1. Data Setup
+    const videoData = [
+      { id: 1, title: "Learn JavaScript in 1 Hour", channel: "Code Master", category: "Programming", views: "1.2M", time: "2 days ago", thumb: "https://picsum.photos/seed/js/400/225" },
+      { id: 2, title: "Lofi Hip Hop Radio - Beats to Relax", channel: "Chill Vibes", category: "Music", views: "800K", time: "5 hours ago", thumb: "https://picsum.photos/seed/lofi/400/225" },
+      { id: 3, title: "Top 10 Gaming Moments 2026", channel: "Gamer Zone", category: "Gaming", views: "500K", time: "1 day ago", thumb: "https://picsum.photos/seed/game/400/225" },
+      { id: 4, title: "How to Cook Perfect Biryani", channel: "Food Secrets", category: "Live", views: "2M", time: "1 week ago", thumb: "https://picsum.photos/seed/food/400/225" },
+      { id: 5, title: "Space Exploration: Mars Mission", channel: "Science Daily", category: "All", views: "3.4M", time: "3 days ago", thumb: "https://picsum.photos/seed/space/400/225" },
+      { id: 6, title: "Python for Beginners", channel: "Tech World", category: "Programming", views: "150K", time: "10 hours ago", thumb: "https://picsum.photos/seed/python/400/225" },
+    ];
 
-    const container = document.getElementById('videoContainer');
+    const videoGrid = document.getElementById('videoGrid');
+    const searchInput = document.getElementById('searchInput');
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
 
-    function loadVideos() {
-      container.innerHTML = "";
-      videos.forEach(video => {
-        const col = document.createElement('div');
-        col.className = 'col-xl-3 col-lg-4 col-md-6 col-sm-12';
-
-        col.innerHTML = `
+    // 2. Render Function
+    function renderVideos(list) {
+      videoGrid.innerHTML = list.map(v => `
+        <div class="col-xl-3 col-lg-4 col-md-6">
           <div class="video-card">
-            <img src="${video.thumbnail}" class="video-thumb">
-            <div class="video-info">
-              <h6>${video.title}</h6>
-              <small>${video.channel}</small>
+            <img src="${v.thumb}" class="thumb-img">
+            <div class="d-flex gap-2 mt-2">
+              <div style="width:36px; height:36px; border-radius:50%; background:#444; flex-shrink:0"></div>
+              <div class="video-info">
+                <div class="video-title">${v.title}</div>
+                <div class="video-meta">${v.channel}</div>
+                <div class="video-meta">${v.views} • ${v.time}</div>
+              </div>
             </div>
           </div>
-        `;
-
-        container.appendChild(col);
-      });
+        </div>
+      `).join('');
     }
 
-    loadVideos();
-  </script>
+    // 3. Search Functionality
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      const filtered = videoData.filter(v => v.title.toLowerCase().includes(term));
+      renderVideos(filtered);
+    });
 
+    // 4. Sidebar Toggle Functionality
+    menuBtn.addEventListener('click', () => {
+      if(window.innerWidth > 768) {
+        sidebar.classList.toggle('mini');
+        mainContent.classList.toggle('expanded');
+      } else {
+        sidebar.classList.toggle('show-mobile');
+      }
+    });
+
+    // 5. Category Filter Logic
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelector('.filter-chip.active').classList.remove('active');
+        chip.classList.add('active');
+        
+        const cat = chip.innerText;
+        const filtered = cat === 'All' ? videoData : videoData.filter(v => v.category === cat);
+        renderVideos(filtered);
+      });
+    });
+
+    // Initial Load
+    renderVideos(videoData);
+  </script>
 </body>
 </html>
