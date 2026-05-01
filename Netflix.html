@@ -3,125 +3,217 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Netflix Clone</title>
+  <title>Netflix Clone Pro</title>
   
-  <!-- Bootstrap -->
+  <!-- Bootstrap & Font Awesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    body {
-      background-color: #141414;
-      color: white;
-      font-family: Arial, sans-serif;
+    :root {
+      --netflix-red: #e50914;
+      --dark-bg: #141414;
     }
 
+    body {
+      background-color: var(--dark-bg);
+      color: white;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Transparent to Solid Navbar on scroll */
     .navbar {
-      background: rgba(0,0,0,0.8);
+      transition: background-color 0.5s;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      padding: 1rem 4%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, transparent);
+    }
+
+    .navbar.scrolled {
+      background: #000 !important;
     }
 
     .hero {
-      height: 80vh;
-      background: url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') center/cover no-repeat;
+      height: 90vh;
+      background: linear-gradient(to right, rgba(0,0,0,0.8), transparent), 
+                  url('https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2070') center/cover;
       display: flex;
       align-items: center;
-      padding: 50px;
+      padding: 0 4%;
+      margin-bottom: -50px;
     }
 
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: bold;
+    .hero-content { max-width: 600px; }
+    .hero h1 { font-size: 4rem; font-weight: bold; margin-bottom: 20px; }
+
+    /* Movie Card Styling */
+    .movie-container {
+      position: relative;
+      padding: 0 4%;
+      margin-top: 20px;
     }
 
-    .movie-row {
-      margin: 20px 0;
-    }
-
-    .movie-card {
-      transition: transform 0.3s;
+    .movie-card-wrapper {
+      position: relative;
+      transition: transform 0.3s ease;
       cursor: pointer;
+      border-radius: 4px;
+      overflow: hidden;
     }
 
-    .movie-card:hover {
-      transform: scale(1.1);
+    .movie-card-wrapper:hover {
+      transform: scale(1.15);
+      z-index: 10;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
     }
 
-    .footer {
-      background: #000;
-      padding: 20px;
-      text-align: center;
+    .card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.8);
+      padding: 10px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .movie-card-wrapper:hover .card-overlay {
+      opacity: 1;
+    }
+
+    .search-box {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid #fff;
+      color: white;
+      border-radius: 20px;
+      padding: 5px 15px;
+      outline: none;
+    }
+
+    .badge-count {
+      background: var(--netflix-red);
+      font-size: 0.6rem;
     }
   </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
-  <div class="container">
-    <a class="navbar-brand text-danger fw-bold" href="#">NETFLIX</a>
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">TV Shows</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
+  <div class="container-fluid">
+    <a class="navbar-brand text-danger fw-bold fs-3" href="#">NETFLIX</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Movies</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-search"></i></a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showMyList()">My List <span id="list-count" class="badge badge-count rounded-circle">0</span></a></li>
       </ul>
+      <div class="d-flex align-items-center">
+        <input type="text" id="searchInput" class="search-box me-3" placeholder="Titles, people, genres..." onkeyup="searchMovies()">
+        <i class="fa fa-bell me-3"></i>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" width="35" class="rounded">
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- Hero Section -->
 <div class="hero">
-  <div>
-    <h1>Featured Movie</h1>
-    <p>Watch now the latest blockbuster movie.</p>
-    <button class="btn btn-danger"><i class="fa fa-play"></i> Play</button>
+  <div class="hero-content">
+    <h1 id="featured-title">Stranger Things</h1>
+    <p class="fs-5">In a small town where everyone knows everyone, a peculiar incident starts a chain of events that leads to the disappearance of a child.</p>
+    <button class="btn btn-light px-4 py-2 me-2 fw-bold"><i class="fa fa-play"></i> Play</button>
+    <button class="btn btn-secondary px-4 py-2 fw-bold opacity-75"><i class="fa fa-info-circle"></i> More Info</button>
   </div>
 </div>
 
-<!-- Movies Section -->
-<div class="container">
-
-  <div class="movie-row">
-    <h4>Trending Now</h4>
-    <div class="row" id="movies"></div>
+<div class="movie-container">
+  <h4 class="mb-3" id="row-title">Trending Now</h4>
+  <div class="row g-3" id="movieGrid">
+    <!-- Movies will be injected here -->
   </div>
-
 </div>
 
-<!-- Footer -->
-<div class="footer">
-  <p>Netflix Clone © 2026</p>
-</div>
+<footer class="mt-5 p-5 text-secondary text-center">
+  <p>Questions? Call 1-800-NETFLIX</p>
+  <p>&copy; 2026 Netflix Clone Project</p>
+</footer>
 
-<!-- JS -->
 <script>
-  const movies = [
-    "https://picsum.photos/200/300?1",
-    "https://picsum.photos/200/300?2",
-    "https://picsum.photos/200/300?3",
-    "https://picsum.photos/200/300?4",
-    "https://picsum.photos/200/300?5",
-    "https://picsum.photos/200/300?6"
+  // Data for movies
+  const movieData = [
+    { id: 1, title: "The Witcher", img: "https://picsum.photos/400/600?random=1" },
+    { id: 2, title: "Dark", img: "https://picsum.photos/400/600?random=2" },
+    { id: 3, title: "Squid Game", img: "https://picsum.photos/400/600?random=3" },
+    { id: 4, title: "Money Heist", img: "https://picsum.photos/400/600?random=4" },
+    { id: 5, title: "Inception", img: "https://picsum.photos/400/600?random=5" },
+    { id: 6, title: "Black Mirror", img: "https://picsum.photos/400/600?random=6" }
   ];
 
-  const movieContainer = document.getElementById('movies');
+  let myList = [];
 
-  movies.forEach(img => {
-    movieContainer.innerHTML += `
+  // Function to render movies
+  function displayMovies(movies) {
+    const grid = document.getElementById('movieGrid');
+    grid.innerHTML = movies.map(movie => `
       <div class="col-6 col-md-3 col-lg-2">
-        <img src="${img}" class="img-fluid movie-card">
+        <div class="movie-card-wrapper">
+          <img src="${movie.img}" class="img-fluid" alt="${movie.title}">
+          <div class="card-overlay">
+            <i class="fa fa-play text-white" title="Play"></i>
+            <i class="fa fa-plus text-white" onclick="addToList(${movie.id})" title="Add to List"></i>
+            <i class="fa fa-thumbs-up text-white"></i>
+          </div>
+        </div>
       </div>
-    `;
-  });
-</script>
+    `).join('');
+  }
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  // Search Functionality
+  function searchMovies() {
+    const term = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = movieData.filter(m => m.title.toLowerCase().includes(term));
+    displayMovies(filtered);
+    document.getElementById('row-title').innerText = term ? `Results for: ${term}` : "Trending Now";
+  }
+
+  // My List Functionality
+  function addToList(id) {
+    const movie = movieData.find(m => m.id === id);
+    if (!myList.some(m => m.id === id)) {
+      myList.push(movie);
+      document.getElementById('list-count').innerText = myList.length;
+      alert(`${movie.title} added to My List!`);
+    }
+  }
+
+  function showMyList() {
+    if (myList.length === 0) {
+      alert("Your list is empty!");
+    } else {
+      displayMovies(myList);
+      document.getElementById('row-title').innerText = "My List";
+    }
+  }
+
+  // Navbar Scroll effect
+  window.onscroll = function() {
+    const nav = document.getElementById('mainNav');
+    if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  };
+
+  // Initial Load
+  displayMovies(movieData);
+</script>
 
 </body>
 </html>
