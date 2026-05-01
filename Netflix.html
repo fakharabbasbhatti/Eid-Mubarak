@@ -3,217 +3,169 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Netflix Clone Pro</title>
+  <title>Netflix Clone Ultimate</title>
   
-  <!-- Bootstrap & Font Awesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    :root {
-      --netflix-red: #e50914;
-      --dark-bg: #141414;
-    }
+    :root { --netflix-red: #e50914; --bg-dark: #111; }
+    body { background-color: var(--bg-dark); color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
-    body {
-      background-color: var(--dark-bg);
-      color: white;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      overflow-x: hidden;
-    }
+    /* Navbar Glassmorphism */
+    .navbar { transition: 0.4s; padding: 15px 4%; position: fixed; width: 100%; top: 0; z-index: 2000; }
+    .navbar.scrolled { background: rgba(0, 0, 0, 0.95); box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+    .nav-link { font-weight: 500; cursor: pointer; }
+    .nav-link:hover { color: #b3b3b3 !important; }
 
-    /* Transparent to Solid Navbar on scroll */
-    .navbar {
-      transition: background-color 0.5s;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      padding: 1rem 4%;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, transparent);
-    }
-
-    .navbar.scrolled {
-      background: #000 !important;
-    }
-
+    /* Hero Animation */
     .hero {
-      height: 90vh;
-      background: linear-gradient(to right, rgba(0,0,0,0.8), transparent), 
-                  url('https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2070') center/cover;
-      display: flex;
-      align-items: center;
-      padding: 0 4%;
-      margin-bottom: -50px;
+      height: 85vh;
+      background: linear-gradient(to top, var(--bg-dark), transparent 50%),
+                  linear-gradient(to right, rgba(0,0,0,0.8), transparent),
+                  url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1968') center/cover;
+      display: flex; align-items: center; padding: 0 4%;
     }
 
-    .hero-content { max-width: 600px; }
-    .hero h1 { font-size: 4rem; font-weight: bold; margin-bottom: 20px; }
-
-    /* Movie Card Styling */
-    .movie-container {
+    /* Movie Cards */
+    .movie-section { padding: 20px 4%; }
+    .movie-card {
       position: relative;
-      padding: 0 4%;
-      margin-top: 20px;
-    }
-
-    .movie-card-wrapper {
-      position: relative;
-      transition: transform 0.3s ease;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       cursor: pointer;
-      border-radius: 4px;
-      overflow: hidden;
+      border-radius: 8px;
+    }
+    .movie-card:hover { transform: scale(1.08); z-index: 5; }
+    .movie-img { border-radius: 4px; width: 100%; aspect-ratio: 2/3; object-fit: cover; }
+
+    /* Modal Styling */
+    .modal-content { background: #181818; color: white; border: none; }
+    .video-placeholder { 
+      background: #000; height: 300px; display: flex; 
+      align-items: center; justify-content: center; font-size: 2rem;
     }
 
-    .movie-card-wrapper:hover {
-      transform: scale(1.15);
-      z-index: 10;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    }
-
-    .card-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0,0,0,0.8);
-      padding: 10px;
-      opacity: 0;
-      transition: opacity 0.3s;
-      display: flex;
-      justify-content: space-around;
-    }
-
-    .movie-card-wrapper:hover .card-overlay {
-      opacity: 1;
-    }
-
-    .search-box {
-      background: rgba(0,0,0,0.5);
-      border: 1px solid #fff;
-      color: white;
-      border-radius: 20px;
-      padding: 5px 15px;
-      outline: none;
-    }
-
-    .badge-count {
-      background: var(--netflix-red);
-      font-size: 0.6rem;
-    }
+    .btn-netflix { background: var(--netflix-red); color: white; border: none; }
+    .btn-netflix:hover { background: #ff0a16; color: white; }
+    
+    .liked { color: #2ecc71 !important; }
   </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
+<nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
   <div class="container-fluid">
-    <a class="navbar-brand text-danger fw-bold fs-3" href="#">NETFLIX</a>
+    <a class="navbar-brand text-danger fw-bold fs-2" href="#" onclick="filterGenre('all')">NETFLIX</a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Movies</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" onclick="showMyList()">My List <span id="list-count" class="badge badge-count rounded-circle">0</span></a></li>
+        <li class="nav-item"><a class="nav-link" onclick="filterGenre('all')">Home</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="filterGenre('tv')">TV Shows</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="filterGenre('movie')">Movies</a></li>
       </ul>
-      <div class="d-flex align-items-center">
-        <input type="text" id="searchInput" class="search-box me-3" placeholder="Titles, people, genres..." onkeyup="searchMovies()">
-        <i class="fa fa-bell me-3"></i>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" width="35" class="rounded">
+      <div class="d-flex align-items-center gap-3">
+        <input type="text" id="search" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Titles..." onkeyup="handleSearch()">
+        <i class="fa fa-bell"></i>
+        <div class="rounded-1 bg-primary px-2 py-1">A</div>
       </div>
     </div>
   </div>
 </nav>
 
 <div class="hero">
-  <div class="hero-content">
-    <h1 id="featured-title">Stranger Things</h1>
-    <p class="fs-5">In a small town where everyone knows everyone, a peculiar incident starts a chain of events that leads to the disappearance of a child.</p>
-    <button class="btn btn-light px-4 py-2 me-2 fw-bold"><i class="fa fa-play"></i> Play</button>
-    <button class="btn btn-secondary px-4 py-2 fw-bold opacity-75"><i class="fa fa-info-circle"></i> More Info</button>
+  <div style="max-width: 550px;">
+    <span class="badge bg-secondary mb-2">NEW SEASON</span>
+    <h1 class="display-3 fw-bold">Breaking Bad</h1>
+    <p class="lead">A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family's future.</p>
+    <div class="mt-4">
+      <button class="btn btn-light btn-lg me-2 fw-bold" onclick="openModal('Breaking Bad')"><i class="fa fa-play"></i> Play</button>
+      <button class="btn btn-outline-light btn-lg"><i class="fa fa-plus"></i> My List</button>
+    </div>
   </div>
 </div>
 
-<div class="movie-container">
-  <h4 class="mb-3" id="row-title">Trending Now</h4>
-  <div class="row g-3" id="movieGrid">
-    <!-- Movies will be injected here -->
+<div class="movie-section">
+  <h3 id="category-title" class="mb-4">Trending Now</h3>
+  <div class="row g-3" id="movie-grid"></div>
+</div>
+
+<!-- Video Player Modal -->
+<div class="modal fade" id="videoModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="video-placeholder">
+        <i class="fa fa-play-circle fa-3x text-danger"></i>
+        <span class="ms-3" id="modal-movie-title">Playing Trailer...</span>
+      </div>
+      <div class="p-4">
+        <h4 id="modal-title">Movie Title</h4>
+        <p class="text-secondary">98% Match | 2026 | 18+ | 2 Seasons</p>
+        <p>This is a cinematic masterpiece that pushes the boundaries of storytelling and visual effects. Experience the thrill of the unknown.</p>
+        <button class="btn btn-netflix px-5">Resume Watching</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<footer class="mt-5 p-5 text-secondary text-center">
-  <p>Questions? Call 1-800-NETFLIX</p>
-  <p>&copy; 2026 Netflix Clone Project</p>
-</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  // Data for movies
-  const movieData = [
-    { id: 1, title: "The Witcher", img: "https://picsum.photos/400/600?random=1" },
-    { id: 2, title: "Dark", img: "https://picsum.photos/400/600?random=2" },
-    { id: 3, title: "Squid Game", img: "https://picsum.photos/400/600?random=3" },
-    { id: 4, title: "Money Heist", img: "https://picsum.photos/400/600?random=4" },
-    { id: 5, title: "Inception", img: "https://picsum.photos/400/600?random=5" },
-    { id: 6, title: "Black Mirror", img: "https://picsum.photos/400/600?random=6" }
+  const movies = [
+    { id: 1, title: "The Crown", type: "tv", img: "https://picsum.photos/400/600?random=11" },
+    { id: 2, title: "Extraction", type: "movie", img: "https://picsum.photos/400/600?random=12" },
+    { id: 3, title: "Elite", type: "tv", img: "https://picsum.photos/400/600?random=13" },
+    { id: 4, title: "The Batman", type: "movie", img: "https://picsum.photos/400/600?random=14" },
+    { id: 5, title: "Dark", type: "tv", img: "https://picsum.photos/400/600?random=15" },
+    { id: 6, title: "Joker", type: "movie", img: "https://picsum.photos/400/600?random=16" },
+    { id: 7, title: "Ozark", type: "tv", img: "https://picsum.photos/400/600?random=17" },
+    { id: 8, title: "Avatar", type: "movie", img: "https://picsum.photos/400/600?random=18" }
   ];
 
-  let myList = [];
-
-  // Function to render movies
-  function displayMovies(movies) {
-    const grid = document.getElementById('movieGrid');
-    grid.innerHTML = movies.map(movie => `
-      <div class="col-6 col-md-3 col-lg-2">
-        <div class="movie-card-wrapper">
-          <img src="${movie.img}" class="img-fluid" alt="${movie.title}">
-          <div class="card-overlay">
-            <i class="fa fa-play text-white" title="Play"></i>
-            <i class="fa fa-plus text-white" onclick="addToList(${movie.id})" title="Add to List"></i>
-            <i class="fa fa-thumbs-up text-white"></i>
+  function renderGrid(data) {
+    const grid = document.getElementById('movie-grid');
+    grid.innerHTML = data.map(m => `
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="movie-card" onclick="openModal('${m.title}')">
+          <img src="${m.img}" class="movie-img shadow">
+          <div class="mt-2 small d-flex justify-content-between align-items-center">
+            <span>${m.title}</span>
+            <i class="fa fa-heart text-secondary" onclick="toggleLike(event, this)"></i>
           </div>
         </div>
       </div>
     `).join('');
   }
 
-  // Search Functionality
-  function searchMovies() {
-    const term = document.getElementById('searchInput').value.toLowerCase();
-    const filtered = movieData.filter(m => m.title.toLowerCase().includes(term));
-    displayMovies(filtered);
-    document.getElementById('row-title').innerText = term ? `Results for: ${term}` : "Trending Now";
+  function filterGenre(genre) {
+    const filtered = genre === 'all' ? movies : movies.filter(m => m.type === genre);
+    document.getElementById('category-title').innerText = genre.toUpperCase();
+    renderGrid(filtered);
   }
 
-  // My List Functionality
-  function addToList(id) {
-    const movie = movieData.find(m => m.id === id);
-    if (!myList.some(m => m.id === id)) {
-      myList.push(movie);
-      document.getElementById('list-count').innerText = myList.length;
-      alert(`${movie.title} added to My List!`);
-    }
+  function handleSearch() {
+    const q = document.getElementById('search').value.toLowerCase();
+    const filtered = movies.filter(m => m.title.toLowerCase().includes(q));
+    renderGrid(filtered);
   }
 
-  function showMyList() {
-    if (myList.length === 0) {
-      alert("Your list is empty!");
-    } else {
-      displayMovies(myList);
-      document.getElementById('row-title').innerText = "My List";
-    }
+  function toggleLike(e, el) {
+    e.stopPropagation(); // Prevents modal from opening
+    el.classList.toggle('liked');
+    el.classList.toggle('fa-solid');
   }
 
-  // Navbar Scroll effect
-  window.onscroll = function() {
-    const nav = document.getElementById('mainNav');
-    if (window.scrollY > 50) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
+  function openModal(title) {
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-movie-title').innerText = "Streaming " + title + "...";
+    new bootstrap.Modal(document.getElementById('videoModal')).show();
+  }
+
+  window.onscroll = () => {
+    const nav = document.getElementById('navbar');
+    window.scrollY > 100 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
   };
 
   // Initial Load
-  displayMovies(movieData);
+  renderGrid(movies);
 </script>
-
 </body>
 </html>
