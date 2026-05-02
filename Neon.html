@@ -3,137 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neon Typewriter</title>
+<title>Ultimate Neon Typewriter</title>
 
-<!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-    body {
-        background: radial-gradient(circle at center, #0a0a0a, #000);
-        color: #fff;
-        font-family: 'Segoe UI', sans-serif;
-        overflow: hidden;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    background: #000;
+    color: white;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-    /* Neon Glow Title */
-    h1 {
-        font-size: 3rem;
-        color: #0ff;
-        text-shadow:
-            0 0 5px #0ff,
-            0 0 10px #0ff,
-            0 0 20px #0ff,
-            0 0 40px #0ff;
-    }
+/* Animated Grid Background */
+body::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image: linear-gradient(#0ff 1px, transparent 1px),
+                      linear-gradient(90deg, #0ff 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: moveGrid 10s linear infinite;
+    opacity: 0.1;
+}
 
-    /* Neon Type Text */
-    #type-text {
-        font-size: 2rem;
-        color: #ff00ff;
-        border-right: 3px solid #ff00ff;
-        padding-right: 8px;
-        display: inline-block;
-        min-height: 40px;
+@keyframes moveGrid {
+    0% { transform: translate(0,0); }
+    100% { transform: translate(-50px, -50px); }
+}
 
-        text-shadow:
-            0 0 5px #ff00ff,
-            0 0 10px #ff00ff,
-            0 0 20px #ff00ff;
+/* Neon Gradient Text */
+h1 {
+    font-size: 3rem;
+    background: linear-gradient(90deg, #0ff, #f0f, #0ff);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: neonMove 3s linear infinite;
+}
 
-        animation: blink 0.8s infinite;
-    }
+@keyframes neonMove {
+    0% { background-position: 0%; }
+    100% { background-position: 200%; }
+}
 
-    @keyframes blink {
-        0% { border-color: #ff00ff; }
-        50% { border-color: transparent; }
-        100% { border-color: #ff00ff; }
-    }
+/* Typewriter */
+#type-text {
+    font-size: 2rem;
+    border-right: 3px solid #0ff;
+    padding-right: 8px;
+    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+    animation: blink 0.7s infinite;
+}
 
-    /* Glow Container Effect */
-    .box {
-        padding: 40px;
-        border-radius: 20px;
-        background: rgba(255,255,255,0.05);
-        box-shadow:
-            0 0 10px #0ff,
-            0 0 20px #0ff,
-            inset 0 0 10px #0ff;
-        backdrop-filter: blur(10px);
-    }
+@keyframes blink {
+    50% { border-color: transparent; }
+}
 
-    /* Floating Neon Particles */
-    .circle {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(0,255,255,0.2);
-        animation: float 10s infinite linear;
-    }
+/* Glass Card */
+.box {
+    padding: 50px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 20px #0ff, inset 0 0 20px #0ff;
+    position: relative;
+    z-index: 2;
+}
 
-    @keyframes float {
-        0% { transform: translateY(100vh) scale(0); }
-        100% { transform: translateY(-10vh) scale(1); }
-    }
+/* Neon Button */
+.btn-neon {
+    margin-top: 20px;
+    padding: 10px 25px;
+    border: 2px solid #0ff;
+    color: #0ff;
+    background: transparent;
+    transition: 0.3s;
+}
+
+.btn-neon:hover {
+    background: #0ff;
+    color: #000;
+    box-shadow: 0 0 10px #0ff, 0 0 40px #0ff;
+}
+
+/* Mouse Glow */
+.glow {
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0,255,255,0.3), transparent 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
 </style>
 </head>
 
 <body>
 
-<!-- Neon Floating Circles -->
-<div class="circle" style="width:20px;height:20px;left:10%;animation-duration:8s;"></div>
-<div class="circle" style="width:15px;height:15px;left:30%;animation-duration:12s;"></div>
-<div class="circle" style="width:25px;height:25px;left:60%;animation-duration:10s;"></div>
-<div class="circle" style="width:18px;height:18px;left:80%;animation-duration:14s;"></div>
+<div class="glow" id="glow"></div>
 
 <div class="container d-flex justify-content-center align-items-center vh-100 text-center">
     <div class="box">
-        <h1>
-            <i class="fa-solid fa-bolt"></i> Neon Typewriter
-        </h1>
+        <h1><i class="fa-solid fa-bolt"></i> Neon Future</h1>
         <h2 id="type-text"></h2>
+        <button class="btn-neon">Explore</button>
     </div>
 </div>
 
 <script>
+// Typewriter
 const textArray = [
-    "Hello World!",
-    "Neon Glow Effect Activated ⚡",
-    "I am a Web Developer",
-    "JavaScript is Awesome 🚀"
+    "System Loading...",
+    "Neon Interface Ready ⚡",
+    "Welcome Hacker 😎",
+    "Access Granted 🚀"
 ];
 
-let index = 0;
-let charIndex = 0;
-let isDeleting = false;
+let i = 0, j = 0, isDeleting = false;
 
-function typeEffect() {
-    let display = document.getElementById("type-text");
-    let current = textArray[index];
+function type() {
+    let el = document.getElementById("type-text");
+    let text = textArray[i];
 
-    if (isDeleting) {
-        display.textContent = current.substring(0, charIndex--);
-    } else {
-        display.textContent = current.substring(0, charIndex++);
-    }
+    el.textContent = isDeleting ? text.substring(0, j--) : text.substring(0, j++);
 
-    if (!isDeleting && charIndex === current.length) {
+    if (!isDeleting && j === text.length) {
         isDeleting = true;
-        setTimeout(typeEffect, 1200);
-        return;
+        return setTimeout(type, 1000);
     }
 
-    if (isDeleting && charIndex === 0) {
+    if (isDeleting && j === 0) {
         isDeleting = false;
-        index = (index + 1) % textArray.length;
+        i = (i + 1) % textArray.length;
     }
 
-    setTimeout(typeEffect, isDeleting ? 50 : 100);
+    setTimeout(type, isDeleting ? 50 : 100);
 }
 
-document.addEventListener("DOMContentLoaded", typeEffect);
+document.addEventListener("DOMContentLoaded", type);
+
+// Mouse Glow Effect
+const glow = document.getElementById("glow");
+
+document.addEventListener("mousemove", e => {
+    glow.style.left = e.clientX + "px";
+    glow.style.top = e.clientY + "px";
+});
 </script>
 
 </body>
