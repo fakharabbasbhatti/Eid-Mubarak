@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Typewriter</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    body {
+        background: radial-gradient(circle at center, #0a0a0a, #000);
+        color: #fff;
+        font-family: 'Segoe UI', sans-serif;
+        overflow: hidden;
+    }
+
+    /* Neon Glow Title */
+    h1 {
+        font-size: 3rem;
+        color: #0ff;
+        text-shadow:
+            0 0 5px #0ff,
+            0 0 10px #0ff,
+            0 0 20px #0ff,
+            0 0 40px #0ff;
+    }
+
+    /* Neon Type Text */
+    #type-text {
+        font-size: 2rem;
+        color: #ff00ff;
+        border-right: 3px solid #ff00ff;
+        padding-right: 8px;
+        display: inline-block;
+        min-height: 40px;
+
+        text-shadow:
+            0 0 5px #ff00ff,
+            0 0 10px #ff00ff,
+            0 0 20px #ff00ff;
+
+        animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+        0% { border-color: #ff00ff; }
+        50% { border-color: transparent; }
+        100% { border-color: #ff00ff; }
+    }
+
+    /* Glow Container Effect */
+    .box {
+        padding: 40px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.05);
+        box-shadow:
+            0 0 10px #0ff,
+            0 0 20px #0ff,
+            inset 0 0 10px #0ff;
+        backdrop-filter: blur(10px);
+    }
+
+    /* Floating Neon Particles */
+    .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(0,255,255,0.2);
+        animation: float 10s infinite linear;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(100vh) scale(0); }
+        100% { transform: translateY(-10vh) scale(1); }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Neon Floating Circles -->
+<div class="circle" style="width:20px;height:20px;left:10%;animation-duration:8s;"></div>
+<div class="circle" style="width:15px;height:15px;left:30%;animation-duration:12s;"></div>
+<div class="circle" style="width:25px;height:25px;left:60%;animation-duration:10s;"></div>
+<div class="circle" style="width:18px;height:18px;left:80%;animation-duration:14s;"></div>
+
+<div class="container d-flex justify-content-center align-items-center vh-100 text-center">
+    <div class="box">
+        <h1>
+            <i class="fa-solid fa-bolt"></i> Neon Typewriter
+        </h1>
+        <h2 id="type-text"></h2>
+    </div>
+</div>
+
+<script>
+const textArray = [
+    "Hello World!",
+    "Neon Glow Effect Activated ⚡",
+    "I am a Web Developer",
+    "JavaScript is Awesome 🚀"
+];
+
+let index = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+function typeEffect() {
+    let display = document.getElementById("type-text");
+    let current = textArray[index];
+
+    if (isDeleting) {
+        display.textContent = current.substring(0, charIndex--);
+    } else {
+        display.textContent = current.substring(0, charIndex++);
+    }
+
+    if (!isDeleting && charIndex === current.length) {
+        isDeleting = true;
+        setTimeout(typeEffect, 1200);
+        return;
+    }
+
+    if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        index = (index + 1) % textArray.length;
+    }
+
+    setTimeout(typeEffect, isDeleting ? 50 : 100);
+}
+
+document.addEventListener("DOMContentLoaded", typeEffect);
+</script>
+
+</body>
+</html>
