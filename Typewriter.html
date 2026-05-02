@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Typewriter Effect</title>
+
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            background: #0f172a; /* Deep Dark Blue */
+            color: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Glassmorphism Container */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        #type-text {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-right: 4px solid #38bdf8;
+            padding-right: 8px;
+            min-height: 1.2em;
+        }
+
+        /* Cursor Animation */
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #38bdf8; }
+        }
+        
+        .cursor-blink {
+            animation: blink 0.8s step-end infinite;
+        }
+
+        @media (max-width: 768px) {
+            #type-text { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container d-flex justify-content-center align-items-center vh-100 text-center">
+    <div class="glass-card">
+        <h1><i class="fa-solid fa-code me-2"></i> Developer Profile</h1>
+        <div id="type-text" class="cursor-blink"></div>
+    </div>
+</div>
+
+<script>
+const textArray = [
+    "Hello World!",
+    "Web Designer",
+    "Frontend Developer",
+    "UI/UX Enthusiast"
+];
+
+let index = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+function typeEffect() {
+    const display = document.getElementById("type-text");
+    const current = textArray[index];
+
+    if (isDeleting) {
+        display.textContent = current.substring(0, charIndex--);
+    } else {
+        display.textContent = current.substring(0, charIndex++);
+    }
+
+    // Typing speed control
+    let typeSpeed = isDeleting ? 40 : 100;
+
+    if (!isDeleting && charIndex === current.length + 1) {
+        isDeleting = true;
+        typeSpeed = 1500; // Pause at the end
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        index = (index + 1) % textArray.length;
+        typeSpeed = 500; // Pause before starting new word
+    }
+
+    setTimeout(typeEffect, typeSpeed);
+}
+
+document.addEventListener("DOMContentLoaded", typeEffect);
+</script>
+
+</body>
+</html>
