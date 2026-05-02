@@ -3,111 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Typewriter Effect</title>
+    <title>Cyber-Luxury Typewriter</title>
 
-    <!-- Bootstrap & Font Awesome -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        body {
-            background: #0f172a; /* Deep Dark Blue */
-            color: #f8fafc;
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
+        :root {
+            --primary-glow: #00d2ff;
+            --secondary-glow: #3a7bd5;
         }
 
-        /* Glassmorphism Container */
-        .glass-card {
+        body {
+            background: #050505;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            height: 100 vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Animated Background */
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+        }
+
+        /* Glassmorphism Container with Glow */
+        .main-card {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 3rem;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0, 210, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .main-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-glow);
+        }
+
+        .top-label {
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--primary-glow);
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 300;
         }
 
         h1 {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #94a3b8;
+            font-weight: 800;
+            font-size: 3.5rem;
             margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         #type-text {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(to right, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border-right: 4px solid #38bdf8;
-            padding-right: 8px;
-            min-height: 1.2em;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #00d2ff;
+            text-shadow: 0 0 15px rgba(0, 210, 255, 0.6);
+            min-height: 50px;
         }
 
-        /* Cursor Animation */
+        /* Cursor Styling */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 40px;
+            background-color: var(--primary-glow);
+            margin-left: 5px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
         @keyframes blink {
-            from, to { border-color: transparent }
-            50% { border-color: #38bdf8; }
-        }
-        
-        .cursor-blink {
-            animation: blink 0.8s step-end infinite;
+            50% { opacity: 0; }
         }
 
-        @media (max-width: 768px) {
-            #type-text { font-size: 1.8rem; }
+        /* Decorative Circles */
+        .circle {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--secondary-glow);
+            filter: blur(150px);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.2;
         }
     </style>
 </head>
 <body>
 
-<div class="container d-flex justify-content-center align-items-center vh-100 text-center">
-    <div class="glass-card">
-        <h1><i class="fa-solid fa-code me-2"></i> Developer Profile</h1>
-        <div id="type-text" class="cursor-blink"></div>
+    <div class="circle" style="top: 10%; left: 10%;"></div>
+    <div class="circle" style="bottom: 10%; right: 10%; background: #9d50bb;"></div>
+
+    <div class="main-card">
+        <span class="top-label">Innovation & Design</span>
+        <h1><i class="fa-solid fa-bolt-lightning" style="color: var(--primary-glow);"></i> Visionary</h1>
+        <div>
+            <span id="type-text"></span><span class="cursor"></span>
+        </div>
     </div>
-</div>
 
 <script>
-const textArray = [
-    "Hello World!",
-    "Web Designer",
-    "Frontend Developer",
-    "UI/UX Enthusiast"
-];
+    const textArray = [
+        "Crafting Digital Experiences",
+        "Frontend Magic with React",
+        "UI/UX Perfectionist",
+        "Building the Future"
+    ];
 
-let index = 0;
-let charIndex = 0;
-let isDeleting = false;
+    let index = 0;
+    let charIndex = 0;
+    let isDeleting = false;
 
-function typeEffect() {
-    const display = document.getElementById("type-text");
-    const current = textArray[index];
+    function typeEffect() {
+        const display = document.getElementById("type-text");
+        const current = textArray[index];
 
-    if (isDeleting) {
-        display.textContent = current.substring(0, charIndex--);
-    } else {
-        display.textContent = current.substring(0, charIndex++);
+        if (isDeleting) {
+            display.textContent = current.substring(0, charIndex--);
+        } else {
+            display.textContent = current.substring(0, charIndex++);
+        }
+
+        let speed = isDeleting ? 50 : 120;
+
+        if (!isDeleting && charIndex === current.length + 1) {
+            isDeleting = true;
+            speed = 2000; // Poora text parhne ka waqt
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            index = (index + 1) % textArray.length;
+            speed = 500;
+        }
+
+        setTimeout(typeEffect, speed);
     }
 
-    // Typing speed control
-    let typeSpeed = isDeleting ? 40 : 100;
-
-    if (!isDeleting && charIndex === current.length + 1) {
-        isDeleting = true;
-        typeSpeed = 1500; // Pause at the end
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        index = (index + 1) % textArray.length;
-        typeSpeed = 500; // Pause before starting new word
-    }
-
-    setTimeout(typeEffect, typeSpeed);
-}
-
-document.addEventListener("DOMContentLoaded", typeEffect);
+    document.addEventListener("DOMContentLoaded", typeEffect);
 </script>
 
 </body>
