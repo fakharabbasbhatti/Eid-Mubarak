@@ -1,160 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultimate Neon Typewriter</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Future Pro</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<style>
-body {
-    margin: 0;
-    height: 100vh;
-    background: #000;
-    color: white;
-    overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-}
+    <style>
+        :root {
+            --neon-color: #0ff;
+            --secondary-neon: #f0f;
+        }
 
-/* Animated Grid Background */
-body::before {
-    content: "";
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background-image: linear-gradient(#0ff 1px, transparent 1px),
-                      linear-gradient(90deg, #0ff 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: moveGrid 10s linear infinite;
-    opacity: 0.1;
-}
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%);
+            color: white;
+            overflow: hidden;
+            font-family: 'Orbitron', 'Segoe UI', sans-serif;
+        }
 
-@keyframes moveGrid {
-    0% { transform: translate(0,0); }
-    100% { transform: translate(-50px, -50px); }
-}
+        /* Animated Grid with Perspective */
+        .grid-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            perspective: 500px;
+            overflow: hidden;
+            z-index: -1;
+        }
 
-/* Neon Gradient Text */
-h1 {
-    font-size: 3rem;
-    background: linear-gradient(90deg, #0ff, #f0f, #0ff);
-    background-size: 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: neonMove 3s linear infinite;
-}
+        .grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            bottom: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(var(--neon-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--neon-color) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(45deg);
+            animation: moveGrid 5s linear infinite;
+            opacity: 0.15;
+            mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+        }
 
-@keyframes neonMove {
-    0% { background-position: 0%; }
-    100% { background-position: 200%; }
-}
+        @keyframes moveGrid {
+            0% { transform: rotateX(45deg) translateY(0); }
+            100% { transform: rotateX(45deg) translateY(60px); }
+        }
 
-/* Typewriter */
-#type-text {
-    font-size: 2rem;
-    border-right: 3px solid #0ff;
-    padding-right: 8px;
-    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-    animation: blink 0.7s infinite;
-}
+        /* Glitch Effect for Title */
+        .glitch {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--neon-color);
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 0.05em 0 0 var(--secondary-neon), -0.05em -0.025em 0 #0f0;
+            animation: glitch 1s infinite;
+        }
 
-@keyframes blink {
-    50% { border-color: transparent; }
-}
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 0 red, -2px 0 0 blue; }
+            25% { text-shadow: -2px 0 0 red, 2px 0 0 blue; }
+            50% { text-shadow: 2px -2px 0 red, -2px 2px 0 blue; }
+            100% { text-shadow: 2px 0 0 red, -2px 0 0 blue; }
+        }
 
-/* Glass Card */
-.box {
-    padding: 50px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(15px);
-    box-shadow: 0 0 20px #0ff, inset 0 0 20px #0ff;
-    position: relative;
-    z-index: 2;
-}
+        /* Modern Box */
+        .box {
+            padding: 60px;
+            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.2), inset 0 0 20px rgba(0, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
 
-/* Neon Button */
-.btn-neon {
-    margin-top: 20px;
-    padding: 10px 25px;
-    border: 2px solid #0ff;
-    color: #0ff;
-    background: transparent;
-    transition: 0.3s;
-}
+        .box:hover {
+            transform: scale(1.02);
+            border-color: var(--neon-color);
+        }
 
-.btn-neon:hover {
-    background: #0ff;
-    color: #000;
-    box-shadow: 0 0 10px #0ff, 0 0 40px #0ff;
-}
+        #type-text {
+            font-size: 1.5rem;
+            min-height: 1.6em;
+            color: #eee;
+            letter-spacing: 2px;
+            border-right: 3px solid var(--neon-color);
+        }
 
-/* Mouse Glow */
-.glow {
-    position: fixed;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(0,255,255,0.3), transparent 70%);
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-}
-</style>
+        /* Improved Music Button */
+        .music-btn {
+            margin-top: 30px;
+            border: 2px solid var(--neon-color);
+            color: var(--neon-color);
+            padding: 12px 30px;
+            background: transparent;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50px;
+        }
+
+        .music-btn:hover {
+            background: var(--neon-color);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-color);
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: var(--neon-color);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="glow" id="glow"></div>
+<div class="grid-container"><div class="grid"></div></div>
+
+<audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
 <div class="container d-flex justify-content-center align-items-center vh-100 text-center">
     <div class="box">
-        <h1><i class="fa-solid fa-bolt"></i> Neon Future</h1>
-        <h2 id="type-text"></h2>
-        <button class="btn-neon">Explore</button>
+        <h1 class="glitch"><i class="fa-solid fa-microchip"></i> NEON CORE</h1>
+        <div class="my-4">
+            <span id="type-text"></span>
+        </div>
+
+        <button id="music-trigger" class="music-btn" onclick="toggleMusic()">
+            <i class="fa-solid fa-play"></i> INITIALIZE SYSTEM
+        </button>
     </div>
 </div>
 
 <script>
-// Typewriter
-const textArray = [
-    "System Loading...",
-    "Neon Interface Ready ⚡",
-    "Welcome Hacker 😎",
-    "Access Granted 🚀"
-];
+    // Typewriter Configuration
+    const textArray = [
+        "ESTABLISHING SECURE CONNECTION...",
+        "DECRYPTING NEON PROTOCOLS 💾",
+        "SYSTEM OPTIMIZED FOR PERFORMANCE ⚡",
+        "WELCOME TO THE FUTURE, USER."
+    ];
 
-let i = 0, j = 0, isDeleting = false;
+    let i = 0, j = 0, del = false;
+    const typeSpeed = 100;
+    const backSpeed = 50;
+    const waitTime = 2000;
 
-function type() {
-    let el = document.getElementById("type-text");
-    let text = textArray[i];
+    function type() {
+        let el = document.getElementById("type-text");
+        let txt = textArray[i];
 
-    el.textContent = isDeleting ? text.substring(0, j--) : text.substring(0, j++);
+        el.textContent = del ? txt.substring(0, j--) : txt.substring(0, j++);
 
-    if (!isDeleting && j === text.length) {
-        isDeleting = true;
-        return setTimeout(type, 1000);
+        if (!del && j === txt.length) {
+            del = true;
+            setTimeout(type, waitTime);
+        } else if (del && j === 0) {
+            del = false;
+            i = (i + 1) % textArray.length;
+            setTimeout(type, 500);
+        } else {
+            setTimeout(type, del ? backSpeed : typeSpeed);
+        }
     }
 
-    if (isDeleting && j === 0) {
-        isDeleting = false;
-        i = (i + 1) % textArray.length;
+    // Interactive Particles
+    document.addEventListener('mousemove', (e) => {
+        if(Math.random() > 0.9) { // Only create sometimes to avoid lag
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 5 + 2 + 'px';
+            p.style.width = size;
+            p.style.height = size;
+            p.style.left = e.clientX + 'px';
+            p.style.top = e.clientY + 'px';
+            
+            document.body.appendChild(p);
+
+            const anim = p.animate([
+                { transform: 'translateY(0) scale(1)', opacity: 0.5 },
+                { transform: `translateY(-100px) scale(0)`, opacity: 0 }
+            ], 1000);
+
+            anim.onfinish = () => p.remove();
+        }
+    });
+
+    // Audio Control
+    const music = document.getElementById("bg-music");
+    const btn = document.getElementById("music-trigger");
+    let isPlaying = false;
+
+    function toggleMusic() {
+        if (isPlaying) {
+            music.pause();
+            btn.innerHTML = '<i class="fa-solid fa-play"></i> RESUME AUDIO';
+            btn.style.borderColor = "#0ff";
+        } else {
+            music.play();
+            music.volume = 0.4;
+            btn.innerHTML = '<i class="fa-solid fa-pause"></i> PAUSE AUDIO';
+            btn.style.borderColor = "#f0f";
+        }
+        isPlaying = !isPlaying;
     }
 
-    setTimeout(type, isDeleting ? 50 : 100);
-}
-
-document.addEventListener("DOMContentLoaded", type);
-
-// Mouse Glow Effect
-const glow = document.getElementById("glow");
-
-document.addEventListener("mousemove", e => {
-    glow.style.left = e.clientX + "px";
-    glow.style.top = e.clientY + "px";
-});
+    document.addEventListener("DOMContentLoaded", type);
 </script>
 
 </body>
