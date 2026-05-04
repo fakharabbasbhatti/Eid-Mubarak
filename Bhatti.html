@@ -3,152 +3,233 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bhatti Dev - Full Website</title>
+  <title>Bhatti Dev - Premium Portfolio</title>
 
-  <!-- Bootstrap -->
+  <!-- Bootstrap & Google Fonts -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    body { background:#0f172a; color:white; font-family:sans-serif; }
-    .navbar { background:#020617; border-bottom: 2px solid #eab308; } /* Yellow border */
-    section { padding:80px 0; }
-    h2 { margin-bottom:30px; color: #eab308; text-transform: uppercase; } /* Yellow Headings */
+    :root {
+      --primary-yellow: #facc15;
+      --primary-green: #22c55e;
+      --dark-bg: #020617;
+      --glass-bg: rgba(30, 41, 59, 0.7);
+    }
 
+    body { 
+      background: var(--dark-bg); 
+      color: white; 
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background Blob */
+    .blob {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(45deg, var(--primary-yellow), var(--primary-green));
+      filter: blur(80px);
+      border-radius: 50%;
+      z-index: -1;
+      opacity: 0.15;
+      animation: move 10s infinite alternate;
+    }
+
+    @keyframes move {
+      from { transform: translate(-10%, -10%); }
+      to { transform: translate(20%, 20%); }
+    }
+
+    /* Glassmorphism Navbar */
+    .navbar { 
+      background: rgba(2, 6, 23, 0.8); 
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(250, 204, 21, 0.2); 
+    }
+
+    .nav-link:hover { color: var(--primary-yellow) !important; }
+
+    /* Modern Hero Section */
+    .hero-section {
+      padding: 150px 0 100px;
+      background: radial-gradient(circle at top right, rgba(34, 197, 94, 0.05), transparent);
+    }
+
+    .hero-title { font-size: 4rem; font-weight: 800; }
+    .text-gradient {
+      background: linear-gradient(to right, var(--primary-yellow), var(--primary-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Glass Cards */
     .card {
-      background:#1e293b;
-      border: 1px solid #22c55e; /* Green border */
-      color:white;
-      transition:0.3s;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      color: white;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
     }
+
     .card:hover { 
-        transform:translateY(-10px); 
-        border-color: #eab308; /* Turns Yellow on hover */
-        box-shadow: 0 10px 20px rgba(234, 179, 8, 0.2);
+      transform: translateY(-15px) scale(1.02);
+      border-color: var(--primary-green);
+      box-shadow: 0 20px 40px rgba(34, 197, 94, 0.15);
     }
 
-    .card i { color: #22c55e; margin-bottom: 15px; } /* Green Icons */
-
-    .btn-custom { 
-        background:#eab308; 
-        color:black; 
-        font-weight: bold;
-        border-radius: 25px;
-        padding: 10px 25px;
+    .card i { 
+      font-size: 3rem;
+      background: linear-gradient(45deg, var(--primary-yellow), var(--primary-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .btn-custom:hover { background: #22c55e; color: white; }
 
-    .highlight-text { color: #eab308; } /* Yellow */
-    .success-text { color: #22c55e; } /* Green */
+    /* Custom Buttons */
+    .btn-main {
+      background: linear-gradient(45deg, var(--primary-yellow), var(--primary-green));
+      border: none;
+      color: #000;
+      font-weight: 600;
+      padding: 12px 35px;
+      border-radius: 50px;
+      transition: 0.3s;
+    }
 
-    footer { background:#020617; padding:20px; border-top: 2px solid #22c55e; }
+    .btn-main:hover {
+      box-shadow: 0 0 20px rgba(250, 204, 21, 0.6);
+      transform: scale(1.05);
+      color: #000;
+    }
+
+    h2 { 
+      font-weight: 700; 
+      letter-spacing: 2px;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 50px;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 4px;
+      background: var(--primary-green);
+      bottom: -10px;
+      left: 25%;
+      border-radius: 10px;
+    }
+
+    footer {
+      background: #010409;
+      border-top: 1px solid rgba(34, 197, 94, 0.2);
+      padding: 40px 0;
+    }
   </style>
 </head>
 <body>
 
+<div class="blob"></div>
+
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="#"><span class="highlight-text">BHATTI</span> DEV</a>
+    <a class="navbar-brand fw-bold" href="#"><span style="color:var(--primary-yellow)">BHATTI</span>.DEV</a>
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-        <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
-        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-        <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
+      <ul class="navbar-nav ms-auto text-uppercase small fw-bold">
+        <li class="nav-item"><a class="nav-link mx-2" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link mx-2" href="#projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link mx-2" href="#courses">Learning</a></li>
+        <li class="nav-item"><a class="nav-link ms-3 btn btn-outline-warning btn-sm" href="#">Hire Me</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- Hero -->
-<section class="text-center" style="margin-top:80px; background: linear-gradient(180deg, #020617 0%, #0f172a 100%);">
+<!-- Hero Section -->
+<section class="hero-section text-center">
   <div class="container">
-    <h1 class="display-4 fw-bold">Hi, I'm <span class="highlight-text">Bhatti Dev</span></h1>
-    <p class="lead success-text">Full Stack Developer & Designer</p>
-    <a href="#projects" class="btn btn-custom mt-3">View My Work</a>
-  </div>
-</section>
-
-<!-- About -->
-<section id="about">
-  <div class="container text-center">
-    <h2>About Me</h2>
-    <p class="mx-auto" style="max-width: 700px;">I am a professional developer creating <span class="success-text">modern websites</span> and applications. Focused on delivering high-quality code and beautiful designs.</p>
+    <h1 class="hero-title animate__animated animate__fadeInDown">
+      Modern <span class="text-gradient">Solutions</span>
+    </h1>
+    <p class="lead mb-5 opacity-75">I'm <span class="text-white fw-bold">Bhatti Dev</span>, crafting high-performance digital experiences.</p>
+    <div class="d-flex justify-content-center gap-3">
+      <a href="#projects" class="btn btn-main">Explore Work</a>
+      <a href="#" class="btn btn-outline-light rounded-pill px-4">Contact Now</a>
+    </div>
   </div>
 </section>
 
 <!-- Services -->
-<section id="services">
-  <div class="container text-center">
-    <h2>Services</h2>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card p-4">
-          <i class="fa fa-code fa-3x"></i>
-          <h5>Web Development</h5>
-          <p class="small">Clean and responsive code.</p>
-        </div>
+<section id="services" class="container text-center py-5">
+  <h2>Our Core Services</h2>
+  <div class="row g-4 mt-2">
+    <div class="col-md-4">
+      <div class="card p-5 h-100">
+        <i class="fa fa-layer-group mb-4"></i>
+        <h4 class="fw-bold">UI/UX Strategy</h4>
+        <p class="small opacity-50">Building intuitive interfaces with a focus on user psychology and modern aesthetics.</p>
       </div>
-      <div class="col-md-4">
-        <div class="card p-4">
-          <i class="fa fa-paint-brush fa-3x"></i>
-          <h5>UI/UX Design</h5>
-          <p class="small">User friendly interfaces.</p>
-        </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-5 h-100">
+        <i class="fa fa-code-merge mb-4"></i>
+        <h4 class="fw-bold">Web Architecture</h4>
+        <p class="small opacity-50">Scalable, secure, and lightning-fast web applications using the latest tech stack.</p>
       </div>
-      <div class="col-md-4">
-        <div class="card p-4">
-          <i class="fa fa-mobile fa-3x"></i>
-          <h5>App Development</h5>
-          <p class="small">Android & iOS solutions.</p>
-        </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-5 h-100">
+        <i class="fa fa-rocket mb-4"></i>
+        <h4 class="fw-bold">SEO Growth</h4>
+        <p class="small opacity-50">Optimizing your digital presence to rank higher and reach the right audience.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Courses -->
-<section id="courses" style="background: #111827;">
-  <div class="container text-center">
-    <h2>My Courses</h2>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card p-3">
-          <h5 class="highlight-text">HTML & CSS</h5>
-          <p>Beginner to Advanced</p>
+<!-- Stats (New Section for Beauty) -->
+<section class="py-5" style="background: rgba(34, 197, 94, 0.03);">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-3">
+                <h3 class="text-gradient fw-bold">150+</h3>
+                <p class="small opacity-50">Projects</p>
+            </div>
+            <div class="col-3">
+                <h3 class="text-gradient fw-bold">99%</h3>
+                <p class="small opacity-50">Success</p>
+            </div>
+            <div class="col-3">
+                <h3 class="text-gradient fw-bold">6K+</h3>
+                <p class="small opacity-50">Followers</p>
+            </div>
+            <div class="col-3">
+                <h3 class="text-gradient fw-bold">24/7</h3>
+                <p class="small opacity-50">Support</p>
+            </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-3">
-          <h5 class="highlight-text">JavaScript</h5>
-          <p>Complete Guide</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-3">
-          <h5 class="highlight-text">Bootstrap</h5>
-          <p>Responsive Design</p>
-        </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <!-- Footer -->
 <footer class="text-center">
-  <p>© 2026 <span class="highlight-text">Bhatti Dev</span> | All Rights Reserved</p>
-  <div class="social-links">
-      <i class="fab fa-github mx-2"></i>
-      <i class="fab fa-linkedin mx-2"></i>
-      <i class="fab fa-twitter mx-2"></i>
+  <div class="container">
+    <h4 class="fw-bold mb-4"><span style="color:var(--primary-yellow)">BHATTI</span>.DEV</h4>
+    <div class="d-flex justify-content-center gap-4 mb-4">
+        <a href="#" class="text-white fs-4"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="text-white fs-4"><i class="fab fa-linkedin"></i></a>
+        <a href="#" class="text-white fs-4"><i class="fab fa-github"></i></a>
+    </div>
+    <p class="small opacity-50">© 2026 Crafted with Passion for Excellence.</p>
   </div>
 </footer>
 
