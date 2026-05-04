@@ -3,218 +3,962 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LendFlow Pro</title>
+<title>LendFlow Pro — Commercial Lending Reimagined</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
-  --bg: #0f172a;
-  --card: rgba(255,255,255,0.05);
-  --text: white;
-  --primary: #3B82F6;
+  --bg: #05090f;
+  --surface: #0c1320;
+  --card: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.08);
+  --text: #f0ede8;
+  --muted: rgba(240,237,232,0.45);
+  --accent: #c8a96e;
+  --accent-dim: rgba(200,169,110,0.15);
+  --accent-glow: rgba(200,169,110,0.08);
+  --blue: #4a8fff;
+  --green: #3ecf8e;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Instrument Sans', sans-serif;
 }
 
 .light {
-  --bg: #ffffff;
-  --card: #f3f4f6;
-  --text: #111;
+  --bg: #faf8f5;
+  --surface: #f0ece4;
+  --card: rgba(0,0,0,0.03);
+  --card-border: rgba(0,0,0,0.08);
+  --text: #1a1410;
+  --muted: rgba(26,20,16,0.5);
+  --accent-glow: rgba(200,169,110,0.12);
 }
+
+html { scroll-behavior: smooth; }
 
 body {
-  margin:0;
-  font-family: sans-serif;
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
-  transition: 0.3s;
+  transition: background 0.4s, color 0.4s;
+  overflow-x: hidden;
+  line-height: 1;
 }
 
+/* ── NOISE TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.6;
+}
+
+/* ── GRID LINES ── */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.light .grid-bg {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+}
+
+/* ── NAV ── */
 header {
-  display:flex;
-  justify-content:space-between;
-  padding:20px 10%;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  height: 68px;
+  border-bottom: 1px solid var(--card-border);
+  background: rgba(5,9,15,0.85);
+  backdrop-filter: blur(20px);
+  transition: background 0.4s;
+}
+.light header { background: rgba(250,248,245,0.88); }
+
+.logo {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
 }
 
+nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
 nav a {
-  margin-left:20px;
-  color:var(--text);
-  text-decoration:none;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--text); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-.toggle {
-  cursor:pointer;
+.toggle-btn {
+  cursor: pointer;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  transition: 0.2s;
 }
+.toggle-btn:hover { border-color: var(--accent); }
 
+.btn-primary {
+  background: var(--accent);
+  color: #0a0600;
+  border: none;
+  padding: 9px 22px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* ── HERO ── */
 .hero {
-  text-align:center;
-  padding:120px 10%;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 8% 80px;
+  overflow: hidden;
+}
+
+/* Radial glow */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(ellipse, rgba(200,169,110,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--card-border);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-label-dot {
+  width: 5px; height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
 }
 
 .hero h1 {
-  font-size:48px;
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--text);
+  max-width: 820px;
+  animation: fadeUp 0.8s 0.1s ease both;
 }
 
-.hero span {
-  color: var(--primary);
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
 }
 
-.hero button {
-  margin-top:20px;
-  padding:12px 30px;
-  border:none;
-  background:var(--primary);
-  color:white;
-  border-radius:8px;
-  cursor:pointer;
+.hero-sub {
+  margin-top: 1.8rem;
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.65;
+  font-weight: 300;
+  animation: fadeUp 0.8s 0.2s ease both;
 }
 
-.features {
-  display:flex;
-  gap:20px;
-  justify-content:center;
-  flex-wrap:wrap;
-  padding:60px 10%;
+.hero-ctas {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  animation: fadeUp 0.8s 0.3s ease both;
 }
 
-.card {
-  width:280px;
-  padding:20px;
-  background:var(--card);
-  border-radius:12px;
-  transition:0.3s;
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--card-border);
+  padding: 9px 22px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+.hero-trust {
+  margin-top: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  animation: fadeUp 0.8s 0.4s ease both;
+}
+.hero-trust-label {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.hero-avatars {
+  display: flex;
+}
+.hero-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  margin-left: -8px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+}
+.av1 { background: #2d6a9f; }
+.av2 { background: #7a4f9e; }
+.av3 { background: #9e4f4f; }
+.av4 { background: #4f9e6a; color: #fff; font-size: 10px; }
+
+/* Dashboard mockup */
+.hero-mockup {
+  margin-top: 4rem;
+  width: 100%;
+  max-width: 900px;
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  overflow: hidden;
+  animation: fadeUp 0.9s 0.5s ease both;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.4);
+}
+.mockup-bar {
+  background: rgba(255,255,255,0.04);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--card-border);
+}
+.mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+.d1 { background: #ff5f57; }
+.d2 { background: #febc2e; }
+.d3 { background: #28c840; }
+.mockup-url {
+  flex: 1;
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+  padding: 4px 12px;
+}
+.mockup-body {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 20px;
+  min-height: 280px;
+}
+.mockup-sidebar {
+  border-right: 1px solid var(--card-border);
+  padding-right: 20px;
+}
+.sidebar-logo {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 2px;
+  cursor: default;
+}
+.sidebar-item.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+.sidebar-icon { font-size: 14px; }
+.mockup-main { }
+.mockup-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.kpi-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 14px;
+}
+.kpi-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.kpi-val { font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: var(--text); }
+.kpi-change { font-size: 11px; color: var(--green); margin-top: 3px; }
+.mockup-chart-area {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 14px;
+  height: 100px;
+  position: relative;
+  overflow: hidden;
+}
+.chart-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 60px;
+}
+.bar {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent-dim);
+  transition: 0.3s;
+}
+.bar.hi { background: var(--accent); }
+
+/* ── SECTION SHARED ── */
+section { position: relative; z-index: 1; }
+
+.section-tag {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
-.card:hover {
-  transform:translateY(-10px);
+.section-h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 1rem;
 }
 
-.stats {
-  display:flex;
-  justify-content:center;
-  gap:50px;
-  padding:60px;
+/* ── FEATURES ── */
+.features-section {
+  padding: 6rem 8%;
+  border-top: 1px solid var(--card-border);
 }
 
-.stat {
-  text-align:center;
+.features-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 4rem;
 }
 
-.testimonial {
-  text-align:center;
-  padding:80px 20%;
+.features-desc {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  font-weight: 300;
 }
 
-.form {
-  text-align:center;
-  padding:60px;
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--card-border);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-input {
-  padding:10px;
-  width:250px;
-  border-radius:5px;
-  border:none;
+.feature-card {
+  background: var(--bg);
+  padding: 2.5rem 2rem;
+  transition: background 0.25s;
+  cursor: default;
+}
+.feature-card:hover { background: var(--surface); }
+
+.feature-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--card-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 1.4rem;
+  background: var(--accent-glow);
 }
 
-button.submit {
-  padding:10px 20px;
-  margin-left:10px;
-  background:var(--primary);
-  color:white;
-  border:none;
-  border-radius:5px;
+.feature-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.3px;
 }
 
-.fade {
-  opacity:0;
-  transform:translateY(20px);
-  transition:1s;
+.feature-card p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  font-weight: 300;
 }
 
-.show {
-  opacity:1;
-  transform:translateY(0);
+/* ── STATS ── */
+.stats-section {
+  padding: 5rem 8%;
+  background: var(--surface);
+  border-top: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
 }
 
+.stats-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2px repeat(2, 1fr);
+  align-items: center;
+}
+
+.stats-left {
+  padding-right: 4rem;
+}
+
+.stats-divider {
+  height: 100px;
+  background: var(--card-border);
+}
+
+.stats-right {
+  padding-left: 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+
+.stat-item {}
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: 3.2rem;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -2px;
+  line-height: 1;
+}
+.stat-num span { color: var(--accent); }
+.stat-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+  font-weight: 300;
+}
+
+/* ── TESTIMONIAL ── */
+.testimonial-section {
+  padding: 7rem 8%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.testimonial-quote {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.8px;
+  color: var(--text);
+  margin-bottom: 2rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+.testimonial-quote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.author-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a8fff, var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: #fff;
+}
+.author-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.author-role { font-size: 12.5px; color: var(--muted); }
+
+.testimonial-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mini-testimonial {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 1.4rem;
+  transition: 0.2s;
+}
+.mini-testimonial:hover { border-color: rgba(200,169,110,0.3); }
+.mini-stars { color: var(--accent); font-size: 13px; margin-bottom: 8px; }
+.mini-text { font-size: 13.5px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+.mini-author { font-size: 12px; color: var(--text); font-weight: 500; margin-top: 10px; }
+
+/* ── CTA FORM ── */
+.cta-section {
+  padding: 6rem 8%;
+  text-align: center;
+  position: relative;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(200,169,110,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-section .section-h2 {
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  max-width: 600px;
+  margin: 0 auto 1rem;
+}
+
+.cta-sub {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.email-input {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 12px 18px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.email-input::placeholder { color: var(--muted); }
+.email-input:focus { border-color: var(--accent); }
+
+.form-note {
+  margin-top: 1rem;
+  font-size: 12px;
+  color: var(--muted);
+}
+.form-success {
+  display: none;
+  margin-top: 1rem;
+  padding: 12px 20px;
+  background: rgba(62,207,142,0.1);
+  border: 1px solid rgba(62,207,142,0.25);
+  border-radius: 8px;
+  color: var(--green);
+  font-size: 14px;
+}
+
+/* ── FOOTER ── */
 footer {
-  text-align:center;
-  padding:20px;
+  border-top: 1px solid var(--card-border);
+  padding: 2.5rem 8%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+.footer-links a {
+  font-size: 12.5px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--text); }
+
+.footer-copy { font-size: 12px; color: var(--muted); }
+
+/* ── SCROLL ANIMATIONS ── */
+.fade { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade.show { opacity: 1; transform: translateY(0); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
-
 <body>
 
+<div class="grid-bg"></div>
+
 <header>
-  <h2>LendFlow</h2>
-  <div>
-    <span class="toggle" onclick="toggleMode()">🌙</span>
+  <div class="logo">
+    <span class="logo-dot"></span>
+    LendFlow
+  </div>
+  <nav>
+    <a href="#">Product</a>
+    <a href="#">Solutions</a>
+    <a href="#">Pricing</a>
+    <a href="#">Company</a>
+  </nav>
+  <div class="nav-right">
+    <div class="toggle-btn" onclick="toggleMode()" title="Toggle theme">🌙</div>
+    <button class="btn-primary">Start Free Trial</button>
   </div>
 </header>
 
-<section class="hero fade">
-  <h1>
-    Commercial lending should not depend on 
-    <span>spreadsheets, inboxes, and manual follow-up.</span>
-  </h1>
-  <button>Start Free</button>
-</section>
-
-<section class="features">
-  <div class="card fade">⚡ Automation</div>
-  <div class="card fade">📊 Analytics</div>
-  <div class="card fade">🔒 Security</div>
-</section>
-
-<section class="stats fade">
-  <div class="stat">
-    <h2>10K+</h2>
-    <p>Users</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label"><span class="hero-label-dot"></span> Commercial Lending Platform</div>
+  <h1>Commercial lending should not depend on <em>spreadsheets.</em></h1>
+  <p class="hero-sub">Modern loan origination, portfolio management, and compliance—automated from application to close.</p>
+  <div class="hero-ctas">
+    <button class="btn-primary" style="padding:12px 28px;font-size:14px;" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Start Free →</button>
+    <button class="btn-ghost" style="padding:12px 28px;font-size:14px;">See how it works</button>
   </div>
-  <div class="stat">
-    <h2>95%</h2>
-    <p>Efficiency</p>
+  <div class="hero-trust">
+    <span class="hero-trust-label">Trusted by 10,000+ lenders</span>
+    <div class="hero-avatars">
+      <div class="hero-avatar av1">JK</div>
+      <div class="hero-avatar av2">SR</div>
+      <div class="hero-avatar av3">ML</div>
+      <div class="hero-avatar av4">+</div>
+    </div>
   </div>
-  <div class="stat">
-    <h2>24/7</h2>
-    <p>Support</p>
+
+  <!-- Dashboard Mockup -->
+  <div class="hero-mockup">
+    <div class="mockup-bar">
+      <div class="mockup-dot d1"></div>
+      <div class="mockup-dot d2"></div>
+      <div class="mockup-dot d3"></div>
+      <div class="mockup-url">app.lendflow.pro — Dashboard</div>
+    </div>
+    <div class="mockup-body">
+      <div class="mockup-sidebar">
+        <div class="sidebar-logo">LendFlow</div>
+        <div class="sidebar-item active"><span class="sidebar-icon">◼</span> Dashboard</div>
+        <div class="sidebar-item"><span class="sidebar-icon">◻</span> Loan Pipeline</div>
+        <div class="sidebar-item"><span class="sidebar-icon">◻</span> Portfolio</div>
+        <div class="sidebar-item"><span class="sidebar-icon">◻</span> Compliance</div>
+        <div class="sidebar-item"><span class="sidebar-icon">◻</span> Reports</div>
+      </div>
+      <div class="mockup-main">
+        <div class="mockup-kpis">
+          <div class="kpi-card">
+            <div class="kpi-label">Active Loans</div>
+            <div class="kpi-val">$42.6M</div>
+            <div class="kpi-change">↑ 12.3% this month</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Applications</div>
+            <div class="kpi-val">284</div>
+            <div class="kpi-change">↑ 8 today</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Avg. Close Time</div>
+            <div class="kpi-val">4.2d</div>
+            <div class="kpi-change">↓ 62% faster</div>
+          </div>
+        </div>
+        <div class="mockup-chart-area">
+          <div class="chart-label">Origination Volume — Last 12 months</div>
+          <div class="chart-bars">
+            <div class="bar" style="height:35%"></div>
+            <div class="bar" style="height:50%"></div>
+            <div class="bar" style="height:42%"></div>
+            <div class="bar" style="height:60%"></div>
+            <div class="bar" style="height:55%"></div>
+            <div class="bar" style="height:70%"></div>
+            <div class="bar" style="height:65%"></div>
+            <div class="bar" style="height:80%"></div>
+            <div class="bar" style="height:72%"></div>
+            <div class="bar" style="height:88%"></div>
+            <div class="bar hi" style="height:94%"></div>
+            <div class="bar hi" style="height:100%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="testimonial fade">
-  <p>"This platform completely transformed our lending workflow."</p>
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-header fade">
+    <div>
+      <p class="section-tag">Platform Features</p>
+      <h2 class="section-h2">Everything a lender needs. Nothing they don't.</h2>
+    </div>
+    <p class="features-desc">Built specifically for commercial lenders who are tired of stitching together disconnected tools. One platform, end-to-end.</p>
+  </div>
+
+  <div class="features-grid fade">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Intelligent Automation</h3>
+      <p>Automate underwriting, document collection, and borrower follow-up. Let your team focus on decisions, not data entry.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>Real-time Analytics</h3>
+      <p>Portfolio health, pipeline velocity, and risk concentration—visualized in real time across every loan and borrower.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>Bank-grade Security</h3>
+      <p>SOC 2 Type II certified. End-to-end encryption. Granular audit trails. Built for the regulatory demands of commercial lending.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔗</div>
+      <h3>Native Integrations</h3>
+      <p>Connect to your core banking system, credit bureaus, and accounting tools without engineering resources.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📋</div>
+      <h3>Compliance Engine</h3>
+      <p>Stay ahead of CRA, HMDA, and fair lending requirements with built-in compliance checks and automated reporting.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤝</div>
+      <h3>Borrower Portal</h3>
+      <p>A white-labeled portal where borrowers submit documents, track status, and sign—without a single email thread.</p>
+    </div>
+  </div>
 </section>
 
-<section class="form fade">
-  <h3>Join Early Access</h3>
-  <input type="email" placeholder="Enter your email">
-  <button class="submit" onclick="submitForm()">Join</button>
+<!-- STATS -->
+<section class="stats-section">
+  <div class="stats-inner">
+    <div class="stats-left fade">
+      <p class="section-tag">By the Numbers</p>
+      <h2 class="section-h2">Results that speak for themselves.</h2>
+    </div>
+    <div class="stats-divider"></div>
+    <div class="stats-right fade">
+      <div class="stat-item">
+        <div class="stat-num">10<span>K+</span></div>
+        <div class="stat-label">Active lenders on the platform</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">95<span>%</span></div>
+        <div class="stat-label">Reduction in manual processing time</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">$8<span>B</span></div>
+        <div class="stat-label">In loans originated this year</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24<span>/7</span></div>
+        <div class="stat-label">Dedicated support for every account</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonial-section">
+  <div class="fade">
+    <p class="section-tag">Testimonials</p>
+    <blockquote class="testimonial-quote">"This platform completely transformed our lending workflow. We closed 60% more loans last quarter with the same team."</blockquote>
+    <div class="testimonial-author">
+      <div class="author-avatar">RJ</div>
+      <div>
+        <div class="author-name">Rachel Jensen</div>
+        <div class="author-role">SVP of Lending · Meridian Capital Group</div>
+      </div>
+    </div>
+  </div>
+  <div class="testimonial-right fade">
+    <div class="mini-testimonial">
+      <div class="mini-stars">★★★★★</div>
+      <div class="mini-text">"The compliance engine alone is worth the subscription. We stopped worrying about HMDA filings."</div>
+      <div class="mini-author">— David Park, EVP · First National Lenders</div>
+    </div>
+    <div class="mini-testimonial">
+      <div class="mini-stars">★★★★★</div>
+      <div class="mini-text">"Our borrowers actually comment on how smooth the application experience is. That's never happened before."</div>
+      <div class="mini-author">— Maria Torres, COO · Westside Community Bank</div>
+    </div>
+    <div class="mini-testimonial">
+      <div class="mini-stars">★★★★★</div>
+      <div class="mini-text">"We ditched four separate tools and consolidated everything here. Wish we'd done it sooner."</div>
+      <div class="mini-author">— James Wu, CTO · Pacific Bridge Financial</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="signup">
+  <p class="section-tag fade">Get Early Access</p>
+  <h2 class="section-h2 fade">Ready to leave spreadsheets behind?</h2>
+  <p class="cta-sub fade">Join 10,000+ lenders already on LendFlow. Free for 30 days, no credit card required.</p>
+  <div class="form-row fade">
+    <input class="email-input" type="email" id="emailInput" placeholder="your@institution.com">
+    <button class="btn-primary" style="padding:12px 24px;font-size:14px;white-space:nowrap;" onclick="submitForm()">Start Free →</button>
+  </div>
+  <p class="form-note fade">No setup fees · Cancel anytime · SOC 2 compliant</p>
+  <div class="form-success" id="formSuccess">🚀 You're on the list — we'll be in touch within 24 hours.</div>
 </section>
 
 <footer>
-  © 2026 LendFlow
+  <div class="footer-logo">
+    <span class="logo-dot"></span>
+    LendFlow
+  </div>
+  <ul class="footer-links">
+    <li><a href="#">Product</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 LendFlow Inc.</span>
 </footer>
 
 <script>
 function toggleMode() {
-  document.body.classList.toggle("light");
+  document.body.classList.toggle('light');
+  document.querySelector('.toggle-btn').textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
 }
 
 function submitForm() {
-  alert("You're on the list 🚀");
+  const input = document.getElementById('emailInput');
+  if (!input.value || !input.value.includes('@')) {
+    input.style.borderColor = '#ef4444';
+    setTimeout(() => input.style.borderColor = '', 1500);
+    return;
+  }
+  input.parentElement.style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
 }
 
-// Scroll animation
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.classList.add("show");
-    }
-  });
-});
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+}, { threshold: 0.1 });
 
-document.querySelectorAll('.fade').forEach(el => {
-  observer.observe(el);
-});
+document.querySelectorAll('.fade').forEach(el => observer.observe(el));
 </script>
-
 </body>
 </html>
