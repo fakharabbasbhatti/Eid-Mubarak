@@ -3,232 +3,934 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Pro - Playable & Functional</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>YouTube Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
     :root {
-      --bg-black: #0f0f0f;
-      --nav-bg: #0f0f0f;
-      --card-hover: #272727;
-      --text-main: #f1f1f1;
-      --text-dim: #aaaaaa;
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #181818;
+      --surface3: #222222;
+      --border: rgba(255,255,255,0.06);
+      --text: #f0f0f0;
+      --text-dim: #888;
+      --text-muted: #555;
+      --accent: #ff0033;
+      --accent-glow: rgba(255,0,51,0.3);
+      --chip-active-bg: #ffffff;
+      --chip-active-text: #000;
+      --sidebar-w: 250px;
+      --sidebar-mini: 72px;
+      --nav-h: 62px;
+      --radius: 14px;
+      --radius-sm: 8px;
     }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--bg-black);
-      color: var(--text-main);
-      font-family: "Roboto", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    /* Navbar & Search */
-    .navbar { background: var(--nav-bg); padding: 0.5rem 1rem; z-index: 1050; border-bottom: 1px solid #222; }
-    .yt-logo { font-size: 1.2rem; font-weight: bold; color: white; text-decoration: none; display: flex; align-items: center; }
-    .yt-logo i { color: red; font-size: 1.8rem; margin-right: 4px; }
+    /* Subtle noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
 
-    .search-wrapper {
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
-      background: #121212;
-      border: 1px solid #333;
-      border-radius: 40px;
-      padding: 2px 2px 2px 20px;
-      width: 100%;
-      max-width: 500px;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1050;
     }
-    .search-wrapper input { background: transparent; border: none; color: white; width: 100%; outline: none; }
-    .search-btn { background: #222; border: none; color: white; padding: 7px 20px; border-radius: 0 40px 40px 0; border-left: 1px solid #333; }
 
-    /* Sidebar */
-    .sidebar { width: 240px; height: 100vh; position: fixed; top: 56px; left: 0; background: var(--bg-black); transition: 0.3s; overflow: hidden; z-index: 1000; }
-    .sidebar.mini { width: 72px; }
-    .sidebar a { display: flex; align-items: center; padding: 12px 24px; color: white; text-decoration: none; transition: 0.2s; white-space: nowrap; }
-    .sidebar a:hover, .sidebar a.active { background: var(--card-hover); border-radius: 10px; margin: 0 8px; }
-    .sidebar i { font-size: 1.3rem; min-width: 40px; }
+    .nav-left { display: flex; align-items: center; gap: 14px; }
+
+    .menu-btn {
+      width: 40px; height: 40px;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 1.1rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .menu-btn:hover { background: var(--surface3); }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .logo-icon {
+      width: 34px; height: 24px;
+      background: var(--accent);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+    .logo-icon::after {
+      content: '';
+      width: 0; height: 0;
+      border-left: 9px solid white;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    /* Search Bar */
+    .search-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      max-width: 540px;
+      margin: 0 30px;
+    }
+    .search-bar {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .search-bar:focus-within {
+      border-color: rgba(255,255,255,0.2);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
+    }
+    .search-bar input {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      padding: 10px 18px;
+      width: 100%;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+    }
+    .search-bar input::placeholder { color: var(--text-muted); }
+    .search-btn {
+      background: var(--surface3);
+      border: none;
+      border-left: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      font-size: 0.95rem;
+    }
+    .search-btn:hover { background: #2e2e2e; color: var(--text); }
+
+    .voice-btn {
+      width: 40px; height: 40px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.9rem;
+    }
+    .voice-btn:hover { background: var(--surface3); color: var(--text); }
+
+    /* Nav right */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-icon-btn {
+      width: 40px; height: 40px;
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s, color 0.2s;
+      position: relative;
+    }
+    .nav-icon-btn:hover { background: var(--surface3); color: var(--text); }
+    .notif-dot {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+    }
+    .avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff0033, #ff6b35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .avatar:hover { border-color: rgba(255,255,255,0.3); }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      position: fixed;
+      top: var(--nav-h);
+      left: 0;
+      width: var(--sidebar-w);
+      height: calc(100vh - var(--nav-h));
+      background: var(--bg);
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 1000;
+      transition: width 0.3s cubic-bezier(.4,0,.2,1);
+      scrollbar-width: none;
+      padding: 10px 0 30px;
+    }
+    .sidebar::-webkit-scrollbar { display: none; }
+    .sidebar.mini { width: var(--sidebar-mini); }
+
+    .sidebar-section { padding: 6px 0; }
+    .sidebar-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 10px 16px;
+    }
+    .sidebar-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 24px 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: opacity 0.2s;
+    }
+    .sidebar.mini .sidebar-label { opacity: 0; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 20px;
+      color: var(--text-dim);
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      margin: 2px 10px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .nav-item:hover { background: var(--surface2); color: var(--text); }
+    .nav-item.active {
+      background: var(--surface3);
+      color: var(--text);
+    }
+    .nav-item i {
+      font-size: 1.15rem;
+      min-width: 22px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .nav-item.active i { color: var(--accent); }
+    .nav-item span { transition: opacity 0.2s, transform 0.2s; }
+    .sidebar.mini .nav-item span { opacity: 0; pointer-events: none; }
+    .sidebar.mini .nav-item { padding: 12px; justify-content: center; margin: 2px 8px; }
+    .sidebar.mini .nav-item gap { gap: 0; }
+
+    /* ===== MAIN ===== */
+    .main {
+      margin-left: var(--sidebar-w);
+      margin-top: var(--nav-h);
+      transition: margin-left 0.3s cubic-bezier(.4,0,.2,1);
+      min-height: calc(100vh - var(--nav-h));
+    }
+    .main.expanded { margin-left: var(--sidebar-mini); }
 
     /* Filter Chips */
-    .filter-container { position: sticky; top: 56px; background: var(--bg-black); z-index: 999; padding: 10px 0; display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
-    .filter-chip { background: #272727; color: white; padding: 6px 15px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; white-space: nowrap; border: none; }
-    .filter-chip.active { background: white; color: black; }
-
-    /* Content Area */
-    .main-content { margin-left: 240px; transition: 0.3s; padding: 20px; margin-top: 50px; }
-    .main-content.expanded { margin-left: 72px; }
-
-    .video-card { cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
-    .video-card:hover { transform: scale(1.02); }
-    .thumb-img { width: 100%; aspect-ratio: 16/9; border-radius: 12px; object-fit: cover; }
-    .video-title { font-size: 1rem; font-weight: 500; margin-top: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .video-meta { color: var(--text-dim); font-size: 0.85rem; }
-
-    /* VIDEO MODAL (POPUP) */
-    .video-modal {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center;
+    .filters-wrap {
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 100;
+      background: linear-gradient(to bottom, var(--bg) 80%, transparent);
+      padding: 14px 24px 8px;
     }
-    .modal-content-custom { width: 90%; max-width: 900px; position: relative; }
-    .close-modal { position: absolute; top: -45px; right: 0; color: white; font-size: 2.5rem; cursor: pointer; }
-    .video-container { position: relative; padding-bottom: 56.25%; height: 0; }
-    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 6px;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .chip:hover { background: var(--surface3); color: var(--text); border-color: rgba(255,255,255,0.12); transform: translateY(-1px); }
+    .chip.active {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      font-weight: 600;
+    }
 
+    /* ===== VIDEO GRID ===== */
+    .content-area { padding: 8px 20px 40px; }
+
+    .section-heading {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 16px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-heading::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 22px;
+    }
+
+    /* Video Card */
+    .vcard {
+      cursor: pointer;
+      animation: fadeUp 0.4s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .vcard:nth-child(1) { animation-delay: 0.05s; }
+    .vcard:nth-child(2) { animation-delay: 0.10s; }
+    .vcard:nth-child(3) { animation-delay: 0.15s; }
+    .vcard:nth-child(4) { animation-delay: 0.20s; }
+    .vcard:nth-child(5) { animation-delay: 0.25s; }
+    .vcard:nth-child(6) { animation-delay: 0.30s; }
+
+    .thumb-wrap {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      background: var(--surface2);
+    }
+    .thumb-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(.4,0,.2,1), filter 0.3s;
+      display: block;
+    }
+    .vcard:hover .thumb-wrap img { transform: scale(1.05); filter: brightness(0.85); }
+
+    .duration {
+      position: absolute;
+      bottom: 8px; right: 10px;
+      background: rgba(0,0,0,0.85);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 5px;
+      letter-spacing: 0.3px;
+    }
+
+    /* Play overlay */
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s;
+      background: rgba(0,0,0,0.2);
+    }
+    .vcard:hover .play-overlay { opacity: 1; }
+    .play-btn-icon {
+      width: 52px; height: 52px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      color: #000;
+      transform: scale(0.85);
+      transition: transform 0.2s;
+    }
+    .vcard:hover .play-btn-icon { transform: scale(1); }
+
+    /* Category badge */
+    .cat-badge {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .vcard-info { display: flex; gap: 12px; margin-top: 12px; align-items: flex-start; }
+    .ch-avatar {
+      width: 36px; height: 36px; min-width: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .vcard-text { flex: 1; min-width: 0; }
+    .vcard-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 5px;
+      transition: color 0.2s;
+    }
+    .vcard:hover .vcard-title { color: #fff; }
+    .vcard-channel { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 3px; }
+    .vcard-meta { font-size: 0.8rem; color: var(--text-muted); }
+
+    .vcard-menu {
+      opacity: 0;
+      transition: opacity 0.2s;
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      padding: 4px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .vcard:hover .vcard-menu { opacity: 1; }
+    .vcard-menu:hover { background: var(--surface3); color: var(--text); }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      width: 100%;
+      max-width: 900px;
+      animation: scaleIn 0.25s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.94) translateY(10px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .modal-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      flex: 1;
+      margin-right: 14px;
+    }
+    .modal-close {
+      width: 40px; height: 40px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--text-dim);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+    .modal-close:hover { background: var(--surface3); color: var(--text); }
+
+    .video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 0 1px var(--border);
+    }
+    .video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .action-btn:hover { background: var(--surface3); color: var(--text); }
+    .action-btn.like:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* Trending badge */
+    .trending-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .trending-badge i { font-size: 0.7rem; }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+    }
+    .empty-state i { font-size: 3rem; margin-bottom: 16px; display: block; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    }
+    @media (max-width: 900px) {
+      .search-area { max-width: 360px; margin: 0 16px; }
+    }
     @media (max-width: 768px) {
-      .sidebar { left: -240px; }
-      .sidebar.show-mobile { left: 0; width: 240px; }
-      .main-content { margin-left: 0 !important; }
+      .sidebar {
+        left: calc(-1 * var(--sidebar-w));
+        transition: left 0.3s cubic-bezier(.4,0,.2,1), width 0.3s;
+        box-shadow: none;
+      }
+      .sidebar.show { left: 0; box-shadow: 10px 0 40px rgba(0,0,0,0.5); }
+      .main { margin-left: 0 !important; }
+      .search-area { max-width: none; flex: 1; margin: 0 10px; }
+      .voice-btn { display: none; }
+      .logo-text { display: none; }
+      .grid { grid-template-columns: 1fr 1fr; gap: 14px; }
     }
+    @media (max-width: 500px) {
+      .grid { grid-template-columns: 1fr; }
+      .content-area { padding: 8px 12px 40px; }
+    }
+
+    /* Mobile overlay */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 999;
+    }
+    .sidebar-overlay.show { display: block; }
   </style>
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav class="navbar fixed-top d-flex justify-content-between">
-    <div class="d-flex align-items-center">
-      <button class="btn text-white me-3" id="menuBtn"><i class="fa fa-bars"></i></button>
-      <a href="#" class="yt-logo"><i class="fab fa-youtube"></i> YouTube</a>
-    </div>
-    
-    <div class="search-wrapper">
-      <input type="text" id="searchInput" placeholder="Search videos...">
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="nav-left">
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <i class="fa fa-bars"></i>
+    </button>
+    <a href="#" class="logo">
+      <div class="logo-icon"></div>
+      <span class="logo-text">YouTube</span>
+    </a>
+  </div>
+
+  <div class="search-area">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search videos, channels...">
       <button class="search-btn"><i class="fa fa-search"></i></button>
     </div>
+    <button class="voice-btn" title="Search by voice">
+      <i class="fa fa-microphone"></i>
+    </button>
+  </div>
 
-    <div class="d-flex align-items-center gap-3 text-white fs-5">
-      <i class="fa fa-video d-none d-md-block"></i>
+  <div class="nav-right">
+    <button class="nav-icon-btn d-none d-md-flex" title="Create">
+      <i class="fa fa-video"></i>
+    </button>
+    <button class="nav-icon-btn" title="Notifications" style="position:relative">
       <i class="fa fa-bell"></i>
-      <div style="width:32px; height:32px; background:linear-gradient(45deg, #f06, #f90); border-radius:50%"></div>
-    </div>
-  </nav>
+      <span class="notif-dot"></span>
+    </button>
+    <div class="avatar" title="Profile">YP</div>
+  </div>
+</nav>
 
-  <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
-    <a href="#" class="active"><i class="fa fa-home"></i> <span>Home</span></a>
-    <a href="#"><i class="fa-regular fa-compass"></i> <span>Explore</span></a>
-    <a href="#"><i class="fa-solid fa-bolt"></i> <span>Shorts</span></a>
-    <a href="#"><i class="fa-solid fa-layer-group"></i> <span>Subscriptions</span></a>
-    <hr style="border-color: #333;">
-    <a href="#"><i class="fa-solid fa-box-archive"></i> <span>Library</span></a>
-    <a href="#"><i class="fa-solid fa-history"></i> <span>History</span></a>
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-section">
+    <a href="#" class="nav-item active"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-bolt"></i><span>Shorts</span></a>
+    <a href="#" class="nav-item"><i class="fa-regular fa-compass"></i><span>Explore</span></a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-layer-group"></i><span>Subscriptions</span></a>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <p class="sidebar-label">You</p>
+    <a href="#" class="nav-item"><i class="fa-solid fa-box-archive"></i><span>Library</span></a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-history"></i><span>History</span></a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-thumbs-up"></i><span>Liked Videos</span></a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-clock"></i><span>Watch Later</span></a>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <p class="sidebar-label">Explore</p>
+    <a href="#" class="nav-item"><i class="fa-solid fa-fire" style="color:#ff6b35"></i><span>Trending</span></a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-music" style="color:#a855f7"></i><span>Music</span></a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-gamepad" style="color:#22d3ee"></i><span>Gaming</span></a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-newspaper" style="color:#4ade80"></i><span>News</span></a>
+  </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="main" id="mainContent">
+
+  <!-- Filter Chips -->
+  <div class="filters-wrap">
+    <div class="filters" id="filterChips">
+      <button class="chip active" data-cat="All">All</button>
+      <button class="chip" data-cat="Music">🎵 Music</button>
+      <button class="chip" data-cat="Gaming">🎮 Gaming</button>
+      <button class="chip" data-cat="Programming">💻 Programming</button>
+      <button class="chip" data-cat="Nature">🌿 Nature</button>
+      <button class="chip" data-cat="Science">🚀 Science</button>
+    </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="main-content" id="mainContent">
-    <div class="filter-container" id="filters">
-      <button class="filter-chip active">All</button>
-      <button class="filter-chip">Music</button>
-      <button class="filter-chip">Gaming</button>
-      <button class="filter-chip">Programming</button>
-      <button class="filter-chip">Nature</button>
-    </div>
-
-    <div class="row g-4 mt-2" id="videoGrid">
-      <!-- Videos will load here -->
-    </div>
+  <!-- Video Content -->
+  <div class="content-area">
+    <h2 class="section-heading">
+      <span id="sectionTitle">Recommended for you</span>
+    </h2>
+    <div class="grid" id="videoGrid"></div>
   </div>
 
-  <!-- Video Player Modal -->
-  <div class="video-modal" id="videoModal">
-    <div class="modal-content-custom">
-      <span class="close-modal" id="closeBtn">&times;</span>
-      <div class="video-container">
-        <iframe id="videoFrame" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      </div>
-      <h4 id="modalTitle" class="mt-3 text-white"></h4>
+</main>
+
+<!-- ===== VIDEO MODAL ===== -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="modal-close" id="closeBtn"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="video-wrap">
+      <iframe id="videoFrame" src="" allow="autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="modal-actions">
+      <button class="action-btn like"><i class="fa fa-thumbs-up"></i> Like</button>
+      <button class="action-btn"><i class="fa fa-thumbs-down"></i> Dislike</button>
+      <button class="action-btn"><i class="fa fa-share"></i> Share</button>
+      <button class="action-btn"><i class="fa fa-plus"></i> Save</button>
     </div>
   </div>
+</div>
 
-  <script>
-    // 1. Updated Data with real YouTube IDs
-    const videoData = [
-      { id: "hPr-Yc92qaY", title: "Learn JavaScript in 2026 - Full Course", channel: "Code Master", category: "Programming", views: "1.2M", time: "2 days ago", thumb: "https://img.youtube.com/vi/hPr-Yc92qaY/maxresdefault.jpg" },
-      { id: "5qap5aO4i9A", title: "Lofi Hip Hop Radio - Beats to Relax/Study", channel: "Chill Vibes", category: "Music", views: "800K", time: "5 hours ago", thumb: "https://img.youtube.com/vi/5qap5aO4i9A/maxresdefault.jpg" },
-      { id: "ScMzIvxBSi4", title: "Amazing Gaming Setup & Highlights", channel: "Gamer Zone", category: "Gaming", views: "500K", time: "1 day ago", thumb: "https://img.youtube.com/vi/ScMzIvxBSi4/maxresdefault.jpg" },
-      { id: "668nre7fi7w", title: "4K Nature Relaxation - Birds & Flowers", channel: "Nature Hub", category: "Nature", views: "2M", time: "1 week ago", thumb: "https://img.youtube.com/vi/668nre7fi7w/maxresdefault.jpg" },
-      { id: "libKVRa01L8", title: "Space Exploration: Journey to Mars", channel: "Science Daily", category: "All", views: "3.4M", time: "3 days ago", thumb: "https://img.youtube.com/vi/libKVRa01L8/maxresdefault.jpg" },
-      { id: "T63MC_0_K8E", title: "Web Development Roadmap 2026", channel: "Tech World", category: "Programming", views: "150K", time: "10 hours ago", thumb: "https://img.youtube.com/vi/T63MC_0_K8E/maxresdefault.jpg" },
-    ];
+<script>
+  // ===== DATA =====
+  const videoData = [
+    {
+      id: "hPr-Yc92qaY",
+      title: "Learn JavaScript in 2026 — Full Crash Course for Beginners",
+      channel: "Code Master",
+      category: "Programming",
+      views: "1.2M views",
+      time: "2 days ago",
+      duration: "4:12:30",
+      trending: true,
+      thumb: "https://img.youtube.com/vi/hPr-Yc92qaY/maxresdefault.jpg",
+      color: "#6366f1"
+    },
+    {
+      id: "5qap5aO4i9A",
+      title: "Lofi Hip Hop Radio 📚 Beats to Relax & Study To",
+      channel: "Chill Vibes",
+      category: "Music",
+      views: "800K views",
+      time: "5 hours ago",
+      duration: "Live",
+      trending: false,
+      thumb: "https://img.youtube.com/vi/5qap5aO4i9A/maxresdefault.jpg",
+      color: "#a855f7"
+    },
+    {
+      id: "ScMzIvxBSi4",
+      title: "Ultimate Gaming Setup Tour & Best Highlights of 2026",
+      channel: "Gamer Zone",
+      category: "Gaming",
+      views: "500K views",
+      time: "1 day ago",
+      duration: "18:45",
+      trending: true,
+      thumb: "https://img.youtube.com/vi/ScMzIvxBSi4/maxresdefault.jpg",
+      color: "#22d3ee"
+    },
+    {
+      id: "668nre7fi7w",
+      title: "4K Nature Relaxation — Birds, Flowers & Peaceful Sounds",
+      channel: "Nature Hub",
+      category: "Nature",
+      views: "2M views",
+      time: "1 week ago",
+      duration: "1:00:00",
+      trending: false,
+      thumb: "https://img.youtube.com/vi/668nre7fi7w/maxresdefault.jpg",
+      color: "#4ade80"
+    },
+    {
+      id: "libKVRa01L8",
+      title: "Space Exploration: The Journey to Mars — Full Documentary",
+      channel: "Science Daily",
+      category: "Science",
+      views: "3.4M views",
+      time: "3 days ago",
+      duration: "52:10",
+      trending: true,
+      thumb: "https://img.youtube.com/vi/libKVRa01L8/maxresdefault.jpg",
+      color: "#f59e0b"
+    },
+    {
+      id: "T63MC_0_K8E",
+      title: "Web Development Roadmap 2026 — What You Need to Know",
+      channel: "Tech World",
+      category: "Programming",
+      views: "150K views",
+      time: "10 hours ago",
+      duration: "22:05",
+      trending: false,
+      thumb: "https://img.youtube.com/vi/T63MC_0_K8E/maxresdefault.jpg",
+      color: "#06b6d4"
+    },
+  ];
 
-    const videoGrid = document.getElementById('videoGrid');
-    const searchInput = document.getElementById('searchInput');
-    const menuBtn = document.getElementById('menuBtn');
-    const sidebar = document.getElementById('sidebar');
-    const mainContent = document.getElementById('mainContent');
-    const videoModal = document.getElementById('videoModal');
-    const videoFrame = document.getElementById('videoFrame');
-    const modalTitle = document.getElementById('modalTitle');
-    const closeBtn = document.getElementById('closeBtn');
+  // ===== DOM =====
+  const grid = document.getElementById('videoGrid');
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  const modalTitle = document.getElementById('modalTitle');
+  const closeBtn = document.getElementById('closeBtn');
+  const searchInput = document.getElementById('searchInput');
+  const menuBtn = document.getElementById('menuBtn');
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.getElementById('mainContent');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  const sectionTitle = document.getElementById('sectionTitle');
 
-    // 2. Render Function (Added onclick)
-    function renderVideos(list) {
-      videoGrid.innerHTML = list.map(v => `
-        <div class="col-xl-3 col-lg-4 col-md-6">
-          <div class="video-card" onclick="openPlayer('${v.id}', '${v.title}')">
-            <img src="${v.thumb}" class="thumb-img">
-            <div class="d-flex gap-2 mt-2">
-              <div style="width:36px; height:36px; border-radius:50%; background:#444; flex-shrink:0"></div>
-              <div class="video-info">
-                <div class="video-title">${v.title}</div>
-                <div class="video-meta">${v.channel}</div>
-                <div class="video-meta">${v.views} • ${v.time}</div>
-              </div>
-            </div>
+  // ===== RENDER =====
+  function render(list) {
+    if (!list.length) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+        <i class="fa fa-search"></i>
+        <p>No videos found. Try a different search.</p>
+      </div>`;
+      return;
+    }
+    grid.innerHTML = list.map((v, i) => `
+      <div class="vcard" onclick="openPlayer('${v.id}','${v.title.replace(/'/g,'&#39;')}')" style="animation-delay:${i*0.06}s">
+        <div class="thumb-wrap">
+          <img src="${v.thumb}" alt="${v.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/640x360/111111/333333?text=No+Thumbnail'">
+          <span class="cat-badge">${v.category}</span>
+          <div class="play-overlay">
+            <div class="play-btn-icon"><i class="fa fa-play" style="margin-left:3px"></i></div>
           </div>
+          <span class="duration">${v.duration}</span>
         </div>
-      `).join('');
+        <div class="vcard-info">
+          <div class="ch-avatar" style="background:${v.color}">${v.channel.charAt(0)}</div>
+          <div class="vcard-text">
+            <div class="vcard-title">${v.title}</div>
+            <div class="vcard-channel">${v.channel}${v.trending ? ' &nbsp;<span class="trending-badge"><i class="fa fa-fire"></i> Trending</span>' : ''}</div>
+            <div class="vcard-meta">${v.views} • ${v.time}</div>
+          </div>
+          <button class="vcard-menu" onclick="event.stopPropagation()" title="More options">
+            <i class="fa fa-ellipsis-v"></i>
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ===== PLAYER =====
+  function openPlayer(id, title) {
+    frame.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+    modalTitle.textContent = title;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePlayer() {
+    modal.classList.remove('open');
+    frame.src = '';
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closePlayer);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closePlayer(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePlayer(); });
+
+  // ===== SEARCH =====
+  searchInput.addEventListener('input', (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    const filtered = q ? videoData.filter(v =>
+      v.title.toLowerCase().includes(q) ||
+      v.channel.toLowerCase().includes(q) ||
+      v.category.toLowerCase().includes(q)
+    ) : videoData;
+    sectionTitle.textContent = q ? `Results for "${e.target.value}"` : 'Recommended for you';
+    render(filtered);
+    document.querySelector('.chip.active')?.classList.remove('active');
+    if (!q) document.querySelector('[data-cat="All"]').classList.add('active');
+  });
+
+  // ===== FILTERS =====
+  document.getElementById('filterChips').addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    document.querySelector('.chip.active')?.classList.remove('active');
+    chip.classList.add('active');
+    const cat = chip.dataset.cat;
+    const filtered = cat === 'All' ? videoData : videoData.filter(v => v.category === cat);
+    sectionTitle.textContent = cat === 'All' ? 'Recommended for you' : cat;
+    searchInput.value = '';
+    render(filtered);
+  });
+
+  // ===== SIDEBAR TOGGLE =====
+  let isMini = false;
+  menuBtn.addEventListener('click', () => {
+    if (window.innerWidth > 768) {
+      isMini = !isMini;
+      sidebar.classList.toggle('mini', isMini);
+      mainContent.classList.toggle('expanded', isMini);
+    } else {
+      const isOpen = sidebar.classList.toggle('show');
+      sidebarOverlay.classList.toggle('show', isOpen);
     }
+  });
 
-    // 3. Video Player Logic
-    function openPlayer(id, title) {
-      videoFrame.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
-      modalTitle.innerText = title;
-      videoModal.style.display = 'flex';
-      document.body.style.overflow = 'hidden'; // Disable scroll when playing
-    }
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('show');
+    sidebarOverlay.classList.remove('show');
+  });
 
-    closeBtn.onclick = () => {
-      videoModal.style.display = 'none';
-      videoFrame.src = ""; // Stop video
-      document.body.style.overflow = 'auto'; // Enable scroll
-    };
+  // ===== INIT =====
+  render(videoData);
+</script>
 
-    // Close on clicking outside the video
-    window.onclick = (event) => {
-      if (event.target == videoModal) {
-        closeBtn.onclick();
-      }
-    };
-
-    // 4. Search Functionality
-    searchInput.addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase();
-      const filtered = videoData.filter(v => v.title.toLowerCase().includes(term));
-      renderVideos(filtered);
-    });
-
-    // 5. Sidebar Toggle
-    menuBtn.addEventListener('click', () => {
-      if(window.innerWidth > 768) {
-        sidebar.classList.toggle('mini');
-        mainContent.classList.toggle('expanded');
-      } else {
-        sidebar.classList.toggle('show-mobile');
-      }
-    });
-
-    // 6. Category Filter
-    document.querySelectorAll('.filter-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.querySelector('.filter-chip.active').classList.remove('active');
-        chip.classList.add('active');
-        const cat = chip.innerText;
-        const filtered = cat === 'All' ? videoData : videoData.filter(v => v.category === cat);
-        renderVideos(filtered);
-      });
-    });
-
-    renderVideos(videoData);
-  </script>
 </body>
 </html>
